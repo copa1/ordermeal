@@ -22,4 +22,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     public List<Employee> findUserList() {
         return employeeMapper.selectEmployeeList();
     }
+
+    @Override
+    public void modifyRecentlyLanded(String username, String date) {
+        employeeMapper.updateRecentlyLanded(username,date);
+    }
 }

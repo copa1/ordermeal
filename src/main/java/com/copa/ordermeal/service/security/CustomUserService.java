@@ -4,6 +4,8 @@ import com.copa.ordermeal.mapper.EmployeeMapper;
 import com.copa.ordermeal.model.Employee;
 import com.copa.ordermeal.model.Role;
 import com.copa.ordermeal.repository.EmployeeRepository;
+import com.copa.ordermeal.service.EmployeeService;
+import com.copa.ordermeal.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -26,6 +28,9 @@ public class CustomUserService implements UserDetailsService {
     @Autowired
     private EmployeeMapper employeeMapper;
 
+    @Autowired
+    private EmployeeService employeeService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //根据用户名从数据库查询对应记录
@@ -45,7 +50,12 @@ public class CustomUserService implements UserDetailsService {
 
         }
 
-        System.out.println("员工登录成功");
+        //修改员工最近登录时间
+        TimeUtil timeUtil=new TimeUtil();
+        String date = timeUtil.getFormatDateForSix();
+        employeeService.modifyRecentlyLanded(employee.getUsername(),date);
+
+//        System.out.println("员工登录成功");
         return new User(employee.getUsername(),employee.getPassword(),authorities);
 
     }

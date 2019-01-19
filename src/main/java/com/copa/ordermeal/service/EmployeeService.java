@@ -15,4 +15,11 @@ public interface EmployeeService {
      * @return 所有员工
      */
     List<Employee> findUserList();
+
+    /**
+     * 修改最近一次登录时间
+     * @param username 员工用户名
+     * @param date 最近一次登录日期
+     */
+    void modifyRecentlyLanded(String username, String date);
 }
