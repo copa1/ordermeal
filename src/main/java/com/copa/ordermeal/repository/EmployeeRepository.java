@@ -1,16 +1,14 @@
 package com.copa.ordermeal.repository;
 
-import org.apache.catalina.User;
+import com.copa.ordermeal.model.Employee;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * 1.17
- * employee表配置类
+ * employee表配置操作类
  */
 @Repository
 public interface EmployeeRepository {
 
-    List<User> selectUserList();
+    Employee findByUsername(String username);
 }

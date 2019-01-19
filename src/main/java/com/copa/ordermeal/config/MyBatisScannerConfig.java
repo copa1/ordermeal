@@ -14,7 +14,7 @@ public class MyBatisScannerConfig {
     @Bean
     public static MapperScannerConfigurer mapperScannerConfigurer(){
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setBasePackage("com.copa.ordermeal.repository.mybatis");
+        mapperScannerConfigurer.setBasePackage("com.copa.ordermeal.repository");
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
 
         return mapperScannerConfigurer;

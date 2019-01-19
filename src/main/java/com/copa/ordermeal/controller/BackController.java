@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class BackController {
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String test(){
+        return "login";
+    }*/
+
+    @GetMapping("/userLogin")
+    public String userLogin(){
         return "login";
     }
 }
