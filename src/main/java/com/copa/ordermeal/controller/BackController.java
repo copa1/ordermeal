@@ -15,8 +15,21 @@ public class BackController {
         return "login";
     }*/
 
-    @GetMapping("/userLogin")
+    /**
+     * 用户端登录页面
+     * @return
+     */
+    @GetMapping("/user/login")
     public String userLogin(){
-        return "login";
+        return "users/login";
+    }
+
+    /**
+     * 后台登录页面
+     * @return
+     */
+    @GetMapping("/admin/login")
+    public String adminLogin(){
+        return "superadmin/login";
     }
 }

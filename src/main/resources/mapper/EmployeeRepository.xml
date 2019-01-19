@@ -19,12 +19,13 @@
     </resultMap>
 
     <select id="findByUsername" parameterType="String" resultMap="employeeMap">
-        select e.*,r.name
-        from employee e
-        LEFT JOIN employee_role er on e.id= er.employee_id
-        LEFT JOIN role r on er.role_id=r.id
-        where username= #{username}
+        SELECT e.*,r.name
+        FROM employee e
+        LEFT JOIN employee_role er ON e.id= er.employee_id
+        LEFT JOIN role r ON er.role_id=r.id
+        WHERE username= #{username}
     </select>
+
 
 
 </mapper>
