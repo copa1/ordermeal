@@ -24,5 +24,5 @@ public interface RoleConstant {
     /**
      * 后台管理员
      */
-    int ROLE_SUPERADMIN =4;
+    int ROLE_SUPERADMIN = 4;
 }

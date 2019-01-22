@@ -27,6 +27,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @EnableWebSecurity
 public class WebSecurityConfig{
 
+    //员工登录页面
     @Configuration
     @Order(1)
     public static class UserConfigurationAdapter extends WebSecurityConfigurerAdapter {
@@ -74,6 +75,7 @@ public class WebSecurityConfig{
         }
     }
 
+    //后台登录页面
     @Configuration
     @Order(2)
     public static class AdminConfigurationAdapter extends WebSecurityConfigurerAdapter {
@@ -103,7 +105,7 @@ public class WebSecurityConfig{
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .antMatcher("/admin/**")//多HttpSecurity配置时必须设置这个，除最后一个外，因为不设置的话默认匹配所有，就不会执行到下面的HttpSecurity了
-                    .formLogin().loginPage("/admin/login").failureUrl("/admin/login?error").defaultSuccessUrl("/")
+                    .formLogin().loginPage("/admin/login").failureUrl("/admin/login?error=true").defaultSuccessUrl("/admin/index")
                     .and()
                     //退出登录后的默认url是“/”
                     .logout().logoutUrl("/logout").logoutSuccessUrl("/")
