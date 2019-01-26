@@ -36,4 +36,13 @@ public class BackController {
     public String adminIndex(){
         return "superadmin/index";
     }
+
+    /**
+     * 用户端首页
+     * @return
+     */
+    @GetMapping("/user/index")
+    public String userIndex(){
+        return "users/index";
+    }
 }
