@@ -18,7 +18,7 @@
 <nav th:replace="publicPage/userIndex_bar::headerBar"></nav>
 
 <!--内容：粉面菜单-->
-<div th:replace="publicPage/userIndex_bar::contentBar"></div>
+<div th:replace="publicPage/userIndex_bar::contentBar(activeUri='fenmian.html')"></div>
 
 <!--尾部-->
 <footer th:replace="publicPage/userIndex_bar::footerBar"></footer>

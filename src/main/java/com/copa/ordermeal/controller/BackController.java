@@ -65,7 +65,16 @@ public class BackController {
     }
 
     /**
-     * 用户端页面粉面
+     * 用户端页面面点
+     * @return
+     */
+    @GetMapping("/user/pastry")
+    public String pastryPage(){
+        return "users/pastry";
+    }
+
+    /**
+     * 用户端页面饮料
      * @return
      */
     @GetMapping("/user/drink")

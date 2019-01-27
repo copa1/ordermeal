@@ -53,10 +53,10 @@
         <div class="contentText">
             <div class="col-md-1 col-md-offset-1" style="background-color:#F9F6F0" id="contentLeft">
                 <ul class="nav nav-pills nav-stacked">
-                    <li role="presentation" class="contentMenu"><a href="#" class="leftContentText menuActive" style="padding:10px 0 10px 0;">饭食</a></li>
-                    <li role="presentation" class="contentMenu"><a href="#" class="leftContentText" style="padding:10px 0 10px 0;">粉面</a></li>
-                    <li role="presentation" class="contentMenu"><a href="#" class="leftContentText" style="padding:10px 0 10px 0;">面点</a></li>
-                    <li role="presentation" class="contentMenu"><a href="#" class="leftContentText" style="padding:10px 0 10px 0;">饮料小吃</a></li>
+                    <li role="presentation" class="contentMenu"><a th:href="@{/user/rice}"  th:class="${activeUri=='rice.html'?'leftContentText menuActive':'leftContentText'}" style="padding:10px 0 10px 0;">饭食</a></li>
+                    <li role="presentation" class="contentMenu"><a th:href="@{/user/fenMian}" th:class="${activeUri=='fenmian.html'?'leftContentText menuActive':'leftContentText'}" style="padding:10px 0 10px 0;">粉面</a></li>
+                    <li role="presentation" class="contentMenu"><a th:href="@{/user/pastry}" th:class="${activeUri=='pastry.html'?'leftContentText menuActive':'leftContentText'}" style="padding:10px 0 10px 0;">面点</a></li>
+                    <li role="presentation" class="contentMenu"><a th:href="@{/user/drink}" th:class="${activeUri=='drink.html'?'leftContentText menuActive':'leftContentText'}" style="padding:10px 0 10px 0;">饮料小吃</a></li>
                 </ul>
             </div>
             <div class="col-md-8" id="contentRight">
