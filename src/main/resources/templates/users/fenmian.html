@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/css/menu.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>粉面</title>
+</head>
+<body>
+
+<!--头部-->
+<nav th:replace="publicPage/userIndex_bar::headerBar"></nav>
+
+<!--内容：粉面菜单-->
+<div th:replace="publicPage/userIndex_bar::contentBar"></div>
+
+<!--尾部-->
+<footer th:replace="publicPage/userIndex_bar::footerBar"></footer>
+<script type="text/javascript" th:src="@{/js/userIndex.js}"></script>
+</body>
+</html>

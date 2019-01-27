@@ -45,4 +45,31 @@ public class BackController {
     public String userIndex(){
         return "users/index";
     }
+
+    /**
+     * 用户端页面饭食
+     * @return
+     */
+    @GetMapping("/user/rice")
+    public String ricePage(){
+        return "users/rice";
+    }
+
+    /**
+     * 用户端页面粉面
+     * @return
+     */
+    @GetMapping("/user/fenMian")
+    public String fenMianPage(){
+        return "users/fenmian";
+    }
+
+    /**
+     * 用户端页面粉面
+     * @return
+     */
+    @GetMapping("/user/drink")
+    public String drinkPage(){
+        return "users/drink";
+    }
 }

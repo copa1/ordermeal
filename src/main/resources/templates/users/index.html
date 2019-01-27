@@ -19,7 +19,7 @@
 
 <!--内容：欢迎界面-->
 <!--<div th:replace="publicPage/userIndex_bar::contentBar"></div>-->
-<div class="container" style="min-height: 127px;margin-top:30px" th:fragment="contentBar">
+<div class="container" style="min-height: 127px;margin-top:30px">
     <!--内容-->
     <div class="row" style="min-height: 127px;">
         <div class="contentText">
@@ -30,22 +30,30 @@
                     欢迎您使用本订餐系统，该订餐系统能方便您的时间<br>
                     <div class="container">
                         <div class="row">
+                            <a th:href="@{/user/rice}">
                             <div class="col-md-2 col-md-offset-2">
                                 <img th:src="@{/img/food/food001.jpg}" height="100" width="100"><br><br>
                                 <b>饭食</b>
                             </div>
+                            </a>
+                            <a th:href="@{/user/fenMian}">
                             <div class="col-md-2">
                                 <img th:src="@{/img/food/food002.jpg}" height="100" width="100"><br><br>
-                                <b>面粉</b>
+                                <b>粉面</b>
                             </div>
+                            </a>
+                            <a th:href="@{/user/drink}">
                             <div class="col-md-2">
                                 <img th:src="@{/img/food/food003.jpg}" height="100" width="100"><br><br>
                                 <b>饮料</b>
                             </div>
+                            </a>
+                            <a th:href="@{/user/rice}">
                             <div class="col-md-2">
                                 <img th:src="@{/img/right.jpg}" height="100" width="100"><br><br>
                                 <b>全部商品</b>
                             </div>
+                            </a>
                         </div>
                     </div>
                 </div>
