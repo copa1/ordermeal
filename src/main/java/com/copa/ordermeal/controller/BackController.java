@@ -73,4 +73,13 @@ public class BackController {
         return "users/drink";
     }
 
+    /**
+     * 用户端主页
+     * @return
+     */
+    @GetMapping("/user/index")
+    public String userIndex(){
+        return "users/index";
+    }
+
 }
