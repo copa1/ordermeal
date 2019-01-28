@@ -15,8 +15,8 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @GetMapping("/index")
+    /*@GetMapping("/index")
     public Msg getAllEmployee(){
         return Msg.success().add("users",employeeService.findUserList());
-    }
+    }*/
 }

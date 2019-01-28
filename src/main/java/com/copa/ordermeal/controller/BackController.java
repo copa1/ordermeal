@@ -38,15 +38,6 @@ public class BackController {
     }
 
     /**
-     * 用户端首页
-     * @return
-     */
-    @GetMapping("/user/index")
-    public String userIndex(){
-        return "users/index";
-    }
-
-    /**
      * 用户端页面饭食
      * @return
      */
