@@ -19,7 +19,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
                 <li class="top-buttonLi"><button type="button" class="btn btn-primary" id="loginPageButton" th:unless="${#httpServletRequest.remoteUser}">登录</button></li>
-                <li class="top-buttonLi"><button type="button" class="btn btn-info" th:unless="${#httpServletRequest.remoteUser}">注册</button></li>
+                <li class="top-buttonLi"><button type="button" class="btn btn-info" id="registerPageButton" th:unless="${#httpServletRequest.remoteUser}">注册</button></li>
                 <li class="dropdown" th:if="${#httpServletRequest.remoteUser}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span sec:authentication="name"></span><span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -34,6 +34,7 @@
     </div>
 </nav>
 
+<!--中间-->
 <div class="container" style="min-height: 127px;margin-top:30px" th:fragment="contentBar">
     <!--内容-->
     <div class="row" style="min-height: 127px;">

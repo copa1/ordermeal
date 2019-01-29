@@ -82,4 +82,13 @@ public class BackController {
         return "users/index";
     }
 
+    /**
+     * 用户端注册页面
+     * @return
+     */
+    @GetMapping("/user/register")
+    public String userRegister(){
+        return "users/register";
+    }
+
 }
