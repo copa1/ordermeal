@@ -1,5 +1,7 @@
 package com.copa.ordermeal.service.impl;
 
+import com.copa.ordermeal.constant.RoleConstant;
+import com.copa.ordermeal.controller.Msg;
 import com.copa.ordermeal.mapper.EmployeeMapper;
 import com.copa.ordermeal.model.Employee;
 import com.copa.ordermeal.service.EmployeeService;
@@ -26,5 +28,33 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public void modifyRecentlyLanded(String username, String date) {
         employeeMapper.updateRecentlyLanded(username,date);
+    }
+
+    @Override
+    public long findUsernameCount(String username) {
+        return employeeMapper.countUsername(username);
+    }
+
+    @Override
+    public long findPhoneCount(String phone) {
+        return employeeMapper.countPhone(phone);
+    }
+
+    @Override
+    public long findEmailCount(String email) {
+        return employeeMapper.countEmail(email);
+    }
+
+    @Override
+    public long findRealNameCount(String realName) {
+        return employeeMapper.countRealName(realName);
+    }
+
+    @Override
+    public Msg addEmployee(Employee employee) {
+        employeeMapper.insertEmployee(employee);
+        int employeeId = employeeMapper.selectEmployeeByUsername(employee.getUsername());
+        employeeMapper.insertEmployeeRole(employeeId, RoleConstant.ROLE_EMPLOYEE);
+        return Msg.success();
     }
 }

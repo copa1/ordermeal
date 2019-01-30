@@ -32,7 +32,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <form class="form-horizontal" id="updateUserForm" method="post">
+                            <form class="form-horizontal" id="registerEmployeeForm" method="post">
                                 <div class="form-group">
                                     <label class="col-sm-1 control-label col-md-offset-3">用户名：</label>
                                     <div class="col-sm-4" id="usernameDiv">
@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <label class="col-md-3 control-label col-md-offset-1">确认密码：</label>
                                     <div class="col-sm-4" id="confirmPasswordDiv">
-                                        <input type="password" name="password" class="form-control required" id="confirmPassword" placeholder="请输入确认密码" aria-describedby="helpBlockConfirmPassword">
+                                        <input type="password" class="form-control required" id="confirmPassword" placeholder="请输入确认密码" aria-describedby="helpBlockConfirmPassword">
                                         <span id="helpBlockConfirmPassword" class="help-block"></span>
                                     </div>
                                 </div>
@@ -71,7 +71,8 @@
                                         <input type="radio" name="gender" value="F">女
                                         </label>
                                         <br>
-                                        <label style="color: yellow" control-label>就不能告诉我你是MM还是GG吗~</label>
+                                        <!--<label style="color: orange" control-label id="genderLabel">就不能告诉我你是MM还是GG吗~</label>-->
+                                        <label style="color: orange" control-label id="genderLabel"></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -91,11 +92,18 @@
                                 <br>
                                 <div class="form-group">
                                     <div class="col-md-3 col-md-offset-3">
-                                        <button type="button" class="btn btn-success pull-right" name="register" id="registerButton">注册</button>
+                                        <button type="submit" class="btn btn-success pull-right" name="register" id="registerButton">注册</button>
                                     </div>
                                     <div class="col-md-1">
                                         <button type="reset" class="btn btn-success pull-right" name="reset">重置</button>
                                     </div>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <div class="col-md-3 col-md-offset-5">
+                                        如有问题，请与管理员联系！
+                                    </div>
+
                                 </div>
                             </form>
                         </div>
@@ -111,5 +119,6 @@
 <footer th:replace="publicPage/userIndex_bar::footerBar"></footer>
 
 <script type="text/javascript" th:src="@{/js/userPublicBar.js}"></script>
+<script type="text/javascript" th:src="@{/js/register.js}"></script>
 </body>
 </html>

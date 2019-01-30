@@ -1,10 +1,7 @@
 package com.copa.ordermeal.mapper;
 
 import com.copa.ordermeal.model.Employee;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,4 +22,25 @@ public interface EmployeeMapper {
 
     @Update("UPDATE employee SET recentlyLanded=#{d} WHERE username=#{u}")
     void updateRecentlyLanded(@Param("u") String username,@Param("d") String date);
+
+    @Select("SELECT COUNT(*) FROM employee WHERE username=#{u}")
+    long countUsername(@Param("u") String username);
+
+    @Select("SELECT COUNT(*) FROM employee WHERE phone=#{p}")
+    long countPhone(@Param("p") String phone);
+
+    @Select("SELECT COUNT(*) FROM employee WHERE email=#{e}")
+    long countEmail(@Param("e") String email);
+
+    @Select("SELECT COUNT(*) FROM employee WHERE realName=#{r}")
+    long countRealName(@Param("r") String realName);
+
+    @Insert("INSERT INTO employee(username,password,phone,gender,email,realName,avatar,recentlyLanded) VALUES(#{username},#{password},#{phone},#{gender},#{email},#{realName},'无','无')")
+    void insertEmployee(Employee employee);
+
+    @Select("SELECT id FROM employee WHERE username=#{u}")
+    int selectEmployeeByUsername(@Param("u") String username);
+
+    @Insert("INSERT INTO employee_role VALUES(#{e},#{r})")
+    void insertEmployeeRole(@Param("e") int employeeId, @Param("r") int roleEmployee);
 }
