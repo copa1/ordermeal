@@ -5,6 +5,7 @@ var phone=$("#phone");
 var gender=$("input[name='gender']");
 var email=$("#email");
 var realName=$("#realName");
+var register_clear=$("#registerClear");
 
 var helpSpanUsername=$("#helpBlockUsername");
 var helpSpanPassword=$("#helpBlockPassword");
@@ -194,7 +195,7 @@ realName.focus(function () {
 
 //注册按钮
 $("#registerButton").click(function () {
-    var gender = $(":radio:checked");
+    gender = $(":radio:checked");
     var len=gender.length;
 
     //空值判断
@@ -279,12 +280,17 @@ $("#registerButton").click(function () {
                 "phone":phone.val(),
                 "gender":gender.val(),
                 "email":email.val(),
-                "realName":regRealName.val()},
-            async: false,
+                "realName":realName.val()},
+            async: false,//同步加载（必须加），不然就直接加两条记录！这里坑了我很久！
             success: function (result) {
-                alert("注册成功！");
+                if (result=="1")
+                putIn();
             },error:function () {
+                alert("3");
                 alert("error");
+            },fail:function () {
+                alert("4");
+                alert("fail");
             }
         });
     }
@@ -336,7 +342,6 @@ function phoneRepeat(val) {
 function emailRepeat(val) {
     var emailResult =false;
     if (email.val()!=="" && email.val().length!==0){
-
         $.ajax({
             url:"/user/checkEmail",
             data:"email="+email.val(),
@@ -344,7 +349,6 @@ function emailRepeat(val) {
             async: false,//同步加载（必须加）
             success:function (result) {
                 if (result.code=='100'){
-                    alert("8");
                     userInfoDeal("emailDiv", "has-error", "has-success", "");
                     emailResult=true;
                 }else {
@@ -377,6 +381,29 @@ function realNameRepeat(val) {
         return realNameResult;
     }
 }
+// 注册成功显示
+function putIn() {
+    register_clear.html('');
+    var div=$('<div class="row">\n' +
+        '<div class="col-md-12">\n' +
+        '                    <div class="row">\n' +
+        '                        <div class="col-md-12 text-center" style="color: orange">\n' +
+        '                            <h2>恭喜您完成注册！</h2>\n' +
+        '                            <br><br><br><br>\n' +
+        '                        </div>\n' +
+        '                    </div>\n' +
+        '</div></div>' +
+        '<div class="row">' +
+        '<div class="col-md-12 text-center">' +
+        '尊敬的员工，您已成功注册员工订餐系统，请<a href="/user/login">点击登录！</a>' +
+        '</div></div><br><br><br>' +
+        '<div class="row">' +
+        '<div class="col-md-12 text-center">' +
+        '<button type="button" class="btn btn-primary" onclick="window.location.href = \'http://localhost/user/login\'">立即登录</button>' +
+        '</div></div>');
+    $("#registerBig").append(div);
+}
+
 //点入输入框处理
 function removeMessage(spanEle,divEle) {
     $("#"+spanEle).text("");

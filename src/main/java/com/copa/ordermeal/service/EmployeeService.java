@@ -58,5 +58,5 @@ public interface EmployeeService {
      * @param employee 员工
      */
     @Transactional
-    Msg addEmployee(Employee employee);
+    String addEmployee(Employee employee);
 }

@@ -76,7 +76,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/user/register")
-    public Msg postEmployeeInfoRegister(Employee employee){
+    public String postEmployeeInfoRegister(Employee employee){
         return employeeService.addEmployee(employee);
     }
 }

@@ -51,10 +51,10 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Msg addEmployee(Employee employee) {
+    public String addEmployee(Employee employee) {
         employeeMapper.insertEmployee(employee);
         int employeeId = employeeMapper.selectEmployeeByUsername(employee.getUsername());
         employeeMapper.insertEmployeeRole(employeeId, RoleConstant.ROLE_EMPLOYEE);
-        return Msg.success();
+        return "1";
     }
 }
