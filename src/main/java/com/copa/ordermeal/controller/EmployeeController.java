@@ -2,6 +2,7 @@ package com.copa.ordermeal.controller;
 
 import com.copa.ordermeal.model.Employee;
 import com.copa.ordermeal.service.EmployeeService;
+import com.copa.ordermeal.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,6 +78,8 @@ public class EmployeeController {
 
     @PostMapping("/user/register")
     public String postEmployeeInfoRegister(Employee employee){
+        MD5Util md5Util=new MD5Util();
+        employee.setPassword(md5Util.encode(employee.getPassword()));
         return employeeService.addEmployee(employee);
     }
 }

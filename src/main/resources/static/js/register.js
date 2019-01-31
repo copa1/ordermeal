@@ -286,11 +286,7 @@ $("#registerButton").click(function () {
                 if (result=="1")
                 putIn();
             },error:function () {
-                alert("3");
-                alert("error");
-            },fail:function () {
-                alert("4");
-                alert("fail");
+                alert("系统错误，有问题尽快和小c联系！");
             }
         });
     }
@@ -386,12 +382,12 @@ function putIn() {
     register_clear.html('');
     var div=$('<div class="row">\n' +
         '<div class="col-md-12">\n' +
-        '                    <div class="row">\n' +
-        '                        <div class="col-md-12 text-center" style="color: orange">\n' +
-        '                            <h2>恭喜您完成注册！</h2>\n' +
-        '                            <br><br><br><br>\n' +
-        '                        </div>\n' +
-        '                    </div>\n' +
+        '<div class="row">\n' +
+        '<div class="col-md-12 text-center" style="color: orange">\n' +
+        '<h2>恭喜您完成注册！</h2>\n' +
+        '<br><br><br><br>\n' +
+        '</div>\n' +
+        '</div>\n' +
         '</div></div>' +
         '<div class="row">' +
         '<div class="col-md-12 text-center">' +

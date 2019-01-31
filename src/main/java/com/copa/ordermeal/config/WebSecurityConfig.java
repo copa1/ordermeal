@@ -2,6 +2,7 @@ package com.copa.ordermeal.config;
 
 import com.copa.ordermeal.service.security.CustomUserAdminService;
 import com.copa.ordermeal.service.security.CustomUserService;
+import com.copa.ordermeal.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,15 +40,17 @@ public class WebSecurityConfig{
 
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(customUserService())
+                    //启动MD5加密
                     .passwordEncoder(new PasswordEncoder() {
+                        MD5Util md5Util=new MD5Util();
                         @Override
                         public String encode(CharSequence rawPassword) {
-                            return (String) rawPassword;
+                            return md5Util.encode((String) rawPassword);
                         }
 
                         @Override
                         public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                            return encodedPassword.equals(rawPassword);
+                            return encodedPassword.equals(md5Util.encode((String) rawPassword));
                         }
                     });
         }
@@ -87,15 +90,17 @@ public class WebSecurityConfig{
 
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(customUserAdminService())
+                    //启动MD5加密
                     .passwordEncoder(new PasswordEncoder() {
+                        MD5Util md5Util=new MD5Util();
                         @Override
                         public String encode(CharSequence rawPassword) {
-                            return (String) rawPassword;
+                            return md5Util.encode((String) rawPassword);
                         }
 
                         @Override
                         public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                            return encodedPassword.equals(rawPassword);
+                            return encodedPassword.equals(md5Util.encode((String) rawPassword));
                         }
                     });
         }
