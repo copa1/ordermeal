@@ -59,4 +59,11 @@ public interface EmployeeService {
      */
     @Transactional
     String addEmployee(Employee employee);
+
+    /**
+     * 利用用户名来查询用户信息
+     * @param username 用户名
+     * @return
+     */
+    Employee findEmployeeInfoByUsername(String username);
 }

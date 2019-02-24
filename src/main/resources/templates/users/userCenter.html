@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/css/userIndex.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/css/userCenter.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>个人中心</title>
+</head>
+<body>
+
+<!--头部-->
+<nav th:replace="publicPage/userIndex_bar::headerBar"></nav>
+
+<!--内容-->
+<div class="container" style="min-height: 127px;margin-top:60px;" id="contentContainer">
+    <div class="row">
+        <!--左边-->
+        <div class="col-md-2" id="leftUserCenter">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default" style="background-color: #cdd1d6">
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation" style="background-color: white" class="clickLi userInfo-page"><a href="#">个人资料</a></li>
+                            <li role="presentation" style="background-color: white" class="clickLi userSecurity-page"><a href="#">安全设置</a></li>
+                            <li role="presentation" style="background-color: white" class="clickLi userOrder-page"><a href="#">订单查看</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">公告</div>
+                    <div class="panel-body">
+                        食品安全我们永远放在第一位！
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--右边:个人设置-->
+        <div class="col-md-10">
+            <div id="userInfo-page" class="text-center">
+                <div class="row">
+                    <div class="col-md-1">
+                        <img th:src="@{/img/food/food002.jpg}" class="img-rounded" width="100" height="100">
+                    </div>
+                    <div class="col-md-4" style="margin-top: 30px;">
+                        <button type="button" class="btn btn-success">更改头像</button>
+                    </div>
+                </div><br><br>
+                <div class="row">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="username" class="col-md-1 control-label">昵称</label>
+                            <div class="col-md-offset-1 col-sm-6" style="margin-left:95px">
+                                <input type="text" class="form-control" id="username" placeholder="用户名">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">手机</label>
+                            <div class="col-md-3" style="margin-left:95px">
+                                <p id="phoneP"></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">性别</label>
+                            <div class="col-md-4" style="margin-left:6px">
+                                <label class="radio-inline">
+                                    <input type="radio" name="gender" value="M" id="gender_man">男
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="gender" value="F" id="gender_woman">女
+                                </label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label for="email" class="col-md-1 control-label">email</label>
+                            <div class="col-md-offset-1 col-sm-6" style="margin-left:95px">
+                                <input type="text" class="form-control" id="email" placeholder="电子邮箱">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-6">
+                                <button type="submit" class="btn btn-success">修改信息</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="userSecurity-page">
+                <p>安全设置</p>
+            </div>
+            <div id="userOrder-page">
+                <p>订单查看</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--尾部-->
+<footer th:replace="publicPage/userIndex_bar::footerBar"></footer>
+<script type="text/javascript" th:src="@{/js/userPublicBar.js}"></script>
+<script type="text/javascript" th:src="@{/js/userCenter.js}"></script>
+</body>
+</html>

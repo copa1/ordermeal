@@ -4,10 +4,13 @@ import com.copa.ordermeal.model.Employee;
 import com.copa.ordermeal.service.EmployeeService;
 import com.copa.ordermeal.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 /**
  * 1.17
@@ -81,5 +84,19 @@ public class EmployeeController {
         MD5Util md5Util=new MD5Util();
         employee.setPassword(md5Util.encode(employee.getPassword()));
         return employeeService.addEmployee(employee);
+    }
+
+    /**
+     * 获取员工信息
+     * @return
+     */
+    @GetMapping("/user/getEmployeeInfo")
+    public Msg getEmployeeInfo(@AuthenticationPrincipal Principal principal){
+        String username=principal.getName();
+        Employee employee = employeeService.findEmployeeInfoByUsername(username);
+
+        //System.out.println(username);
+        //System.out.println(employee);
+        return Msg.success().add("employee",employee);
     }
 }

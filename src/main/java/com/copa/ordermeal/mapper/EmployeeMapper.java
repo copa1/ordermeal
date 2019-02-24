@@ -43,4 +43,7 @@ public interface EmployeeMapper {
 
     @Insert("INSERT INTO employee_role VALUES(#{e},#{r})")
     void insertEmployeeRole(@Param("e") int employeeId, @Param("r") int roleEmployee);
+
+    @Select("SELECT * FROM employee WHERE username=#{u}")
+    Employee selectEmployeeInfoByUsername(@Param("u") String username);
 }

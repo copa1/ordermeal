@@ -1,0 +1,30 @@
+#contentContainer{
+    margin-left: 0;
+}
+
+#leftUserCenter{
+    height: 600px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    table-layout: fixed;
+    word-wrap:break-word;
+    word-break:break-all;
+}
+
+.panel-default{
+    outline: none;
+    border-color: #ffffff;
+
+}
+
+#userInfo-page{
+    margin-left: 120px;
+    margin-top: 50px;
+
+}
+
+a:link    {color:black;}
+a:visited {color:black;}
+a:hover   {color:black;}
+a:active  {color:black;}
+

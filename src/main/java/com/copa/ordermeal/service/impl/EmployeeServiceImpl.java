@@ -57,4 +57,10 @@ public class EmployeeServiceImpl implements EmployeeService{
         employeeMapper.insertEmployeeRole(employeeId, RoleConstant.ROLE_EMPLOYEE);
         return "1";
     }
+
+    @Override
+    public Employee findEmployeeInfoByUsername(String username) {
+        Employee employee=employeeMapper.selectEmployeeInfoByUsername(username);
+        return employee;
+    }
 }
