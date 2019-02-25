@@ -186,7 +186,8 @@ $("#updateUserInfoButton").click(function () {
             },
             async: false,//同步加载（必须加）
             success: function (result) {
-                alert("修改信息成功！");
+                alert("修改信息成功！需要重新登录设置才能生效！");
+                window.location.href = "http://localhost/user/logout";
             },error:function () {
                 alert("系统错误，有问题尽快和小c联系！");
             }
@@ -238,6 +239,117 @@ function emailRepeat(val) {
         return emailResult;
     }
 }
+
+var phone=$("#phone");
+var password=$("#password");
+var confirmPassword=$("#confirmPassword");
+//手机号码输入框失去焦点
+phone.blur(function () {
+    var regPhone=new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
+    if (phone.val()!=="" && phone.val().length!==0){
+        if (!regPhone.test(phone.val())) {
+            userInfoDeal("phoneDiv", "has-success", "has-error", "亲~手机号码格式不对哦~请重新输入手机号");
+        } else {
+            userInfoDeal("phoneDiv", "has-error", "has-success", "");
+        }
+    }else {
+        userInfoDeal("phoneDiv","has-success","has-error","亲~手机号码不能为空哦~");
+    }
+});
+
+//手机号码输入框获得焦点
+phone.focus(function () {
+    removeMessage("helpBlockPhone","phoneDiv");
+});
+
+//密码输入框失去焦点
+password.blur(function () {
+    var regPassword=new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$");
+    if (password.val()!=="" && password.val().length!==0){
+        if (!regPassword.test(password.val())){
+            userInfoDeal("passwordDiv","has-success","has-error","亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~");
+        }
+        else {
+            userInfoDeal("passwordDiv", "has-error", "has-success", "");
+        }
+    }else {
+        userInfoDeal("passwordDiv","has-success","has-error","亲~密码不能为空哦~");
+    }
+});
+
+//密码输入框获得焦点
+password.focus(function () {
+    removeMessage("helpBlockPassword","passwordDiv");
+});
+
+//确认密码输入框获得焦点
+confirmPassword.focus(function () {
+    removeMessage("helpBlockConfirmPassword","confirmPasswordDiv");
+});
+
+//确认密码输入框失去焦点
+confirmPassword.blur(function () {
+    if (password.val()!=="" && password.val().length!==0 && confirmPassword.val()===password.val()){
+        userInfoDeal("confirmPasswordDiv","has-error","has-success","");
+    }else if(password.val()==="" && password.val().length===0){
+        userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~确认密码不能为空哦~");
+    }else if (confirmPassword.val()!==password.val()){
+        userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
+    } else {
+        userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您所输入的密码不一致哦~请重新输入~");
+    }
+});
+
+//修改密码按钮
+$("#updateUserPasswordButton").click(function () {
+    // 空值判断
+    if (phone.val()==="" || phone.val().length===0){
+        userInfoDeal("phoneDiv","has-success","has-error","亲~手机号码不能为空哦~");
+        return false;
+    }
+    if (password.val()==="" || password.val().length===0){
+        userInfoDeal("passwordDiv","has-success","has-error","亲~密码不能为空哦~");
+        return false;
+    }
+    if (confirmPassword.val()==="" || confirmPassword.val().length===0){
+        userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~确认密码不能为空哦~");
+        return false;
+    }
+
+    //正则表达式及其细节判断
+    var regPassword=new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$");
+    if (!regPassword.test(password.val())){
+        userInfoDeal("passwordDiv","has-success","has-error","亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~");
+        return false;
+    }
+    if (confirmPassword.val()!==password.val()){
+        userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
+        return false;
+    }
+
+    else {
+        $("#genderLabel").text("");
+        $.ajax({
+            url: "/user/updateUserPassword",
+            type: "put",
+            data: {
+                "phone":phone.val(),
+                "password":password.val()
+                },
+            async: false,//同步加载（必须加）
+            success: function (result) {
+                if (result.extend.errorCode=='400'){
+                    userInfoDeal("phoneDiv","has-success","has-error",result.extend.error);
+                }else {
+                    alert("修改密码成功！需要重新登录设置才能生效！");
+                    window.location.href = "http://localhost/user/logout";
+                }
+            },error:function () {
+                alert("系统错误，有问题尽快和小c联系！");
+            }
+        });
+    }
+});
 
 //点入输入框处理
 function removeMessage(spanEle,divEle) {

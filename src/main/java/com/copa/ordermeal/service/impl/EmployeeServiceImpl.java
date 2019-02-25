@@ -73,4 +73,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void modifyEmployeeInfoById(Employee employee, Integer id) {
         employeeMapper.updateEmployeeInfoById(employee,id);
     }
+
+    @Override
+    public void modifyEmployeePasswordByPhone(Employee employee, String phone) {
+        employeeMapper.updateEmployeePasswordByPhone(employee,phone);
+    }
 }

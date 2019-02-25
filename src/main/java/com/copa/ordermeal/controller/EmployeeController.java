@@ -187,11 +187,37 @@ public class EmployeeController {
         return Msg.success();
     }
 
+    /**
+     *
+     * @param employee
+     * @param principal
+     * @return
+     */
     @PutMapping("/user/updateEmployeeInfo")
-    public Msg upload(Employee employee,@AuthenticationPrincipal Principal principal) {
+    public Msg updateEmployeeInfo(Employee employee,@AuthenticationPrincipal Principal principal) {
         String username1=principal.getName();
         Employee employee1=employeeService.findEmployeeInfoByUsername(username1);
         employeeService.modifyEmployeeInfoById(employee,employee1.getId());
         return Msg.success();
     }
+
+    /**
+     *
+     * @param employee
+     * @param principal
+     * @return
+     */
+    @PutMapping("/user/updateUserPassword")
+    public Msg updateEmployeePassword(Employee employee,@AuthenticationPrincipal Principal principal) {
+        String username1=principal.getName();
+        Employee employee1=employeeService.findEmployeeInfoByUsername(username1);
+        if (!employee1.getPhone().equals(employee.getPhone())){
+            return Msg.fail().add("error","亲~您输入的手机号与您的账号绑定不匹配哦~请重新输入吧~").add("errorCode","400");
+        }
+        MD5Util md5Util=new MD5Util();
+        employee.setPassword(md5Util.encode(employee.getPassword()));
+        employeeService.modifyEmployeePasswordByPhone(employee,employee1.getPhone());
+        return Msg.success();
+    }
+
 }

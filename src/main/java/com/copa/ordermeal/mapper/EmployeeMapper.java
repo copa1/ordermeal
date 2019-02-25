@@ -52,4 +52,7 @@ public interface EmployeeMapper {
 
     @Update("UPDATE employee SET username=#{e.username},email=#{e.email},gender=#{e.gender} WHERE id=#{i}")
     void updateEmployeeInfoById(@Param("e") Employee employee,@Param("i") Integer id);
+
+    @Update("UPDATE employee SET password=#{e.password} WHERE phone=#{p}")
+    void updateEmployeePasswordByPhone(@Param("e") Employee employee,@Param("p") String phone);
 }

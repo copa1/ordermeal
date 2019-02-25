@@ -80,4 +80,11 @@ public interface EmployeeService {
      * @param id 员工id
      */
     void modifyEmployeeInfoById(Employee employee, Integer id);
+
+    /**
+     * 通过员工手机号修改员工信息
+     * @param employee 员工
+     * @param phone 手机号
+     */
+    void modifyEmployeePasswordByPhone(Employee employee, String phone);
 }
