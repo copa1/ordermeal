@@ -46,4 +46,7 @@ public interface EmployeeMapper {
 
     @Select("SELECT * FROM employee WHERE username=#{u}")
     Employee selectEmployeeInfoByUsername(@Param("u") String username);
+
+    @Update("UPDATE employee SET avatar=#{a} WHERE username=#{u}")
+    void updateAvatarUrlByUsername(@Param("u") String username,@Param("a") String avatarUrl);
 }

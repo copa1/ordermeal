@@ -61,9 +61,16 @@ public interface EmployeeService {
     String addEmployee(Employee employee);
 
     /**
-     * 利用用户名来查询用户信息
+     * 通过用户名来查询用户信息
      * @param username 用户名
      * @return
      */
     Employee findEmployeeInfoByUsername(String username);
+
+    /**
+     * 通过用户名来修改用户头像
+     * @param username 用户名
+     * @param avatarUrl 头像链接
+     */
+    void modifyAvatarUrlByUsername(String username, String avatarUrl);
 }

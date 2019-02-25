@@ -5,12 +5,16 @@ import com.copa.ordermeal.service.EmployeeService;
 import com.copa.ordermeal.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 1.17
@@ -98,5 +102,61 @@ public class EmployeeController {
         //System.out.println(username);
         //System.out.println(employee);
         return Msg.success().add("employee",employee);
+    }
+
+    /**
+     * 更换头像
+     * @param file 接收前端参数
+     * @return
+     */
+    @PostMapping("/user/uploadAvatar")
+    public Msg upload(@RequestParam("file") MultipartFile file,@AuthenticationPrincipal Principal principal) {
+        String username;
+        //System.out.println(principal.getName());
+        /*if (principal.getName()==null){
+            return Msg.fail().add("error","亲~请先登录再操作哦~").add("errorCode","403");
+        }*/
+        try {
+            username = principal.getName();
+        } catch (NullPointerException e){
+            return  Msg.fail().add("error","亲~请先登录再操作哦~").add("errorCode","403");
+        }
+
+        String fileName = file.getOriginalFilename();
+        //System.out.println("1:"+fileName);
+
+        if(fileName.indexOf("\\") != -1){
+            fileName = fileName.substring(fileName.lastIndexOf("\\"));
+            //System.out.println("2:"+fileName);
+        }
+        //以下方法月份不对！2019/2/25变成了2019/11/25
+        /*  Calendar now=Calendar.getInstance();
+        String filePath = "src/main/resources/static/img/avatar/"+now.get(Calendar.YEAR)+"/"+now.get(Calendar.MONTH) + 1+"/"+ now.get(Calendar.DAY_OF_MONTH)+"/";
+        System.out.println(filePath);*/
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String dateTime=now.format(format);
+        String filePath = "src/main/resources/static/img/avatar/"+dateTime+"/";
+        File targetFile = new File(filePath);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+        Date nowTime = new Date();
+        long l = nowTime.getTime() / 1000;
+        fileName=l+file.getOriginalFilename();
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(filePath+fileName);
+            out.write(file.getBytes());
+            out.flush();
+            out.close();
+            String avatarUrl="/"+filePath.substring(26)+fileName;
+            //System.out.println(avatarUrl);
+            employeeService.modifyAvatarUrlByUsername(principal.getName(),avatarUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("error","亲~上传失败，请重新上传头像！").add("errorCode","300");
+        }
+        return Msg.success();
     }
 }
