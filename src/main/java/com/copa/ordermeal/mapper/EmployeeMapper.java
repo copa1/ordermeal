@@ -35,7 +35,7 @@ public interface EmployeeMapper {
     @Select("SELECT COUNT(*) FROM employee WHERE realName=#{r}")
     long countRealName(@Param("r") String realName);
 
-    @Insert("INSERT INTO employee(username,password,phone,gender,email,realName,avatar,recentlyLanded) VALUES(#{username},#{password},#{phone},#{gender},#{email},#{realName},'无','无')")
+    @Insert("INSERT INTO employee(username,password,phone,gender,email,realName,avatar,recentlyLanded) VALUES(#{username},#{password},#{phone},#{gender},#{email},#{realName},'/img/avatar/default.jpeg','无')")
     void insertEmployee(Employee employee);
 
     @Select("SELECT id FROM employee WHERE username=#{u}")

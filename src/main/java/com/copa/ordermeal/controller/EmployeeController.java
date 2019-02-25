@@ -110,6 +110,11 @@ public class EmployeeController {
         return Msg.success();
     }
 
+    /**
+     * 员工注册
+     * @param employee 员工
+     * @return
+     */
     @PostMapping("/user/register")
     public String postEmployeeInfoRegister(Employee employee){
         MD5Util md5Util=new MD5Util();
