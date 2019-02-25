@@ -45,6 +45,19 @@ public class EmployeeController {
     }
 
     /**
+     * 检验更改用户名是否可用
+     * @return
+     */
+    @GetMapping("/user/checkUsernameUpdate")
+    public Msg getUsernameCountUpdate(@RequestParam String username,@AuthenticationPrincipal Principal principal){
+        long countUser=employeeService.findUsernameCount(username);
+        if ((countUser==1 && !principal.getName().equals(username)) || (countUser>1)){
+            return Msg.fail().add("error","亲~该用户名不可用哦~请换一个用户名吧~");
+        }
+        return Msg.success();
+    }
+
+    /**
      * 检验手机号码是否可用
      * @return
      */
@@ -62,9 +75,23 @@ public class EmployeeController {
      * @return
      */
     @GetMapping("/user/checkEmail")
-    public Msg getEmailCount(@RequestParam String email){
+    public Msg getEmailCount(@RequestParam String email,@AuthenticationPrincipal Principal principal){
         long countEmail=employeeService.findEmailCount(email);
         if (countEmail>0){
+            return Msg.fail().add("error","亲~该电子邮箱不可用哦~请换一个电子邮箱吧~");
+        }
+        return Msg.success();
+    }
+
+    /**
+     * 检验更改电子邮箱是否可用
+     * @return
+     */
+    @GetMapping("/user/checkEmailUpdate")
+    public Msg getEmailCountUpdate(@RequestParam String email,@AuthenticationPrincipal Principal principal){
+        long countEmail=employeeService.findEmailCount(email);
+        Employee employee=employeeService.findEmployeeInfoByUsername(principal.getName());
+        if ((countEmail==1 && !email.equals(employee.getEmail())) || (countEmail>1)){
             return Msg.fail().add("error","亲~该电子邮箱不可用哦~请换一个电子邮箱吧~");
         }
         return Msg.success();
@@ -157,6 +184,14 @@ public class EmployeeController {
             e.printStackTrace();
             return Msg.fail().add("error","亲~上传失败，请重新上传头像！").add("errorCode","300");
         }
+        return Msg.success();
+    }
+
+    @PutMapping("/user/updateEmployeeInfo")
+    public Msg upload(Employee employee,@AuthenticationPrincipal Principal principal) {
+        String username1=principal.getName();
+        Employee employee1=employeeService.findEmployeeInfoByUsername(username1);
+        employeeService.modifyEmployeeInfoById(employee,employee1.getId());
         return Msg.success();
     }
 }

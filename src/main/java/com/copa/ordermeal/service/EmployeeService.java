@@ -73,4 +73,11 @@ public interface EmployeeService {
      * @param avatarUrl 头像链接
      */
     void modifyAvatarUrlByUsername(String username, String avatarUrl);
+
+    /**
+     * 通过员工Id修改员工信息
+     * @param employee 员工
+     * @param id 员工id
+     */
+    void modifyEmployeeInfoById(Employee employee, Integer id);
 }

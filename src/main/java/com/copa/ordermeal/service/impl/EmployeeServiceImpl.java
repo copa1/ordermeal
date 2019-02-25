@@ -68,4 +68,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void modifyAvatarUrlByUsername(String username, String avatarUrl) {
         employeeMapper.updateAvatarUrlByUsername(username,avatarUrl);
     }
+
+    @Override
+    public void modifyEmployeeInfoById(Employee employee, Integer id) {
+        employeeMapper.updateEmployeeInfoById(employee,id);
+    }
 }

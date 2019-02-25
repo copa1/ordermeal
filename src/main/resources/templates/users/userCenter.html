@@ -59,14 +59,15 @@
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label for="username" class="col-md-1 control-label">昵称</label>
-                            <div class="col-md-offset-1 col-sm-6" style="margin-left:95px">
+                            <div class="col-md-offset-1 col-sm-6" style="margin-left:95px" id="usernameDiv">
                                 <input type="text" class="form-control" id="username" placeholder="用户名">
+                                <span id="helpBlockUsername" class="help-block" style="text-align: left"></span>
                             </div>
                         </div>
                         <hr>
                         <div class="form-group">
                             <label class="col-md-1 control-label">手机</label>
-                            <div class="col-md-3" style="margin-left:95px">
+                            <div class="col-md-3" style="margin-left:95px;margin-top:6px">
                                 <p id="phoneP"></p>
                             </div>
                         </div>
@@ -80,19 +81,29 @@
                                 <label class="radio-inline">
                                     <input type="radio" name="gender" value="F" id="gender_woman">女
                                 </label>
+                                <br>
+                                <label style="color: orange" control-label id="genderLabel" style="text-align: left"></label>
                             </div>
                         </div>
                         <hr>
                         <div class="form-group">
                             <label for="email" class="col-md-1 control-label">email</label>
-                            <div class="col-md-offset-1 col-sm-6" style="margin-left:95px">
+                            <div class="col-md-offset-1 col-sm-6" style="margin-left:95px" id="emailDiv">
                                 <input type="text" class="form-control" id="email" placeholder="电子邮箱">
+                                <span id="helpBlockEmail" class="help-block" style="text-align: left"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">姓名</label>
+                            <div class="col-md-3" style="margin-left:22px;margin-top:6px">
+                                <p id="realNameP"></p>
                             </div>
                         </div>
                         <hr>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-6">
-                                <button type="submit" class="btn btn-success">修改信息</button>
+                                <button type="button" class="btn btn-success" id="updateUserInfoButton">修改信息</button>
                             </div>
                         </div>
                     </form>

@@ -49,4 +49,7 @@ public interface EmployeeMapper {
 
     @Update("UPDATE employee SET avatar=#{a} WHERE username=#{u}")
     void updateAvatarUrlByUsername(@Param("u") String username,@Param("a") String avatarUrl);
+
+    @Update("UPDATE employee SET username=#{e.username},email=#{e.email},gender=#{e.gender} WHERE id=#{i}")
+    void updateEmployeeInfoById(@Param("e") Employee employee,@Param("i") Integer id);
 }
