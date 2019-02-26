@@ -22,4 +22,19 @@ public class FoodServiceImpl implements FoodService{
     public List<Food> findRiceFoodInfo() {
         return foodMapper.selectRiceFoodInfo();
     }
+
+    @Override
+    public List<Food> findFenmianFoodInfo() {
+        return foodMapper.selectFenmianFoodInfo();
+    }
+
+    @Override
+    public List<Food> findPastryFoodInfo() {
+        return foodMapper.selectPastryFoodInfo();
+    }
+
+    @Override
+    public List<Food> findDrinkFoodInfo() {
+        return foodMapper.selectDrinkFoodInfo();
+    }
 }

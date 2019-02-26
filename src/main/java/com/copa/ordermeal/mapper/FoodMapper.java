@@ -17,4 +17,13 @@ public interface FoodMapper {
 
     @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=1")
     List<Food> selectRiceFoodInfo();
+
+    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=2")
+    List<Food> selectFenmianFoodInfo();
+
+    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=3")
+    List<Food> selectPastryFoodInfo();
+
+    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=4")
+    List<Food> selectDrinkFoodInfo();
 }

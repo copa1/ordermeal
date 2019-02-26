@@ -32,4 +32,40 @@ public class FoodController {
         PageInfo page=new PageInfo(foods,5);
         return Msg.success().add("food",page);
     }
+
+    /**
+     * 显示上架粉面信息
+     * @return
+     */
+    @GetMapping("/user/getFenmianInfo")
+    public Msg getFenmianInfo(@RequestParam(value = "pn",defaultValue = "1") Integer pn){
+        PageHelper.startPage(pn,6);
+        List<Food> foods=foodService.findFenmianFoodInfo();
+        PageInfo page=new PageInfo(foods,5);
+        return Msg.success().add("food",page);
+    }
+
+    /**
+     * 显示上架面点信息
+     * @return
+     */
+    @GetMapping("/user/getPastryInfo")
+    public Msg getPastryInfo(@RequestParam(value = "pn",defaultValue = "1") Integer pn){
+        PageHelper.startPage(pn,6);
+        List<Food> foods=foodService.findPastryFoodInfo();
+        PageInfo page=new PageInfo(foods,5);
+        return Msg.success().add("food",page);
+    }
+
+    /**
+     * 显示上架饮料小吃信息
+     * @return
+     */
+    @GetMapping("/user/getDrinkInfo")
+    public Msg getDrinkInfo(@RequestParam(value = "pn",defaultValue = "1") Integer pn){
+        PageHelper.startPage(pn,6);
+        List<Food> foods=foodService.findDrinkFoodInfo();
+        PageInfo page=new PageInfo(foods,5);
+        return Msg.success().add("food",page);
+    }
 }

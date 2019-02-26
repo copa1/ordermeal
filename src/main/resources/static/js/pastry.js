@@ -1,11 +1,11 @@
 $(function () {
-   to_page(1);
+    to_page(1);
 });
 
-// 转饭食菜品页面
+// 转面点菜品页面
 function to_page(pn) {
     $.ajax({
-        url:"/user/getRiceInfo",
+        url:"/user/getPastryInfo",
         data:"pn="+pn,
         type:"get",
         success:function (result) {

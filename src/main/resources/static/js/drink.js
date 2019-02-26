@@ -1,11 +1,11 @@
 $(function () {
-   to_page(1);
+    to_page(1);
 });
 
-// 转饭食菜品页面
+// 转饮料小吃菜品页面
 function to_page(pn) {
     $.ajax({
-        url:"/user/getRiceInfo",
+        url:"/user/getDrinkInfo",
         data:"pn="+pn,
         type:"get",
         success:function (result) {
