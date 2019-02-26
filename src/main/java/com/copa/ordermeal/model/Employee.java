@@ -32,7 +32,7 @@ public class Employee {
     private String phone;
 
     /**
-     * 性别
+     * 性别 M-男 F-女
      */
     private String gender;
 
@@ -55,6 +55,11 @@ public class Employee {
      * 最近一次登录时间
      */
     private String recentlyLanded;
+
+    /**
+     * 员工余额
+     */
+    private double account;
 
     /**
      * 员工拥有的权限

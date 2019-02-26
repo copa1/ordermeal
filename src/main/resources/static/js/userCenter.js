@@ -64,7 +64,8 @@ function imgChange() {
         success: function (data) {
             console.log(data);
             if(data.code=='100'){
-                alert("头像更换成功！");
+                alert("头像更换成功！需要重新登录设置才能生效！");
+                window.location.href = "http://localhost/user/logout";
             }
             else {
                 if (data.extend.errorCode=='300'){
