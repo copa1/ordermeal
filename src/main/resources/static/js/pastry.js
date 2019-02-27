@@ -24,7 +24,7 @@ function build_food_list(result){
             '<div class="thumbnail text-center" style="width:213.33px;">' +
             '<img src="'+item.image+'" width="100%" height="133.55">' +
             '<div class="caption">' +
-            '<h4>'+item.name+'</h4>' +
+            '<h4 style="font: 16px Microsoft YaHei;font-weight: bold;">'+item.name+'</h4><br><h4 style="font: 14px Microsoft YaHei;color:#E5534E;font-weight: bold;margin-top:0;margin-bottom:15px">'+item.price+'元</h4>' +
             '<p><a href="#" class="btn btn-success" role="button">加入购物车</a></p>' +
             '</div>' +
             '</div>' +
