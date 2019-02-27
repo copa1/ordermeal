@@ -37,4 +37,9 @@ public class FoodServiceImpl implements FoodService{
     public List<Food> findDrinkFoodInfo() {
         return foodMapper.selectDrinkFoodInfo();
     }
+
+    @Override
+    public Food findFoodInfoById(Integer id) {
+        return foodMapper.selectFoodInfoById(id);
+    }
 }

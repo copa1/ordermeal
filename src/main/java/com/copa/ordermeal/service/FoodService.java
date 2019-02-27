@@ -33,4 +33,11 @@ public interface FoodService {
      * @return
      */
     List<Food> findDrinkFoodInfo();
+
+    /**
+     * 根据菜品id查找该菜品的相关信息（模态框用）
+     * @param id 菜品id
+     * @return
+     */
+    Food findFoodInfoById(Integer id);
 }

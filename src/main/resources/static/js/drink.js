@@ -22,7 +22,7 @@ function build_food_list(result){
     $.each(food,function (index,item) {
         var div=$('<div class="col-md-4">' +
             '<div class="thumbnail text-center" style="width:213.33px;">' +
-            '<img src="'+item.image+'" width="100%" height="133.55">' +
+            '<img src="'+item.image+'" width="100%" height="133.55" class="foodDetailImage" foodId="'+item.id+'">' +
             '<div class="caption">' +
             '<h4 style="font: 16px Microsoft YaHei;font-weight: bold;">'+item.name+'</h4><br><h4 style="font: 14px Microsoft YaHei;color:#E5534E;font-weight: bold;margin-top:0;margin-bottom:15px">'+item.price+'元</h4>' +
             '<p><a href="#" class="btn btn-success" role="button">加入购物车</a></p>' +
@@ -82,5 +82,54 @@ function build_foodPage_nav(result){
 
     var navEle=$("<nav></nav>").append(ul);
     navEle.appendTo("#food_page");
+
+}
+
+//点击菜品图片可弹出菜品详情模态框
+$(document).on("click",".foodDetailImage",function () {
+    $("#foodImageModal").empty();
+    $("#foodRightDetailModal").empty();
+    var foodId=$(this).attr("foodId");
+    foodDetailModal(foodId);
+    $("#foodDetailModal").modal({
+        backdrop:"static"
+    });
+});
+
+//构建视频详情模态框
+function foodDetailModal(foodId) {
+    $.ajax({
+        url:"/user/getFoodInfoById",
+        type:"get",
+        data:"id="+foodId,
+        success:function (result) {
+            console.log(result);
+            var foodImage=$('<image src="'+result.extend.food.image+'" width="400" height="262.74">');
+            $("#foodImageModal").append(foodImage);
+            var closeButton=$('<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-right:10px;margin-top:-25px"><span aria-hidden="true">&times;</span></button>');
+            var foodMenuInfo=$('<div class="menu-info" style="font-size: 24px;\n' +
+                '    font-weight: bold;"><span class="name">'+result.extend.food.name+'</span> </div>');
+            var foodMenuDesc=$('<div class="menu-desc" style="word-wrap: break-word;\n' +
+                '    margin-top: 40px;\n' +
+                '    width: 390px;\n' +
+                '    line-height: 24px;">'+result.extend.food.desc+'</div>');
+            var foodPriceInfo=$('<div class="price-info" style="padding-top:56px;font-size: 24px;color: #e55748;\n' +
+                '    clear: both;"><span class="price pricetag">'+result.extend.food.price+'元</span></div>');
+            var orderButton=$('<div style="margin-top: 20px;\n' +
+                '    width: 160px;\n' +
+                '    height: 44px;\n' +
+                '    line-height: 44px;\n' +
+                '    border: 1px solid #68d381;\n' +
+                '    border-bottom-color: #58B36E;\n' +
+                '    -moz-border-radius: 4px;\n' +
+                '    -webkit-border-radius: 4px;\n' +
+                '    border-radius: 4px;\n' +
+                '    text-align: center;\n' +
+                '    color: #fff;\n' +
+                '    cursor: pointer;    background-color: #68d381;\n' +
+                '    transition: .2s ease-out;"><span style="letter-spacing:1px;">开始订餐</span> </div>');
+            $("#foodRightDetailModal").append(closeButton).append(foodMenuInfo).append(foodMenuDesc).append(foodPriceInfo).append(orderButton);
+        }
+    });
 
 }

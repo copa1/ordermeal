@@ -68,4 +68,14 @@ public class FoodController {
         PageInfo page=new PageInfo(foods,5);
         return Msg.success().add("food",page);
     }
+
+    /**
+     * 根据菜品图片id显示菜品详细信息（模态框用）
+     * @return
+     */
+    @GetMapping("/user/getFoodInfoById")
+    public Msg getFoodInfoById(@RequestParam("id") Integer id){
+        Food food=foodService.findFoodInfoById(id);
+        return Msg.success().add("food",food);
+    }
 }
