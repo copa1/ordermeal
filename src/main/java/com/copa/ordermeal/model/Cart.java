@@ -28,4 +28,16 @@ public class Cart {
      * 员工Id
      */
     private int employeeId;
+
+    /**
+     * 食物
+     */
+    private Food food;
+
+    /**
+     * 员工
+     */
+    private Employee employee;
+
+
 }

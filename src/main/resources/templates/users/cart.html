@@ -37,20 +37,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="cartLeft"><img src="/img/food/food001.jpg" width="100" height="100"></td>
-                    <td>饭食1</td>
-                    <td><span style="color:#E5534E;font-weight: bolder;">￥16.00</span> </td>
-                    <td style="font-weight: bold;">2</td>
-                    <td><span style="color:#E5534E;font-weight: bolder;">￥32.00</span></td>
-                    <td class="cartRight" style="color: #acaf8b">删除</td>
-                </tr>
+
                 </tbody>
             </table>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 text-right col-sm-3">价格总计：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;">￥32.00</span></div>
+        <div class="col-md-12 text-right col-sm-3">价格总计：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;" id="totalMoney"></span></div>
     </div>
     <br><br>
     <div class="row">
@@ -63,9 +56,11 @@
     </div>
 </div>
 
+
 <!--尾部-->
 <footer th:replace="publicPage/userIndex_bar::footerBar"></footer>
 <script type="text/javascript" th:src="@{/js/userIndex.js}"></script>
 <script type="text/javascript" th:src="@{/js/userPublicBar.js}"></script>
+<script type="text/javascript" th:src="@{/js/cart.js}"></script>
 </body>
 </html>
