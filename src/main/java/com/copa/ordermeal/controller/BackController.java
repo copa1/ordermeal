@@ -3,8 +3,6 @@ package com.copa.ordermeal.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * 1.17
  * 页面跳转Controller
@@ -95,12 +93,19 @@ public class BackController {
 
     /**
      * 个人中心页面
-     * @param request
      * @return
      */
     @GetMapping("/user/userCenter")
-    public String userCenterPage(HttpServletRequest request){
-        //System.out.println(request.getSession());
+    public String userCenterPage(){
         return "users/userCenter";
+    }
+
+    /**
+     * 个人中心页面
+     * @return
+     */
+    @GetMapping("/user/cart")
+    public String userCartPage(){
+        return "users/cart";
     }
 }

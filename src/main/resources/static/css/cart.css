@@ -1,0 +1,25 @@
+#cartTable{
+    margin-top: 80px;
+}
+
+.table-bordered>thead>tr>th,.table-bordered{
+    border: 0;
+}
+
+.table-bordered>tbody>tr>.cartLeft{
+    border-left: 1px solid #ddd;
+}
+
+.table-bordered>tbody>tr>.cartRight{
+    border-right: 1px solid #ddd;
+}
+
+.table-bordered>tbody>tr>td {
+    border:0;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
+.table>tbody>tr>td{
+    vertical-align: middle;
+}
