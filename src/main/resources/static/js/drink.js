@@ -24,7 +24,7 @@ function build_food_list(result){
             '<div class="thumbnail text-center" style="width:213.33px;">' +
             '<img src="'+item.image+'" width="100%" height="133.55" class="foodDetailImage" foodId="'+item.id+'">' +
             '<div class="caption">' +
-            '<h4 style="font: 16px Microsoft YaHei;font-weight: bold;">'+item.name+'</h4><br><h4 style="font: 14px Microsoft YaHei;color:#E5534E;font-weight: bold;margin-top:0;margin-bottom:15px">'+item.price+'元</h4>' +
+            '<h4 style="font: 16px Microsoft YaHei;font-weight: bold;">'+item.name+'</h4><p style="font: 12px Microsoft YaHei;">总共有'+item.total+'份，剩余'+item.surplus+'份</p><br><h4 style="font: 14px Microsoft YaHei;color:#E5534E;font-weight: bold;margin-top:0;margin-bottom:15px">'+item.price+'元</h4>' +
             '<p><a href="#" class="btn btn-success" role="button">加入购物车</a></p>' +
             '</div>' +
             '</div>' +
@@ -110,9 +110,13 @@ function foodDetailModal(foodId) {
             var foodMenuInfo=$('<div class="menu-info" style="font-size: 24px;\n' +
                 '    font-weight: bold;"><span class="name">'+result.extend.food.name+'</span> </div>');
             var foodMenuDesc=$('<div class="menu-desc" style="word-wrap: break-word;\n' +
-                '    margin-top: 40px;\n' +
+                '    margin-top: 32px;\n' +
                 '    width: 390px;\n' +
                 '    line-height: 24px;">'+result.extend.food.desc+'</div>');
+            var foodNum=$('<div style="word-wrap: break-word;font-weight: bolder;\n' +
+                '    \n' +
+                '    \n' +
+                '   ">总共有'+result.extend.food.total+'份，剩余'+result.extend.food.surplus+'份</div>');
             var foodPriceInfo=$('<div class="price-info" style="padding-top:56px;font-size: 24px;color: #e55748;\n' +
                 '    clear: both;"><span class="price pricetag">'+result.extend.food.price+'元</span></div>');
             var orderButton=$('<div style="margin-top: 20px;\n' +
@@ -127,8 +131,8 @@ function foodDetailModal(foodId) {
                 '    text-align: center;\n' +
                 '    color: #fff;\n' +
                 '    cursor: pointer;    background-color: #68d381;\n' +
-                '    transition: .2s ease-out;"><span style="letter-spacing:1px;">开始订餐</span> </div>');
-            $("#foodRightDetailModal").append(closeButton).append(foodMenuInfo).append(foodMenuDesc).append(foodPriceInfo).append(orderButton);
+                '    transition: .2s ease-out;"><span style="letter-spacing:1px;">加入购物车</span> </div>');
+            $("#foodRightDetailModal").append(closeButton).append(foodMenuInfo).append(foodMenuDesc).append(foodNum).append(foodPriceInfo).append(orderButton);
         }
     });
 

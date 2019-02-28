@@ -51,7 +51,6 @@ public class CartController {
     public Msg deleteCartInfoByFoodIdAndEmployeeId(@PathVariable("foodId") Integer foodId, @AuthenticationPrincipal Principal principal){
         Employee employee=employeeService.findEmployeeInfoByUsername(principal.getName());
         Integer employeeId=employee.getId();
-        System.out.println(foodId+":"+employeeId);
         cartService.removeCartInfoByFoodIdAndEmployeeId(foodId,employeeId);
         return Msg.success();
     }
