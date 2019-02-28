@@ -60,3 +60,10 @@ a:link    {color:black;}
 a:visited {color:black;}
 a:hover   {color:black;}
 a:active  {color:black;}
+
+#cartPageButton {
+    color: #fff;
+    background-color: #f04e4e;
+    border-color: #f04e4e;
+    margin-top:3px;
+}

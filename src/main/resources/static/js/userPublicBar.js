@@ -5,3 +5,7 @@ $("#loginPageButton").click(function () {
 $("#registerPageButton").click(function () {
     window.location.href="http://localhost/user/register";
 });
+
+$("#cartPageButton").click(function () {
+    window.location.href="http://localhost/user/cart";
+});
