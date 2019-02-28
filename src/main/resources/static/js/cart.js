@@ -52,8 +52,10 @@ $(document).on("click",".backSelectFoodMenu",function () {
 $(document).on("click",".deleteBtn",function () {
    // alert($(this).attr("foodId"));
     var foodId=$(this).attr("foodId");
-    if (confirm("您是否要删除菜品名为<"+$(this).attr("foodName")+">的记录吗？")){
-        // alert("是的");
+
+    layer.confirm("您是否要删除菜品名为<"+$(this).attr("foodName")+">的记录吗？", {
+        title:"删除菜品警告",icon: 3,btn: ["确定删除","取消"] //按钮
+    }, function(index){
         $.ajax({
             url:"/user/deleteCartInfo/"+foodId,
             type:"delete",
@@ -63,8 +65,10 @@ $(document).on("click",".deleteBtn",function () {
                 window.location.href="http://localhost/user/cart";
             },
             error:function () {
-                alert("删除错误！有事请与小c联系！");
+                layer.msg('删除错误！有事请与小c联系！', {icon: 2});
             }
         })
-    }
+    }, function(){
+        layer.msg('删除取消', {icon: 2});
+    });
 });

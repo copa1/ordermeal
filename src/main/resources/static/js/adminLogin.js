@@ -49,13 +49,16 @@ $("#loginButton").click(function () {
         return true;
     }*/
    if (username.val()!=="" && username.val().length!==0 && password.val()!=="" && password.val().length!==0){
+       layer.msg("登录成功",{icon:"1"});
        return true;
    }
    else {
        if (username.val()==="" && username.val().length===0){
+           layer.msg("亲~用户名不能为空哦~",{icon:"0"});
            userInfoDeal("usernameDiv","has-success","has-error","亲~用户名不能为空哦~");
            return false;
        } else if (password.val()==="" && password.val().length===0){
+           layer.msg("亲~密码不能为空哦~",{icon:"0"});
            userInfoDeal("passwordDiv","has-success","has-error","亲~密码不能为空哦~");
            return false;
        }

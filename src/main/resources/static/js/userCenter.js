@@ -69,7 +69,7 @@ function imgChange() {
             }
             else {
                 if (data.extend.errorCode=='300'){
-                    alert(data.extend.error);
+                    layer.alert(data.extend.error,{icon: 2});
                 }
                 else if (data.extend.errorCode=='403'){
                     alert(data.extend.error);
@@ -144,14 +144,17 @@ $("#updateUserInfoButton").click(function () {
     var len=gender.length;
     //空值判断
     if (username.val()==="" || username.val().length===0){
+        layer.msg('亲~昵称不能为空哦~', {icon: 0});
         userInfoDeal("usernameDiv","has-success","has-error","亲~昵称不能为空哦~");
         return false;
     }
     if (email.val()==="" || email.val().length===0){
+        layer.msg('亲~电子邮箱不能为空哦~', {icon: 0});
         userInfoDeal("emailDiv","has-success","has-error","亲~电子邮箱不能为空哦~");
         return false;
     }
-    if (email.val()==="" || email.val().length===0){
+    if (len==0||len==2){
+        layer.msg('就不能告诉我你是MM还是GG吗', {icon: 0});
         $("#genderLabel").text("就不能告诉我你是MM还是GG吗~");
         return false;
     }
@@ -160,6 +163,7 @@ $("#updateUserInfoButton").click(function () {
     //正则表达式判断
     var regEmail=new RegExp("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
     if (!regEmail.test(email.val())){
+        layer.msg('亲~电子邮箱格式不对哦~请重新输入吧~', {icon: 0});
         userInfoDeal("emailDiv","has-success","has-error","亲~电子邮箱格式不对哦~请重新输入吧~");
         return false;
     }
@@ -167,10 +171,12 @@ $("#updateUserInfoButton").click(function () {
     //更改信息重复检验
     //Ajax调用处理
     if (usernameRepeat(username.val())==false){
+        layer.msg('亲~该用户名不可用哦~请换一个用户名吧~', {icon: 0});
         userInfoDeal("usernameDiv","has-success","has-error","亲~该用户名不可用哦~请换一个用户名吧~");
         return false;
     }
     if (emailRepeat(email.val())==false){
+        layer.msg('亲~该电子邮箱不可用哦~请换一个电子邮箱吧~', {icon: 0});
         userInfoDeal("emailDiv","has-success","has-error","亲~该电子邮箱不可用哦~请换一个电子邮箱吧~");
         return false;
     }
@@ -190,7 +196,7 @@ $("#updateUserInfoButton").click(function () {
                 alert("修改信息成功！需要重新登录设置才能生效！");
                 window.location.href = "http://localhost/user/logout";
             },error:function () {
-                alert("系统错误，有问题尽快和小c联系！");
+                layer.alert("系统错误，有问题尽快和小c联系！",{icon: 2});
             }
         });
     }
@@ -305,14 +311,17 @@ confirmPassword.blur(function () {
 $("#updateUserPasswordButton").click(function () {
     // 空值判断
     if (phone.val()==="" || phone.val().length===0){
+        layer.msg('亲~手机号码不能为空哦~', {icon: 0});
         userInfoDeal("phoneDiv","has-success","has-error","亲~手机号码不能为空哦~");
         return false;
     }
     if (password.val()==="" || password.val().length===0){
+        layer.msg('亲~密码不能为空哦~', {icon: 0});
         userInfoDeal("passwordDiv","has-success","has-error","亲~密码不能为空哦~");
         return false;
     }
     if (confirmPassword.val()==="" || confirmPassword.val().length===0){
+        layer.msg('亲~确认密码不能为空哦~', {icon: 0});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~确认密码不能为空哦~");
         return false;
     }
@@ -320,10 +329,12 @@ $("#updateUserPasswordButton").click(function () {
     //正则表达式及其细节判断
     var regPassword=new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$");
     if (!regPassword.test(password.val())){
+        layer.msg('亲亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~', {icon: 0});
         userInfoDeal("passwordDiv","has-success","has-error","亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~");
         return false;
     }
     if (confirmPassword.val()!==password.val()){
+        layer.msg('亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~', {icon: 0});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
         return false;
     }
@@ -340,13 +351,15 @@ $("#updateUserPasswordButton").click(function () {
             async: false,//同步加载（必须加）
             success: function (result) {
                 if (result.extend.errorCode=='400'){
+                    layer.msg('result.extend.error', {icon: 2});
                     userInfoDeal("phoneDiv","has-success","has-error",result.extend.error);
                 }else {
                     alert("修改密码成功！需要重新登录设置才能生效！");
                     window.location.href = "http://localhost/user/logout";
                 }
             },error:function () {
-                alert("系统错误，有问题尽快和小c联系！");
+                // alert("系统错误，有问题尽快和小c联系！");
+                layer.alert('系统错误，有问题尽快和小c联系！', {icon: 2});
             }
         });
     }

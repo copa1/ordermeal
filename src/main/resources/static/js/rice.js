@@ -25,7 +25,7 @@ function build_food_list(result){
             '<img src="'+item.image+'" width="100%" height="133.55" class="foodDetailImage" foodId="'+item.id+'">' +
             '<div class="caption">' +
             '<h4 style="font: 16px Microsoft YaHei;font-weight: bold;">'+item.name+'</h4><p style="font: 12px Microsoft YaHei;">总共有'+item.total+'份，剩余'+item.surplus+'份</p><br><h4 style="font: 14px Microsoft YaHei;color:#E5534E;font-weight: bold;margin-top:0;margin-bottom:15px">'+item.price+'元</h4>' +
-            '<p><a href="#" class="btn btn-success" role="button">加入购物车</a></p>' +
+            '<p><a href="#" class="btn btn-success addCart" role="button" foodId="'+item.id+'">加入购物车</a></p>' +
             '</div>' +
             '</div>' +
             '</div>');
@@ -134,5 +134,10 @@ function foodDetailModal(foodId) {
             $("#foodRightDetailModal").append(closeButton).append(foodMenuInfo).append(foodMenuDesc).append(foodNum).append(foodPriceInfo).append(orderButton);
         } 
     });
-
 }
+
+//添加菜品信息到购物车
+$(document).on("click",".addCart",function () {
+
+    layer.msg('亲~该菜品添加到购物车成功~o(∩_∩)o', {icon: 1});
+});

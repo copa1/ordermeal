@@ -200,31 +200,38 @@ $("#registerButton").click(function () {
 
     //空值判断
     if (username.val()==="" || username.val().length===0){
+        layer.msg("亲~用户名不能为空哦~",{icon:"0"});
         userInfoDeal("usernameDiv","has-success","has-error","亲~用户名不能为空哦~");
         return false;
     }
     if (password.val()==="" || password.val().length===0){
+        layer.msg("亲~密码不能为空哦~",{icon:"0"});
         userInfoDeal("passwordDiv","has-success","has-error","亲~密码不能为空哦~");
         return false;
     }
     if (confirmPassword.val()==="" || confirmPassword.val().length===0){
+        layer.msg("亲~确认密码不能为空哦~",{icon:"0"});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~确认密码不能为空哦~");
         return false;
     }
     if (phone.val()==="" || phone.val().length===0){
+        layer.msg("亲~手机号码不能为空哦~",{icon:"0"});
         userInfoDeal("phoneDiv","has-success","has-error","亲~手机号码不能为空哦~");
         return false;
     }
     if (len===0 || len===2){
-        $("#genderLabel").text("就不能告诉我你是MM还是GG吗~");
+        layer.msg("亲~就不能告诉我你是MM还是GG吗~",{icon:"0"});
+        $("#genderLabel").text("亲~就不能告诉我你是MM还是GG吗~");
         return false;
     }
     $("#genderLabel").text("");
     if (email.val()==="" || email.val().length===0){
+        layer.msg("亲~电子邮箱不能为空哦~",{icon:"0"});
         userInfoDeal("emailDiv","has-success","has-error","亲~电子邮箱不能为空哦~");
         return false;
     }
     if (realName.val()==="" || realName.val().length===0){
+        layer.msg("亲~员工姓名不能为空哦~",{icon:"0"});
         userInfoDeal("realNameDiv","has-success","has-error","亲~员工姓名不能为空哦~");
         return false;
     }
@@ -233,18 +240,22 @@ $("#registerButton").click(function () {
     var regEmail=new RegExp("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
     var regRealName=new RegExp("^[\u4E00-\u9FA5]{2,}$");
     if (!regPassword.test(password.val())){
+        layer.msg("亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~",{icon:"0"});
         userInfoDeal("passwordDiv","has-success","has-error","亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~");
         return false;
     }
     if (confirmPassword.val()!==password.val()){
+        layer.msg("亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~",{icon:"0"});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
         return false;
     }
     if (!regEmail.test(email.val())){
+        layer.msg("亲~电子邮箱格式不对哦~请重新输入吧~",{icon:"0"});
         userInfoDeal("emailDiv","has-success","has-error","亲~电子邮箱格式不对哦~请重新输入吧~");
         return false;
     }
     if (!regRealName.test(realName.val())){
+        layer.msg("请输入正确的姓名~",{icon:"0"});
         userInfoDeal("realNameDiv","has-success","has-error","请输入正确的姓名~");
         return false;
     }
@@ -252,18 +263,22 @@ $("#registerButton").click(function () {
     //注册信息重复检验
     //Ajax调用处理
     if (usernameRepeat(username.val())==false){
+        layer.msg("亲~该用户名不可用哦~请换一个用户名吧~",{icon:"0"});
         userInfoDeal("usernameDiv","has-success","has-error","亲~该用户名不可用哦~请换一个用户名吧~");
         return false;
     }
     if (phoneRepeat(phone.val())==false){
+        layer.msg("亲~该手机号码不可用哦~请换一个手机号码吧~",{icon:"0"});
         userInfoDeal("phoneDiv","has-success","has-error","亲~该手机号码不可用哦~请换一个手机号码吧~");
         return false;
     }
     if (emailRepeat(email.val())==false){
+        layer.msg("亲~该电子邮箱不可用哦~请换一个电子邮箱吧~",{icon:"0"});
         userInfoDeal("emailDiv","has-success","has-error","亲~该电子邮箱不可用哦~请换一个电子邮箱吧~");
         return false;
     }
     if (realNameRepeat(realName.val())==false){
+        layer.msg("亲~该员工姓名不可用哦~",{icon:"0"});
         userInfoDeal("realNameDiv","has-success","has-error","亲~该员工姓名不可用哦~");
         return false;
     }
@@ -286,7 +301,7 @@ $("#registerButton").click(function () {
                 if (result=="1")
                 putIn();
             },error:function () {
-                alert("系统错误，有问题尽快和小c联系！");
+                layer.alert("系统错误，有问题尽快和小c联系！",{icon:"2"});
             }
         });
     }
