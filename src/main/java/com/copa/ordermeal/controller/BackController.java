@@ -101,7 +101,7 @@ public class BackController {
     }
 
     /**
-     * 个人中心页面
+     * 购物车页面
      * @return
      */
     @GetMapping("/user/cart")
