@@ -42,4 +42,14 @@ public class FoodServiceImpl implements FoodService{
     public Food findFoodInfoById(Integer id) {
         return foodMapper.selectFoodInfoById(id);
     }
+
+    @Override
+    public void modifySurplusByFoodId(int foodId) {
+        foodMapper.updateSurplusByFoodId(foodId);
+    }
+
+    @Override
+    public void modifySurplusByFoodNumAndFoodId(Integer foodNum,Integer foodId) {
+        foodMapper.updateSurplusByFoodNumAndFoodId(foodNum,foodId);
+    }
 }

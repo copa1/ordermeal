@@ -31,4 +31,24 @@ public interface CartService {
      */
     @Transactional
     void addCartInfo(Cart cart);
+
+    /**
+     * 通过员工id和食品id查询相关购物车信息是否存在
+     * @param cart 购物车
+     * @return
+     */
+    long findCartInfoByEmployeeIdAndFoodId(Cart cart);
+
+    /**
+     * 通过员工id和食品id修改购物车单件菜品数量
+     * @param cart
+     */
+    void modifyFoodNumByEmployeeIdAndFoodId(Cart cart);
+
+    /**
+     * 通过购物车id和员工id查找单菜品购物车
+     * @param id 购物车id
+     * @return
+     */
+    Cart findCartInfoById(Integer id);
 }

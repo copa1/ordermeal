@@ -36,4 +36,19 @@ public class CartServiceImpl implements CartService{
     public void addCartInfo(Cart cart) {
         cartMapper.insertCartInfo(cart);
     }
+
+    @Override
+    public long findCartInfoByEmployeeIdAndFoodId(Cart cart) {
+        return cartMapper.countCartInfoByEmployeeIdAndFoodId(cart);
+    }
+
+    @Override
+    public void modifyFoodNumByEmployeeIdAndFoodId(Cart cart) {
+        cartMapper.updateFoodNumByEmployeeIdAndFoodId(cart);
+    }
+
+    @Override
+    public Cart findCartInfoById(Integer id) {
+        return cartMapper.selectCartInfoByFoodIdAndEmployeeId(id);
+    }
 }

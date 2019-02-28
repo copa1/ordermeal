@@ -30,7 +30,7 @@ $(function () {
                     var foodPrice=$('<td><span style="color:#E5534E;font-weight: bolder;">￥'+item.food.price+'</span> </td>');
                     var foodNum=$('<td style="font-weight: bold;">'+item.foodNum+'</td>');
                     var totalSingleFoodPrice=$('<td><span style="color:#E5534E;font-weight: bolder;">￥'+item.food.price*item.foodNum+'</span></td>');
-                    var deleteBtn=$('<td class="cartRight deleteBtn" style="color: #acaf8b" foodId="'+item.id+'" foodName="'+item.food.name+'"><a href="#">删除</a></td>');
+                    var deleteBtn=$('<td class="cartRight deleteBtn" style="color: #acaf8b" foodData="'+item.foodId+'" foodId="'+item.id+'" foodName="'+item.food.name+'" foodNum="'+item.foodNum+'"><a href="#">删除</a></td>');
                     totalMoney=totalMoney+item.food.price*item.foodNum;
                     $("<tr></tr>").append(foodImage)
                         .append(foodName)
@@ -56,14 +56,15 @@ $(document).on("click",".backSelectFoodMenu",function () {
 $(document).on("click",".deleteBtn",function () {
    // alert($(this).attr("foodId"));
     var foodId=$(this).attr("foodId");
-
+    var foodNum=$(this).attr("foodNum");
+    var foodData=$(this).attr("foodData");
     layer.confirm("您是否要删除菜品名为<"+$(this).attr("foodName")+">的记录吗？", {
         title:"删除菜品警告",icon: 3,btn: ["确定删除","取消"] //按钮
     }, function(index){
         $.ajax({
             url:"/user/deleteCartInfo/"+foodId,
             type:"delete",
-            // data:"foodId="+foodId,
+            data:{"foodNum":foodNum,"foodData":foodData},
             success:function (result) {
                 if (result.extend.errorCode==="403"){
                     alert("您尚未登录！请先登录！");

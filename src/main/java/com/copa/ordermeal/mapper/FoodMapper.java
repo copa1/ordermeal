@@ -4,6 +4,7 @@ import com.copa.ordermeal.model.Food;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,4 +31,10 @@ public interface FoodMapper {
 
     @Select("SELECT * FROM food WHERE id=#{i}")
     Food selectFoodInfoById(@Param("i") Integer id);
+
+    @Update("UPDATE food SET surplus=surplus-1 WHERE id=#{f}")
+    void updateSurplusByFoodId(@Param("f") int foodId);
+
+    @Update("UPDATE food SET surplus=surplus+#{n} WHERE id=#{i}")
+    void updateSurplusByFoodNumAndFoodId(@Param("n") Integer foodNum,@Param("i") Integer foodId);
 }

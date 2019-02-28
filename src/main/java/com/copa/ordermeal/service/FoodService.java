@@ -40,4 +40,17 @@ public interface FoodService {
      * @return
      */
     Food findFoodInfoById(Integer id);
+
+    /**
+     * 根据菜品id修改菜品剩余量的值
+     * @param foodId
+     */
+    void modifySurplusByFoodId(int foodId);
+
+    /**
+     * 根据购物车的单菜品数量和菜品id来修改该菜品剩余量
+     * @param foodNum 购物车单菜品数量
+     * @param foodId 菜品id
+     */
+    void modifySurplusByFoodNumAndFoodId(Integer foodNum,Integer foodId);
 }

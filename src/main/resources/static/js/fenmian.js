@@ -24,7 +24,7 @@ function build_food_list(result){
             '<div class="thumbnail text-center" style="width:213.33px;">' +
             '<img src="'+item.image+'" width="100%" height="133.55" class="foodDetailImage" foodId="'+item.id+'">' +
             '<div class="caption">' +
-            '<h4 style="font: 16px Microsoft YaHei;font-weight: bold;">'+item.name+'</h4><p style="font: 12px Microsoft YaHei;">总共有'+item.total+'份，剩余'+item.surplus+'份</p><br><h4 style="font: 14px Microsoft YaHei;color:#E5534E;font-weight: bold;margin-top:0;margin-bottom:15px">'+item.price+'元</h4>' +
+            '<h4 style="font: 16px Microsoft YaHei;font-weight: bold;">'+item.name+'</h4><p style="font: 12px Microsoft YaHei;" id="foodNum'+item.id+'">总共有'+item.total+'份，剩余'+item.surplus+'份</p><br><h4 style="font: 14px Microsoft YaHei;color:#E5534E;font-weight: bold;margin-top:0;margin-bottom:15px">'+item.price+'元</h4>' +
             '<p><a href="#" class="btn btn-success addCart" role="button" foodId="'+item.id+'">加入购物车</a></p>' +
             '</div>' +
             '</div>' +
@@ -113,7 +113,7 @@ function foodDetailModal(foodId) {
                 '    margin-top: 32px;\n' +
                 '    width: 390px;\n' +
                 '    line-height: 24px;">'+result.extend.food.desc+'</div>');
-            var foodNum=$('<div style="word-wrap: break-word;font-weight: bolder;\n' +
+            var foodNum=$('<div id="foodNum'+result.extend.food.id+'" style="word-wrap: break-word;font-weight: bolder;\n' +
                 '    \n' +
                 '    \n' +
                 '   ">总共有'+result.extend.food.total+'份，剩余'+result.extend.food.surplus+'份</div>');
@@ -144,12 +144,16 @@ $(document).on("click",".addCart",function () {
         url:"/user/addCartInfo",
         type:"post",
         data:"foodId="+foodId,
+        async: false,//同步加载（必须加），不然就直接加两条记录！这里坑了我很久！
         success:function (result) {
             if (result.extend.errorCode==="403"){
                 alert("您尚未登录！请先登录！");
                 window.location.href="http://localhost/user/login";
-            }else {
+            }else if (result.code==="200"){
+                layer.msg('亲~该菜品已卖完或没有上架哦~挑其他菜品试试吧', {icon: 5});
+            } else {
                 layer.msg('亲~该菜品添加到购物车成功~o(∩_∩)o', {icon: 1});
+                $("#foodNum"+result.extend.foodId).empty().append("总共有"+result.extend.total+"份，剩余"+result.extend.surplus+"份");
             }
         },
         error:function () {
