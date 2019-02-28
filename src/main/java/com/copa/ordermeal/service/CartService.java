@@ -16,4 +16,11 @@ public interface CartService {
      * @return 该员工购物车集合
      */
     List<Cart> findCartListByEmployeeId(Integer employeeId);
+
+    /**
+     * 通过菜品id和员工id来删除对应的购物车记录
+     * @param foodId 食品id
+     * @param employeeId 员工id
+     */
+    void removeCartInfoByFoodIdAndEmployeeId(Integer foodId, Integer employeeId);
 }

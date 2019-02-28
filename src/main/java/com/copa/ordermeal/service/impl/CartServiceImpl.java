@@ -1,5 +1,6 @@
 package com.copa.ordermeal.service.impl;
 
+import com.copa.ordermeal.mapper.CartMapper;
 import com.copa.ordermeal.model.Cart;
 import com.copa.ordermeal.repository.CartRepository;
 import com.copa.ordermeal.service.CartService;
@@ -18,8 +19,16 @@ public class CartServiceImpl implements CartService{
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private CartMapper cartMapper;
+
     @Override
     public List<Cart> findCartListByEmployeeId(Integer employeeId) {
         return cartRepository.selectCartListByEmployeeId(employeeId);
+    }
+
+    @Override
+    public void removeCartInfoByFoodIdAndEmployeeId(Integer foodId, Integer employeeId) {
+        cartMapper.deleteCartInfoByFoodIdAndEmployeeId(foodId,employeeId);
     }
 }
