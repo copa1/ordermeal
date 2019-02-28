@@ -32,6 +32,11 @@ public class CartController {
      */
     @GetMapping("/user/getUserCartInfo")
     public Msg getUserCartInfo(@AuthenticationPrincipal Principal principal){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
         Employee employee=employeeService.findEmployeeInfoByUsername(principal.getName());
         Integer employeeId=employee.getId();
         List<Cart> carts=cartService.findCartListByEmployeeId(employeeId);
@@ -49,9 +54,34 @@ public class CartController {
      */
     @DeleteMapping("/user/deleteCartInfo/{foodId}")
     public Msg deleteCartInfoByFoodIdAndEmployeeId(@PathVariable("foodId") Integer foodId, @AuthenticationPrincipal Principal principal){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
         Employee employee=employeeService.findEmployeeInfoByUsername(principal.getName());
         Integer employeeId=employee.getId();
         cartService.removeCartInfoByFoodIdAndEmployeeId(foodId,employeeId);
+        return Msg.success();
+    }
+
+    /**
+     * 添加购物车信息
+     * @param cart 购物车
+     * @param principal
+     * @return
+     */
+    @PostMapping("/user/addCartInfo")
+    public Msg addCartInfo(Cart cart,@AuthenticationPrincipal Principal principal){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Employee employee=employeeService.findEmployeeInfoByUsername(principal.getName());
+        Integer employeeId=employee.getId();
+        cart.setEmployeeId(employeeId);
+        cartService.addCartInfo(cart);
         return Msg.success();
     }
 }

@@ -31,4 +31,9 @@ public class CartServiceImpl implements CartService{
     public void removeCartInfoByFoodIdAndEmployeeId(Integer foodId, Integer employeeId) {
         cartMapper.deleteCartInfoByFoodIdAndEmployeeId(foodId,employeeId);
     }
+
+    @Override
+    public void addCartInfo(Cart cart) {
+        cartMapper.insertCartInfo(cart);
+    }
 }

@@ -5,9 +5,13 @@ $(function () {
         url:"/user/getUserCartInfo",
         type:"get",
         success:function (result) {
-            console.log(result);
+            // console.log(result);
+            if (result.extend.errorCode==="403"){
+                alert("您尚未登录！请先登录！");
+                window.location.href="http://localhost/user/login";
+            }
             //该用户购物车没有菜品时
-            if (result.extend.errorCode=="600"){
+            else if (result.extend.errorCode==="600"){
                 $("#cartTable").empty();
                 var div=$('<div class="row">\n' +
                     '        <div class="col-md-12"><h2>我的购物车</h2></div>\n' +
@@ -60,9 +64,14 @@ $(document).on("click",".deleteBtn",function () {
             url:"/user/deleteCartInfo/"+foodId,
             type:"delete",
             // data:"foodId="+foodId,
-            success:function () {
-                alert("删除成功！");
-                window.location.href="http://localhost/user/cart";
+            success:function (result) {
+                if (result.extend.errorCode==="403"){
+                    alert("您尚未登录！请先登录！");
+                    window.location.href="http://localhost/user/login";
+                }else {
+                    alert("删除成功！");
+                    window.location.href = "http://localhost/user/cart";
+                }
             },
             error:function () {
                 layer.msg('删除错误！有事请与小c联系！', {icon: 2});

@@ -25,7 +25,7 @@ function build_food_list(result){
             '<img src="'+item.image+'" width="100%" height="133.55" class="foodDetailImage" foodId="'+item.id+'">' +
             '<div class="caption">' +
             '<h4 style="font: 16px Microsoft YaHei;font-weight: bold;">'+item.name+'</h4><p style="font: 12px Microsoft YaHei;">总共有'+item.total+'份，剩余'+item.surplus+'份</p><br><h4 style="font: 14px Microsoft YaHei;color:#E5534E;font-weight: bold;margin-top:0;margin-bottom:15px">'+item.price+'元</h4>' +
-            '<p><a href="#" class="btn btn-success" role="button">加入购物车</a></p>' +
+            '<p><a href="#" class="btn btn-success addCart" role="button" foodId="'+item.id+'">加入购物车</a></p>' +
             '</div>' +
             '</div>' +
             '</div>');
@@ -96,14 +96,14 @@ $(document).on("click",".foodDetailImage",function () {
     });
 });
 
-//构建视频详情模态框
+//构建菜品详情模态框
 function foodDetailModal(foodId) {
     $.ajax({
         url:"/user/getFoodInfoById",
         type:"get",
         data:"id="+foodId,
         success:function (result) {
-            console.log(result);
+            // console.log(result);
             var foodImage=$('<image src="'+result.extend.food.image+'" width="400" height="262.74">');
             $("#foodImageModal").append(foodImage);
             var closeButton=$('<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-right:10px;margin-top:-25px"><span aria-hidden="true">&times;</span></button>');
@@ -119,7 +119,7 @@ function foodDetailModal(foodId) {
                 '   ">总共有'+result.extend.food.total+'份，剩余'+result.extend.food.surplus+'份</div>');
             var foodPriceInfo=$('<div class="price-info" style="padding-top:56px;font-size: 24px;color: #e55748;\n' +
                 '    clear: both;"><span class="price pricetag">'+result.extend.food.price+'元</span></div>');
-            var orderButton=$('<div style="margin-top: 20px;\n' +
+            var orderButton=$('<div class="addCart" data-dismiss="modal" foodId="'+result.extend.food.id+'" style="margin-top: 20px;\n' +
                 '    width: 160px;\n' +
                 '    height: 44px;\n' +
                 '    line-height: 44px;\n' +
@@ -135,5 +135,27 @@ function foodDetailModal(foodId) {
             $("#foodRightDetailModal").append(closeButton).append(foodMenuInfo).append(foodMenuDesc).append(foodNum).append(foodPriceInfo).append(orderButton);
         }
     });
-
 }
+
+//添加菜品信息到购物车
+$(document).on("click",".addCart",function () {
+    var foodId=$(this).attr("foodId");
+    $.ajax({
+        url:"/user/addCartInfo",
+        type:"post",
+        data:"foodId="+foodId,
+        success:function (result) {
+            if (result.extend.errorCode==="403"){
+                alert("您尚未登录！请先登录！");
+                window.location.href="http://localhost/user/login";
+            }else {
+                layer.msg('亲~该菜品添加到购物车成功~o(∩_∩)o', {icon: 1});
+            }
+        },
+        error:function () {
+            layer.msg('添加失败！', {icon: 2});
+        }
+    });
+
+});
+

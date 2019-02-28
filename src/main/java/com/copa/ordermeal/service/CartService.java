@@ -1,6 +1,7 @@
 package com.copa.ordermeal.service;
 
 import com.copa.ordermeal.model.Cart;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,4 +24,11 @@ public interface CartService {
      * @param employeeId 员工id
      */
     void removeCartInfoByFoodIdAndEmployeeId(Integer foodId, Integer employeeId);
+
+    /**
+     * 添加一条购物车记录
+     * @param cart 购物车
+     */
+    @Transactional
+    void addCartInfo(Cart cart);
 }
