@@ -52,6 +52,11 @@ $(document).on("click",".backSelectFoodMenu",function () {
     window.location.href="http://localhost/user/rice";
 });
 
+//核对订单按钮
+$(document).on("click","#toConfirmOrder",function () {
+    window.location.href="http://localhost/user/orderConfirm";
+});
+
 //删除购物车按钮
 $(document).on("click",".deleteBtn",function () {
    // alert($(this).attr("foodId"));

@@ -23,7 +23,7 @@
                 <h4 class="modal-title">订单确认</h4>
             </div>
             <div class="modal-body">
-                <div class="container">
+                <div class="container" id="confirmModalContainer">
                     <!--菜品信息-->
                     <div class="row">
                         <div class="col-md-7" style="background-color: #f2ffff">菜品信息</div>
@@ -31,12 +31,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-bordered" border="0" style="width: 800px;font-size: 12px" id="foodModal">
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td class="moneyTd">￥8</td>
-                                </tr>
+                                <tbody id="modalTbody"></tbody>
                             </table>
                         </div>
                     </div>
@@ -46,7 +41,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12" style="margin-top:6px;font-size: 12px">
-                           地址：公司三楼
+                            地址：<span id="addressModal"></span>
                         </div>
                     </div>
                     <!--支付及结算信息-->
@@ -56,10 +51,10 @@
                     </div>
                     <div class="row" style="margin-top:6px;font-size: 12px">
                         <div class="col-md-5">
-                            支付方式：工资支付
+                            支付方式：<span id="payMethodModal"></span>
                         </div>
                         <div class="col-md-5">
-                            支付总额：20元
+                            支付总额：<span id="totalMoneyModal" style="font-weight: bolder"></span>元
                         </div>
                     </div>
                 </div>
@@ -88,8 +83,9 @@
             <form class="form-horizontal">
                 <div class="form-group">
                     <label class="col-sm-1 control-label" style="text-align: left;width: auto">收餐地址：</label>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" id="addressDiv">
                         <input type="email" class="form-control" id="address" placeholder="收餐地址">
+                        <span id="helpBlockAddress" class="help-block"></span>
                     </div>
                 </div>
             </form>
@@ -109,13 +105,7 @@
                     <th>金额</th>
                 </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td class="moneyTd">￥8</td>
-                    </tr>
+                <tbody id="confirmOrderTbody">
                 </tbody>
             </table>
         </div>
@@ -127,11 +117,12 @@
             <form class="form-horizontal">
                 <div class="form-group" style="margin-left:1px">
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"> 余额支付
+                        <input type="radio" name="payMethod" id="accountPay" value="1"> 余额支付
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2"> 工资支付
+                        <input type="radio" name="payMethod" id="salaryPay" value="2"> 工资支付
                     </label>
+                    <!--<span id="helpBlockPayMethod" class="help-block"></span>-->
                 </div>
             </form>
         </div>
@@ -140,14 +131,14 @@
 <!--计算总价格-->
     <div class="row">
         <div class="col-md-12 text-right">
-            <div class="col-md-12 text-right col-sm-3">价格总计：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;">￥20</span></div>
+            <div class="col-md-12 text-right col-sm-3">价格总计：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;" id="totalMoney"></span></div>
         </div>
     </div>
 
 <!--确认订单按钮及其总价-->
     <div class="row" style="margin-top:10px">
         <div class="col-md-12 text-right">
-            <a href="#">返回购物车</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#" id="toCartPage">返回购物车</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="btn btn-danger" type="button" id="confirmOrderButton">确认订单</button>
         </div>
     </div>
