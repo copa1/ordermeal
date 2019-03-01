@@ -108,4 +108,13 @@ public class BackController {
     public String userCartPage(){
         return "users/cart";
     }
+
+    /**
+     * 订单确认页面
+     * @return
+     */
+    @GetMapping("/user/orderConfirm")
+    public String userOrderPage(){
+        return "users/orderConfirm";
+    }
 }

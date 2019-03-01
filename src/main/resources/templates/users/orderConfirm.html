@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/css/userIndex.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/css/orderConfirm.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>订单确认</title>
+</head>
+<body>
+<!--确认订单模态框-->
+<div class="modal fade" id="confirmOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 840px;height: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">订单确认</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <!--菜品信息-->
+                    <div class="row">
+                        <div class="col-md-7" style="background-color: #f2ffff">菜品信息</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" border="0" style="width: 800px;font-size: 12px" id="foodModal">
+                                <tr>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td class="moneyTd">￥8</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--员工地址信息-->
+                    <div class="row">
+                        <div class="col-md-7" style="background-color: #f2ffff">员工地址信息</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top:6px;font-size: 12px">
+                           地址：公司三楼
+                        </div>
+                    </div>
+                    <!--支付及结算信息-->
+                    <br>
+                    <div class="row">
+                        <div class="col-md-7" style="background-color: #f2ffff;margin-top:9px">支付及结算信息</div>
+                    </div>
+                    <div class="row" style="margin-top:6px;font-size: 12px">
+                        <div class="col-md-5">
+                            支付方式：工资支付
+                        </div>
+                        <div class="col-md-5">
+                            支付总额：20元
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--按钮-->
+            <div class="modal-footer" style="text-align: center">
+                <button type="button" class="btn btn-primary">确定订单，马上支付</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--头部-->
+<nav th:replace="publicPage/userIndex_bar::headerBar"></nav>
+
+<!--订单确认内容-->
+<div class="container" id="orderConfirmTable">
+    <div class="row">
+        <div class="col-md-12"><h2>确认订单</h2></div>
+    </div>
+    <br>
+<!--填写收货地址-->
+    <div class="row">
+        <div class="col-md-12">
+            <h4>填写收餐地址</h4><hr>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label" style="text-align: left;width: auto">收餐地址：</label>
+                    <div class="col-sm-6">
+                        <input type="email" class="form-control" id="address" placeholder="收餐地址">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<br>
+<!--确认商品信息-->
+    <div class="row">
+        <div class="col-md-12">
+            <h4>确认商品信息</h4>
+            <table class="table table-bordered" id="foodListTable">
+                <thead>
+                <tr>
+                    <th>菜品名</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td class="moneyTd">￥8</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!--支付方式-->
+    <div class="row">
+        <div class="col-md-12">
+            <h4>选择支付方式</h4><hr>
+            <form class="form-horizontal">
+                <div class="form-group" style="margin-left:1px">
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1"> 余额支付
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2"> 工资支付
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <hr>
+<!--计算总价格-->
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <div class="col-md-12 text-right col-sm-3">价格总计：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;">￥20</span></div>
+        </div>
+    </div>
+
+<!--确认订单按钮及其总价-->
+    <div class="row" style="margin-top:10px">
+        <div class="col-md-12 text-right">
+            <a href="#">返回购物车</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-danger" type="button" id="confirmOrderButton">确认订单</button>
+        </div>
+    </div>
+</div>
+<!--尾部-->
+<footer th:replace="publicPage/userIndex_bar::footerBar"></footer>
+<script type="text/javascript" th:src="@{/js/userIndex.js}"></script>
+<script type="text/javascript" th:src="@{/js/userPublicBar.js}"></script>
+<script type="text/javascript" th:src="@{/js/orderConfirm.js}"></script>
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+</body>
+</html>

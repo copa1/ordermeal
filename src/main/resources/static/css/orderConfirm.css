@@ -1,0 +1,44 @@
+#orderConfirmTable{
+    margin-top: 80px;
+}
+
+#foodListTable>tbody>tr>td, #foodListTable>tbody>tr>th, #foodListTable>tfoot>tr>td, #foodListTable>tfoot>tr>th, #foodListTable>thead>tr>td, #foodListTable>thead>tr>th {
+    border: 0;
+    border-top: 1px solid #ddd;
+}
+
+.moneyTd{
+    font-weight: bolder;
+}
+
+#foodModal{
+   border-color: white;
+}
+
+#foodModal>tbody>tr>td {
+    border: 0;
+    border-top: 0;
+}
+
+/*
+.table-bordered>thead>tr>th,.table-bordered{
+    border: 0;
+}
+
+.table-bordered>tbody>tr>.cartLeft{
+    border-left: 1px solid #ddd;
+}
+
+.table-bordered>tbody>tr>.cartRight{
+    border-right: 1px solid #ddd;
+}
+
+.table-bordered>tbody>tr>td {
+    border:0;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
+.table>tbody>tr>td{
+    vertical-align: middle;
+}*/
