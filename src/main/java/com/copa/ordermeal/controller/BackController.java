@@ -114,7 +114,16 @@ public class BackController {
      * @return
      */
     @GetMapping("/user/orderConfirm")
-    public String userOrderPage(){
+    public String userOrderConfirmPage(){
         return "users/orderConfirm";
+    }
+
+    /**
+     * 订单页面
+     * @return
+     */
+    @GetMapping("/user/order")
+    public String userOrderPage(){
+        return "users/order";
     }
 }
