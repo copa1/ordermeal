@@ -16,6 +16,8 @@ public class Meal {
 
     /**
      * 配送员Id
+     * 0-无送餐员
+     * >1-有送餐员
      */
     private int employeeId;
 
@@ -25,7 +27,12 @@ public class Meal {
     private int orderId;
 
     /**
-     * 订单配送状态 0-未配送 1-配送中 2-已送达 3-配送失败
+     * 订单配送状态
+     * 0-未配送
+     * 1-配送中
+     * 2-已送达（针对工资支付员工未付款）
+     * 3-已送达并付款
+     * 4-配送失败（非工资支付员工没有2状态）
      */
     private int status;
 }
