@@ -51,4 +51,10 @@ public interface CartService {
      * @return
      */
     Cart findCartInfoById(Integer id);
+
+    /**
+     * 通过员工id来删除对应的购物车记录
+     * @param employeeId 员工id
+     */
+    void removeCartByEmployeeId(Integer employeeId);
 }

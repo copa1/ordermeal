@@ -26,4 +26,7 @@ public interface CartMapper {
 
     @Select("SELECT * FROM cart WHERE id=#{f}")
     Cart selectCartInfoByFoodIdAndEmployeeId(@Param("f") Integer id);
+
+    @Delete("DELETE FROM cart WHERE employeeId=#{e}")
+    void deleteCartInfoByEmployeeId(@Param("e") Integer employeeId);
 }

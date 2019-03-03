@@ -29,4 +29,9 @@ public class OrderDetail {
      */
     private double price;
 
+    /**
+     * 订单id
+     */
+    private int orderId;
+
 }

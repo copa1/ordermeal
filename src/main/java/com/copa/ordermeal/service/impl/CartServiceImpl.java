@@ -51,4 +51,9 @@ public class CartServiceImpl implements CartService{
     public Cart findCartInfoById(Integer id) {
         return cartMapper.selectCartInfoByFoodIdAndEmployeeId(id);
     }
+
+    @Override
+    public void removeCartByEmployeeId(Integer employeeId) {
+        cartMapper.deleteCartInfoByEmployeeId(employeeId);
+    }
 }

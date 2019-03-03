@@ -111,6 +111,7 @@ $(function () {
                         .appendTo("#confirmOrderTbody");
                 });
                 $("#totalMoney").append("￥"+totalMoney);
+
             }
         }
     });
@@ -152,3 +153,55 @@ function userInfoDeal(ele,removeClass,addClass,msg) {
     $("#"+ele+" span").text(msg);
     $("#"+ele).removeClass(removeClass);
 }
+
+//确认订单按钮
+$("#toOrderPage").click(function () {
+    $.ajax({
+        url:"/user/createOrder",
+        type:"post",
+        data:{sumPrice:totalMoney,address:$("#address").val(),payment:$("input[name='payMethod']:checked").val()},
+        success:function (result) {
+            if (result.extend.errorPage==="403"){
+                alert("您尚未登录！请先登录！");
+                window.location.href = "http://localhost/user/login";
+            }else if (result.extend.errorPage==="700"){
+                layer.alert("亲~您的余额不足~不能支付此订单哦~",{icon:2,title:"支付信息"});
+            }else {
+                $.ajax({
+                    url: "/user/createOrderDetail",
+                    type: "post",
+                    success: function (result) {
+                        if (result.extend.errorPage==="403"){
+                            alert("您尚未登录！请先登录！");
+                            window.location.href = "http://localhost/user/login";
+                        }else {
+                            $.ajax({
+                                url: "/user/createMeal",
+                                type: "post",
+                                success: function (result) {
+                                    if (result.extend.errorPage==="403"){
+                                        alert("您尚未登录！请先登录！");
+                                        window.location.href = "http://localhost/user/login";
+                                    }else {
+                                        $.ajax({
+                                            url: "/user/deleteCart",
+                                            type: "delete",
+                                            success: function (result) {
+                                                if (result.extend.errorPage==="403"){
+                                                    alert("您尚未登录！请先登录！");
+                                                    window.location.href = "http://localhost/user/login";
+                                                }else {
+                                                    window.location.href="/user/order";
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+        }
+    })
+});

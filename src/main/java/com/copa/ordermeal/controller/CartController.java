@@ -111,4 +111,21 @@ public class CartController {
             }
         }
     }
+
+    /**
+     * 通过员工id来删除对应的购物车记录
+     * @param principal
+     * @return
+     */
+    @DeleteMapping("/user/deleteCart")
+    public Msg deleteCartByEmployeeId(@AuthenticationPrincipal Principal principal){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Employee employee = employeeService.findEmployeeInfoByUsername(principal.getName());
+        cartService.removeCartByEmployeeId(employee.getId());
+        return Msg.success();
+    }
 }
