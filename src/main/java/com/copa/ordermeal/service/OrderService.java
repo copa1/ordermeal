@@ -4,6 +4,8 @@ import com.copa.ordermeal.model.Order;
 import com.copa.ordermeal.model.OrderDetail;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  *  3.3
  *  order表和order_detail表业务接口
@@ -29,4 +31,11 @@ public interface OrderService {
      */
     @Transactional
     void addOrderDetail(OrderDetail orderDetail);
+
+    /**
+     * 通过订单id查出该用户的订单详细列表
+     * @param orderId 订单id
+     * @return
+     */
+    List<OrderDetail> findOrderDetailByOrderId(Integer orderId);
 }

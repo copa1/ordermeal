@@ -3,9 +3,12 @@ package com.copa.ordermeal.service.impl;
 import com.copa.ordermeal.mapper.OrderMapper;
 import com.copa.ordermeal.model.Order;
 import com.copa.ordermeal.model.OrderDetail;
+import com.copa.ordermeal.repository.OrderRepository;
 import com.copa.ordermeal.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 3.3
@@ -16,6 +19,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Override
     public void addOrder(Order order) {
@@ -31,4 +37,10 @@ public class OrderServiceImpl implements OrderService{
     public void addOrderDetail(OrderDetail orderDetail) {
         orderMapper.insertOrderDetail(orderDetail);
     }
+
+    @Override
+    public List<OrderDetail> findOrderDetailByOrderId(Integer orderId) {
+        return orderRepository.selectOrderDetailByOrderId(orderId);
+    }
+
 }

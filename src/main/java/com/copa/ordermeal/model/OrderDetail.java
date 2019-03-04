@@ -34,4 +34,9 @@ public class OrderDetail {
      */
     private int orderId;
 
+    /**
+     * 菜品
+     */
+    private Food food;
+
 }

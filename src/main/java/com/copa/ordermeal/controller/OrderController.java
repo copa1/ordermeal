@@ -31,7 +31,7 @@ public class OrderController {
     private EmployeeService employeeService;
 
     /**
-     * 创建订单（两张表）
+     * 创建订单总表
      * @return
      */
     @PostMapping("/user/createOrder")
@@ -90,5 +90,24 @@ public class OrderController {
         }
 
         return Msg.success();
+    }
+
+    /**
+     * 得到订单
+     * @param principal
+     * @return
+     */
+    @GetMapping("/user/getOrder")
+    public Msg getOrderInfo(@AuthenticationPrincipal Principal principal){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Employee employee = employeeService.findEmployeeInfoByUsername(principal.getName());
+        Order order = orderService.findByEmployId(employee.getId());
+        List<OrderDetail> orderDetail = orderService.findOrderDetailByOrderId(order.getId());
+        return Msg.success().add("order",orderDetail).add("orderId",order.getId());
+
     }
 }

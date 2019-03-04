@@ -191,7 +191,7 @@ $("#toOrderPage").click(function () {
                                                     alert("您尚未登录！请先登录！");
                                                     window.location.href = "http://localhost/user/login";
                                                 }else {
-                                                    window.location.href="/user/order";
+                                                    window.location.href = "http://localhost/user/order";
                                                 }
                                             }
                                         })
@@ -201,7 +201,10 @@ $("#toOrderPage").click(function () {
                         }
                     }
                 })
+                
+
             }
         }
     })
 });
+
