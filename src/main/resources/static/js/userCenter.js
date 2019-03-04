@@ -225,6 +225,7 @@ function usernameRepeat(val) {
     }
 }
 
+// 邮箱重复
 function emailRepeat(val) {
     var emailResult =false;
     if (email.val()!=="" && email.val().length!==0){
@@ -363,6 +364,12 @@ $("#updateUserPasswordButton").click(function () {
             }
         });
     }
+});
+
+$("#checkOrder").click(function () {
+    $("#checkOrderModal").modal({
+        backdrop: "static"
+    });
 });
 
 //点入输入框处理
