@@ -35,4 +35,14 @@ public class Meal {
      * 4-配送失败（非工资支付员工没有2状态）
      */
     private int status;
+
+    /**
+     * 订单
+     */
+    private Order order;
+
+    /**
+     * 配送员
+     */
+    private Employee employee;
 }

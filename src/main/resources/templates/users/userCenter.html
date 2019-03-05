@@ -162,24 +162,14 @@
                             <th>查看</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>bb</td>
-                            <td>bb</td>
-                            <td>bb</td>
-                            <td>bb</td>
-                            <td><button type="button" class="btn btn-info" id="checkOrder">查看订单</button></td>
-                        </tr>
-                        <tr>
-                            <td>bb</td>
-                            <td>bb</td>
-                            <td>bb</td>
-                            <td>bb</td>
-                            <td><button type="button" class="btn btn-info">查看订单</button></td>
-                        </tr>
+                        <tbody id="orderTbody">
+
                         </tbody>
                     </table>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center" id="order_setPage"></div>
                 </div>
             </div>
         </div>
@@ -252,9 +242,9 @@
                 </div>
             </div>
             <!--按钮-->
-            <div class="modal-footer" style="text-align: center">
-                <button type="button" class="btn btn-primary" id="toOrderPage">确定订单，马上支付</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <div class="modal-footer" style="text-align: center" id="buttonModal">
+                <!--<button type="button" class="btn btn-primary" id="toOrderPage">确定订单，马上支付</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
             </div>
         </div>
     </div>

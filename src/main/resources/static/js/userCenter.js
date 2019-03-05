@@ -7,7 +7,7 @@ $(".clickLi").click(function () {
     // alert($(this).attr("class").substring(8));
     var name=$(this).attr("class").substring(8);
     clearContent();
-    $("#"+name).css("display","block");
+    $("#" + name).css("display", "block");
 });
 
 //清除右边内容
@@ -20,7 +20,7 @@ function displayUserCenter() {
     $("#userSecurity-page,#userOrder-page").css("display","none");
 }
 
-//获取员工信息
+//获取员工信息和订单信息
 $(function () {
     $.ajax({
         url:"/user/getEmployeeInfo",
@@ -44,9 +44,10 @@ $(function () {
                 $("#gender_woman").attr("checked","checked");
             }
             $("#email").val(email);
-            $("#realNameP").append(realName);;
+            $("#realNameP").append(realName);
         }
-    })
+    });
+    to_page(1);
 });
 
 // 更换头像
@@ -366,11 +367,7 @@ $("#updateUserPasswordButton").click(function () {
     }
 });
 
-$("#checkOrder").click(function () {
-    $("#checkOrderModal").modal({
-        backdrop: "static"
-    });
-});
+
 
 //点入输入框处理
 function removeMessage(spanEle,divEle) {
@@ -384,3 +381,233 @@ function userInfoDeal(ele,removeClass,addClass,msg) {
     $("#"+ele+" span").text(msg);
     $("#"+ele).removeClass(removeClass);
 }
+
+// 转订单页面
+function to_page(pn) {
+    $.ajax({
+        url:"/user/getOrderAndMeal",
+        data:"pn="+pn,
+        type:"get",
+        success:function (result) {
+            build_order_list(result);
+            build_orderPage_nav(result);
+        }
+    })
+}
+
+// 订单列表
+function build_order_list(result){
+    $("#orderTbody").empty();
+    var list=result.extend.meal.list;
+    $.each(list,function (index,item) {
+        var orderId= $('<td>' + item.orderId+ '</td>');
+        var sumPrice = $('<td>' + item.order.sumPrice + '</td>');
+
+        if (item.status===0){
+            var mealStatus = $('<td>未配送</td>');
+        }
+        else if (item.status===1){
+            var mealStatus = $('<td>配送中</td>');
+        }
+        else if (item.status===2||item.status===3){
+            var mealStatus = $('<td>已送达</td>');
+        }
+        else {
+            var mealStatus = $('<td>配送失败</td>');
+        }
+
+        if(item.order.status===0){
+            var orderStatus=$(' <td>未支付</td>');
+        }
+        else if(item.order.status===1){
+            var orderStatus=$(' <td>已支付</td>');
+        }
+        else if(item.order.status===2){
+            var orderStatus=$(' <td>取消订单</td>');
+        }
+        else if(item.order.status===3){
+            var orderStatus=$(' <td>已确认收餐</td>');
+        }
+        else {
+            var orderStatus=$(' <td>订单被取消</td>');
+        }
+        var checkButton = $('<td><button type="button" class="btn btn-info checkOrder" order-id="'+item.orderId+'">查看订单</button></td>');
+        $("<tr></tr>").append(orderId)
+            .append(sumPrice)
+            .append(mealStatus)
+            .append(orderStatus)
+            .append(checkButton)
+            .appendTo("#orderTbody");
+    });
+}
+
+// 订单设置页
+function build_orderPage_nav(result){
+    $("#order_setPage").empty();
+    var ul=$("<ul></ul>").addClass("pagination");
+
+    var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+    var prePageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+    if(result.extend.meal.hasPreviousPage==false){
+        firstPageLi.addClass("disabled");
+        prePageLi.addClass("disabled");
+    }else {
+        firstPageLi.click(function () {
+            to_page(1);
+        });
+        prePageLi.click(function () {
+            to_page(result.extend.meal.pageNum-1);
+        });
+    }
+    var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+    var lastPageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+    if(result.extend.meal.hasNextPage==false){
+        nextPageLi.addClass("disabled");
+        lastPageLi.addClass("disabled");
+    }else {
+        nextPageLi.click(function () {
+            to_page(result.extend.meal.pageNum+1);
+        });
+        lastPageLi.click(function () {
+            to_page(result.extend.meal.pages);
+        });
+    }
+    ul.append(firstPageLi).append(prePageLi);
+    $.each(result.extend.meal.navigatepageNums,function (index,item) {
+
+        var numLi=$("<li></li>").append($("<a></a>").append(item));
+        if(result.extend.meal.pageNum==item){
+            numLi.addClass("active");
+        }
+        numLi.click(function () {
+            to_page(item);
+        });
+        ul.append(numLi);
+    });
+    ul.append(nextPageLi).append(lastPageLi);
+
+    var navEle=$("<nav></nav>").append(ul);
+    navEle.appendTo("#order_setPage");
+}
+
+/*$("#checkOrder").click(function () {
+    $("#checkOrderModal").modal({
+        backdrop: "static"
+    });
+});*/
+//点击查看订单详情按钮
+$(document).on("click",".checkOrder",function () {
+    var orderId=$(this).attr("order-id");
+    $("#modalTbody").empty();
+    $("#addressModal").empty();
+    $("#payMethodModal").empty();
+    $("#totalMoneyModal").empty();
+    $("#mealSpan").empty();
+    $("#mealPeopleSpan").empty();
+    $("#mealPeoplePhoneSpan").empty();
+    $("#orderSpan").empty();
+    $.ajax({
+        url:"/user/getOrderAndOrderDetail",
+        type:"get",
+        data:"orderId="+orderId,
+        success:function (result) {
+            // console.log(result);
+            var list=result.extend.order;
+            //菜品信息
+            $.each(list,function (index,item) {
+                var foodName = $('<td>' + item.food.name + '</td>');
+                var foodPrice = $('<td>￥' + item.food.price/item.foodNum + '</td>');
+                var foodNum = $('<td>' + item.foodNum + '</td>');
+                var totalSingleFoodPrice = $('<td class="moneyTd" style="font-weight: bolder">￥' + item.food.price + '</span></td>');
+                // totalMoney=totalMoney+item.food.price*item.foodNum;
+                $("<tr></tr>").append(foodName)
+                    .append(foodPrice)
+                    .append(foodNum)
+                    .append(totalSingleFoodPrice)
+                    .appendTo("#modalTbody");
+            });
+
+        }
+    });
+    $.ajax({
+        url:"/user/getOrderInfo",
+        type:"get",
+        data:"orderId="+orderId,
+        success:function (result) {
+            // console.log(result);
+            $("#addressModal").append(result.extend.order.address);
+            if (result.extend.order.payment===1){
+                $("#payMethodModal").append("余额支付");
+            }
+            else if (result.extend.order.payment===2){
+                $("#payMethodModal").append("工资支付");
+            }
+            $("#totalMoneyModal").append(result.extend.order.sumPrice);
+        }
+    });
+    $.ajax({
+        url:"/user/checkMealAndOrderAndEmployee",
+        type:"get",
+        data:"orderId="+orderId,
+        success:function (result) {
+            // console.log(result);
+            if (result.extend.employeeInfo==="404"){
+                $("#mealPeopleSpan").append("暂无");
+                $("#mealPeoplePhoneSpan").append("暂无");
+                $("#mealSpan").append("未配送");
+                if (result.extend.orderStatus===0){
+                    $("#orderSpan").append("未支付");
+                }
+                else if (result.extend.orderStatus===1){
+                    $("#orderSpan").append("已支付");
+                }
+                else if (result.extend.orderStatus===2){
+                    $("#orderSpan").append("取消订单");
+                }
+                else if (result.extend.orderStatus===3){
+                    $("#orderSpan").append("已确认收餐");
+                }
+                else {
+                    $("#orderSpan").append("订单被取消");
+                }
+            }
+            else {
+                if (result.extend.meal.status === 0) {
+                    $("#mealSpan").append("未配送");
+                }
+                else if (result.extend.meal.status === 1) {
+                    $("#mealSpan").append("配送中");
+                }
+                else if (result.extend.meal.status === 2 || result.extend.meal.status === 3) {
+                    $("#mealSpan").append("已送达");
+                }
+                else {
+                    $("#mealSpan").append("配送失败");
+                }
+
+                $("#mealPeopleSpan").append(result.extend.meal.employee.realName);
+                $("#mealPeoplePhoneSpan").append(result.extend.meal.employee.phone);
+
+                if (result.extend.meal.order.status === 0) {
+                    $("#orderSpan").append("未支付");
+                }
+                else if (result.extend.meal.order.status === 1) {
+                    $("#orderSpan").append("已支付");
+                }
+                else if (result.extend.meal.order.status === 2) {
+                    $("#orderSpan").append("取消订单");
+                }
+                else if (result.extend.meal.order.status === 3) {
+                    $("#orderSpan").append("已确认收餐");
+                }
+                else {
+                    $("#orderSpan").append("订单被取消");
+                }
+            }
+
+        }
+    })
+    $("#checkOrderModal").modal({
+        backdrop: "static"
+    });
+});

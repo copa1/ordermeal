@@ -38,4 +38,11 @@ public interface OrderService {
      * @return
      */
     List<OrderDetail> findOrderDetailByOrderId(Integer orderId);
+
+    /**
+     * 通过订单id来查询订单表记录
+     * @param orderId 订单id
+     * @return
+     */
+    Order findByOrderId(Integer orderId);
 }

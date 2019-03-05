@@ -46,14 +46,14 @@ public class OrderController {
         order.setEmployeeId(employee.getId());
         if (order.getPayment()==1){
             if (employee.getAccount()-order.getPayment()>=0){
-                order.setStatus(0);
+                order.setStatus(1);
                 orderService.addOrder(order);
             }else if (employee.getAccount()-order.getPayment()<0){
                 return Msg.fail().add("errorPage","700");
             }
 
         }else if (order.getPayment()==2){
-            order.setStatus(1);
+            order.setStatus(0);
             orderService.addOrder(order);
         }
 
@@ -93,7 +93,25 @@ public class OrderController {
     }
 
     /**
-     * 得到订单
+     * 通过订单id得到订单表
+     * @param principal
+     * @return
+     */
+    @GetMapping("/user/getOrderInfo")
+    public Msg getOrder(@AuthenticationPrincipal Principal principal,@RequestParam("orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Order order = orderService.findByOrderId(orderId);
+
+        return Msg.success().add("order",order);
+
+    }
+
+    /**
+     * 得到订单详细表
      * @param principal
      * @return
      */
@@ -110,4 +128,18 @@ public class OrderController {
         return Msg.success().add("order",orderDetail).add("orderId",order.getId());
 
     }
+
+    /**
+     * 得到订单和订单详细表
+     * @return
+     */
+    @GetMapping("/user/getOrderAndOrderDetail")
+    public Msg getOrderAndOrderDetail(@RequestParam("orderId") Integer orderId){
+
+        List<OrderDetail> orderDetail = orderService.findOrderDetailByOrderId(orderId);
+        return Msg.success().add("order",orderDetail);
+
+    }
+
+
 }

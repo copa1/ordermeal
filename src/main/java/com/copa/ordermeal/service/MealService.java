@@ -1,6 +1,9 @@
 package com.copa.ordermeal.service;
 
 import com.copa.ordermeal.model.Meal;
+import com.copa.ordermeal.model.Order;
+
+import java.util.List;
 
 /**
  *  3.3
@@ -13,4 +16,25 @@ public interface MealService {
      * @param meal
      */
     void addMeal(Meal meal);
+
+    /**
+     * 通过员工id查出送餐表和订单表
+     * @param employeeId 员工id
+     * @return
+     */
+    List<Meal> findMealAndOrderByEmployeeId(Integer employeeId);
+
+    /**
+     * 通过订单id查询送餐-订单-员工表
+     * @param orderId 订单id
+     * @return
+     */
+    Meal findMealAndOrderAndEmployeeByOrderId(Integer orderId);
+
+    /**
+     * 通过订单id来查meal表记录
+     * @param orderId
+     * @return
+     */
+    Meal findMealByOrderId(Integer orderId);
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.copa.ordermeal.repository.MealRepository">
+    <resultMap id="mealMap" type="com.copa.ordermeal.model.Meal">
+        <id property="id" column="id"/>
+        <result property="employeeId" column="employeeId"/>
+        <result property="orderId" column="orderId"/>
+        <result property="status" column="m_status"/>
+        <association property="order" javaType="com.copa.ordermeal.model.Order">
+            <id property="id" column="id"/>
+            <result property="employeeId" column="employeeId"/>
+            <result property="sumPrice" column="sumPrice"/>
+            <result property="address" column="address"/>
+            <result property="payment" column="payment"/>
+            <result property="status" column="status"/>
+        </association>
+        <association property="employee" javaType="com.copa.ordermeal.model.Employee">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="phone" column="phone"/>
+            <result property="gender" column="gender"/>
+            <result property="email" column="email"/>
+            <result property="realName" column="realName"/>
+            <result property="avater" column="avater"/>
+            <result property="recentlyLanded" column="recentlyLanded"/>
+            <collection property="roles" ofType="com.copa.ordermeal.model.Role">
+                <id property="id" column="id"/>
+                <result property="name" column="name"/>
+            </collection>
+        </association>
+    </resultMap>
+
+    <select id="selectMealAndOrderByEmployeeId" resultMap="mealMap">
+        SELECT m.status "m_status",m.id,m.employeeId,m.orderId,o.*
+        FROM meal m
+        JOIN `order` o ON  m.orderId=o.id
+        WHERE o.employeeId=#{e}
+    </select>
+
+    <select id="selectMealAndOrderAndEmployeeByOrderId" resultMap="mealMap">
+        SELECT m.status "m_status",m.orderId,m.employeeId,m.id,o.*,e.*
+        FROM meal m
+        JOIN `order` o ON  m.orderId=o.id
+        JOIN employee e ON m.employeeId=e.id
+        WHERE m.orderId=#{o}
+    </select>
+
+
+</mapper>

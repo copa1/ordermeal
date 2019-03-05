@@ -43,4 +43,9 @@ public class OrderServiceImpl implements OrderService{
         return orderRepository.selectOrderDetailByOrderId(orderId);
     }
 
+    @Override
+    public Order findByOrderId(Integer orderId) {
+        return orderMapper.selectByOrderId(orderId);
+    }
+
 }

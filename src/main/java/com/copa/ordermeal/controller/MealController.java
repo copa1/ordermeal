@@ -7,12 +7,17 @@ import com.copa.ordermeal.model.Order;
 import com.copa.ordermeal.service.EmployeeService;
 import com.copa.ordermeal.service.MealService;
 import com.copa.ordermeal.service.OrderService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * 3.3
@@ -51,5 +56,49 @@ public class MealController {
         meal.setStatus(0);
         mealService.addMeal(meal);
         return Msg.success();
+    }
+
+    /**
+     * 通过员工id联合查询订单总表和送餐表
+     * @return
+     */
+    @GetMapping("/user/getOrderAndMeal")
+    public Msg getOrderAndMeal(@AuthenticationPrincipal Principal principal,@RequestParam(value = "pn",defaultValue = "1") Integer pn){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Employee employee = employeeService.findEmployeeInfoByUsername(principal.getName());
+        PageHelper.startPage(pn,6);
+        List<Meal> meal = mealService.findMealAndOrderByEmployeeId(employee.getId());
+
+        PageInfo info=new PageInfo(meal,5);
+        //System.out.println(info);
+        return Msg.success().add("meal",info);
+    }
+
+    /**
+     * 通过订单id查询送餐-订单-员工表
+     * @param orderId 订单id
+     * @return
+     */
+    @GetMapping("/user/checkMealAndOrderAndEmployee")
+    public Msg checkMealAndOrderAndEmployeeByOrderId(@AuthenticationPrincipal Principal principal,
+                                                     @RequestParam(value = "orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Meal meal1 = mealService.findMealByOrderId(orderId);
+        if (meal1.getEmployeeId()==0){
+            Order order = orderService.findByOrderId(orderId);
+            return Msg.success().add("employeeInfo","404").add("orderStatus",order.getStatus());
+        }
+        else {
+            Meal meal = mealService.findMealAndOrderAndEmployeeByOrderId(orderId);
+            return Msg.success().add("meal", meal);
+        }
     }
 }

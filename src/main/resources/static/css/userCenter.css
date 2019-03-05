@@ -23,6 +23,13 @@
 
 }
 
+#foodModal>tbody>tr>td, #foodModal>tbody>tr>th, #foodModal>tfoot>tr>td, #foodModal>tfoot>tr>th, #foodModal>thead>tr>td, #foodModal>thead>tr>th,#foodModal {
+    border: 0;
+
+}
+
+
+
 a:link    {color:black;}
 a:visited {color:black;}
 a:hover   {color:black;}

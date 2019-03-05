@@ -24,4 +24,7 @@ public interface OrderMapper {
 
     @Insert("INSERT INTO order_detail(foodId,foodNum,price,orderId) VALUES(#{o.foodId},#{o.foodNum},#{o.price},#{o.orderId})")
     void insertOrderDetail(@Param("o") OrderDetail orderDetail);
+
+    @Select("SELECT * FROM `order` WHERE id=#{o}")
+    Order selectByOrderId(@Param("o") Integer orderId);
 }
