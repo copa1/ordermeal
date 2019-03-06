@@ -664,7 +664,6 @@ $(document).on("click",".checkOrder",function () {
 
 //取消订单按钮操作
 $(document).on("click",".cancelOrderButton",function () {
-   // alert($(this).attr("data-order"));
     var orderId=$(this).attr("data-order");
     layer.confirm("您是否要取消该订单吗？", {
         title:"取消订单警告",icon: 3,btn: ["确定取消订单","返回"] //按钮
