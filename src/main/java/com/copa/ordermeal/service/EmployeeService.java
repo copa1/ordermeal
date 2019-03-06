@@ -87,4 +87,11 @@ public interface EmployeeService {
      * @param phone 手机号
      */
     void modifyEmployeePasswordByPhone(Employee employee, String phone);
+
+    /**
+     * 通过员工id来修改员工余额
+     * @param id 员工id
+     * @param money 支付的钱数
+     */
+    void modifyAccountByEmployeeId(Integer id, double money);
 }

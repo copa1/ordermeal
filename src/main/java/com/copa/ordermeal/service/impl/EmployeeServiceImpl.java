@@ -78,4 +78,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void modifyEmployeePasswordByPhone(Employee employee, String phone) {
         employeeMapper.updateEmployeePasswordByPhone(employee,phone);
     }
+
+    @Override
+    public void modifyAccountByEmployeeId(Integer id, double money) {
+        employeeMapper.updateAccountByEmployeeId(id,money);
+    }
 }

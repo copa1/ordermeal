@@ -389,8 +389,15 @@ function to_page(pn) {
         data:"pn="+pn,
         type:"get",
         success:function (result) {
-            build_order_list(result);
-            build_orderPage_nav(result);
+            if (result.extend.meal.lastPage===0){
+                $("#orderTableDiv").empty();
+                var img=$('<img src="/img/orderEmpty.jpg">');
+                $("#orderTableDiv").append(img);
+                $("#orderTableDiv").addClass("text-center");
+            }else {
+                build_order_list(result);
+                build_orderPage_nav(result);
+            }
         }
     })
 }
@@ -401,7 +408,7 @@ function build_order_list(result){
     var list=result.extend.meal.list;
     $.each(list,function (index,item) {
         var orderId= $('<td>' + item.orderId+ '</td>');
-        var sumPrice = $('<td>' + item.order.sumPrice + '</td>');
+        var sumPrice = $('<td>￥' + item.order.sumPrice + '</td>');
 
         if (item.status===0){
             var mealStatus = $('<td>未配送</td>');
@@ -506,6 +513,7 @@ $(document).on("click",".checkOrder",function () {
     $("#mealPeopleSpan").empty();
     $("#mealPeoplePhoneSpan").empty();
     $("#orderSpan").empty();
+    $("#buttonModal").empty();
     $.ajax({
         url:"/user/getOrderAndOrderDetail",
         type:"get",
@@ -535,14 +543,19 @@ $(document).on("click",".checkOrder",function () {
         data:"orderId="+orderId,
         success:function (result) {
             // console.log(result);
-            $("#addressModal").append(result.extend.order.address);
-            if (result.extend.order.payment===1){
-                $("#payMethodModal").append("余额支付");
+            if (result.extend.errorPage === "403") {
+                alert("您尚未登录！请先登录！");
+                window.location.href = "http://localhost/user/login";
+            } else {
+                $("#addressModal").append(result.extend.order.address);
+                if (result.extend.order.payment === 1) {
+                    $("#payMethodModal").append("余额支付");
+                }
+                else if (result.extend.order.payment === 2) {
+                    $("#payMethodModal").append("工资支付");
+                }
+                $("#totalMoneyModal").append(result.extend.order.sumPrice);
             }
-            else if (result.extend.order.payment===2){
-                $("#payMethodModal").append("工资支付");
-            }
-            $("#totalMoneyModal").append(result.extend.order.sumPrice);
         }
     });
     $.ajax({
@@ -551,63 +564,159 @@ $(document).on("click",".checkOrder",function () {
         data:"orderId="+orderId,
         success:function (result) {
             // console.log(result);
-            if (result.extend.employeeInfo==="404"){
-                $("#mealPeopleSpan").append("暂无");
-                $("#mealPeoplePhoneSpan").append("暂无");
-                $("#mealSpan").append("未配送");
-                if (result.extend.orderStatus===0){
-                    $("#orderSpan").append("未支付");
-                }
-                else if (result.extend.orderStatus===1){
-                    $("#orderSpan").append("已支付");
-                }
-                else if (result.extend.orderStatus===2){
-                    $("#orderSpan").append("取消订单");
-                }
-                else if (result.extend.orderStatus===3){
-                    $("#orderSpan").append("已确认收餐");
+            if (result.extend.errorPage === "403") {
+                alert("您尚未登录！请先登录！");
+                window.location.href = "http://localhost/user/login";
+            } else {
+                if (result.extend.employeeInfo === "404") {
+                    $("#mealPeopleSpan").append("暂无");
+                    $("#mealPeoplePhoneSpan").append("暂无");
+                    if (result.extend.orderStatus === 0) {
+                        $("#orderSpan").append("未支付");
+                    }
+                    else if (result.extend.orderStatus === 1) {
+                        $("#orderSpan").append("已支付");
+                    }
+                    else if (result.extend.orderStatus === 2) {
+                        $("#orderSpan").append("取消订单");
+                    }
+                    else if (result.extend.orderStatus === 3) {
+                        $("#orderSpan").append("已确认收餐");
+                    }
+                    else {
+                        $("#orderSpan").append("订单被取消");
+                    }
+                    if (result.extend.orderStatus === 0 || result.extend.orderStatus === 1) {
+                        $("#mealSpan").append("未配送");
+                        var cancelOrderButton = $('<button type="button" class="btn btn-danger cancelOrderButton" data-order="' + orderId + '">取消订单</button>');
+                        var backButton = $('<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>');
+                    }
+                    else {
+                        $("#mealSpan").append("配送失败");
+                        var backButton = $('<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>');
+                    }
+                    $("#buttonModal").append(cancelOrderButton).append(backButton);
+
                 }
                 else {
-                    $("#orderSpan").append("订单被取消");
+                    if (result.extend.meal.status === 0) {
+                        $("#mealSpan").append("未配送");
+                    }
+                    else if (result.extend.meal.status === 1) {
+                        $("#mealSpan").append("配送中");
+                    }
+                    else if (result.extend.meal.status === 2 || result.extend.meal.status === 3) {
+                        $("#mealSpan").append("已送达");
+                    }
+                    else {
+                        $("#mealSpan").append("配送失败");
+                    }
+
+                    $("#mealPeopleSpan").append(result.extend.meal.employee.realName);
+                    $("#mealPeoplePhoneSpan").append(result.extend.meal.employee.phone);
+
+                    if (result.extend.meal.order.status === 0) {
+                        $("#orderSpan").append("未支付");
+                    }
+                    else if (result.extend.meal.order.status === 1) {
+                        $("#orderSpan").append("已支付");
+                    }
+                    else if (result.extend.meal.order.status === 2) {
+                        $("#orderSpan").append("取消订单");
+                    }
+                    else if (result.extend.meal.order.status === 3) {
+                        $("#orderSpan").append("已确认收餐");
+                    }
+                    else {
+                        $("#orderSpan").append("订单被取消");
+                    }
+                    if ((result.extend.meal.order.status === 0 && result.extend.meal.status === 0) ||
+                        (result.extend.meal.order.status === 1 && result.extend.meal.status === 0) ||
+                        (result.extend.meal.order.status === 0 && result.extend.meal.status === 1) ||
+                        (result.extend.meal.order.status === 1 && result.extend.meal.status === 1)) {
+                        var cancelOrderButton = $('<button type="button" class="btn btn-danger cancelOrderButton" data-order="' + orderId + '">取消订单</button>');
+                        var backButton = $('<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>');
+                        $("#buttonModal").append(cancelOrderButton).append(backButton);
+                    }
+                    else if (result.extend.meal.order.status === 0 && result.extend.meal.status === 2) {
+                        var backButton = $('<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>');
+                        $("#buttonModal").append(backButton);
+                    }
+                    else if (result.extend.meal.order.status === 1 && result.extend.meal.status === 3) {
+                        var confirmOrderButton = $('<button type="button" class="btn btn-success confirmMealButton" data-order="' + orderId + '">确认收餐</button>');
+                        var backButton = $('<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>');
+                        $("#buttonModal").append(confirmOrderButton).append(backButton);
+                    }
+                    else {
+                        var backButton = $('<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>');
+                        $("#buttonModal").append(backButton);
+                    }
                 }
+
             }
-            else {
-                if (result.extend.meal.status === 0) {
-                    $("#mealSpan").append("未配送");
-                }
-                else if (result.extend.meal.status === 1) {
-                    $("#mealSpan").append("配送中");
-                }
-                else if (result.extend.meal.status === 2 || result.extend.meal.status === 3) {
-                    $("#mealSpan").append("已送达");
-                }
-                else {
-                    $("#mealSpan").append("配送失败");
-                }
-
-                $("#mealPeopleSpan").append(result.extend.meal.employee.realName);
-                $("#mealPeoplePhoneSpan").append(result.extend.meal.employee.phone);
-
-                if (result.extend.meal.order.status === 0) {
-                    $("#orderSpan").append("未支付");
-                }
-                else if (result.extend.meal.order.status === 1) {
-                    $("#orderSpan").append("已支付");
-                }
-                else if (result.extend.meal.order.status === 2) {
-                    $("#orderSpan").append("取消订单");
-                }
-                else if (result.extend.meal.order.status === 3) {
-                    $("#orderSpan").append("已确认收餐");
-                }
-                else {
-                    $("#orderSpan").append("订单被取消");
-                }
-            }
-
         }
-    })
+    });
+
     $("#checkOrderModal").modal({
         backdrop: "static"
+    });
+});
+
+//取消订单按钮操作
+$(document).on("click",".cancelOrderButton",function () {
+   // alert($(this).attr("data-order"));
+    var orderId=$(this).attr("data-order");
+    layer.confirm("您是否要取消该订单吗？", {
+        title:"取消订单警告",icon: 3,btn: ["确定取消订单","返回"] //按钮
+    }, function(index){
+        $.ajax({
+            url:"/user/userCancelOrder",
+            type:"put",
+            data:"orderId="+orderId,
+            success:function (result) {
+                if (result.extend.errorPage==="403") {
+                    alert("您尚未登录！请先登录！");
+                    window.location.href = "http://localhost/user/login";
+                }else {
+                    layer.alert('取消订单成功！有问题请与工作人员联系！', {icon: 1});
+                    $("#checkOrderModal").modal('hide');
+                    clearContent();
+                    $("#userOrder-page").css("display", "block");
+                    to_page(1);
+                }
+            }
+        })
+    }, function(){
+        layer.msg('操作取消', {icon: 2});
+    });
+});
+
+
+//确认收餐按钮操作
+$(document).on("click",".confirmMealButton",function () {
+    // alert($(this).attr("data-order"));
+    var orderId=$(this).attr("data-order");
+    layer.confirm("您确认收餐吗？", {
+        title:"取消订单警告",icon: 3,btn: ["确定","返回"] //按钮
+    }, function(index){
+        $.ajax({
+            url:"/user/userConfirmMeal",
+            type:"put",
+            data:"orderId="+orderId,
+            success:function (result) {
+                if (result.extend.errorPage==="403"){
+                    alert("您尚未登录！请先登录！");
+                    window.location.href = "http://localhost/user/login";
+                }else {
+                    layer.alert('确认收餐成功！', {icon: 1});
+                    $("#checkOrderModal").modal('hide');
+                    clearContent();
+                    $("#userOrder-page").css("display", "block");
+                    to_page(1);
+                }
+            }
+        })
+    }, function(){
+        layer.msg('操作取消', {icon: 2});
     });
 });

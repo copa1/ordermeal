@@ -1,10 +1,7 @@
 package com.copa.ordermeal.mapper;
 
 import com.copa.ordermeal.model.Meal;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,4 +17,7 @@ public interface MealMapper {
 
     @Select("SELECT * FROM meal WHERE orderId=#{o}")
     Meal selectMealByOrderId(@Param("o") Integer orderId);
+
+    @Update("UPDATE meal SET status=#{n} WHERE orderId=#{o}")
+    void updateMealStatusByOrderId(@Param("o") Integer orderId,@Param("n") Integer num);
 }

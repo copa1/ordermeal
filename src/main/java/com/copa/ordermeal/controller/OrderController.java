@@ -6,6 +6,7 @@ import com.copa.ordermeal.model.Order;
 import com.copa.ordermeal.model.OrderDetail;
 import com.copa.ordermeal.service.CartService;
 import com.copa.ordermeal.service.EmployeeService;
+import com.copa.ordermeal.service.MealService;
 import com.copa.ordermeal.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,6 +31,9 @@ public class OrderController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private MealService mealService;
+
     /**
      * 创建订单总表
      * @return
@@ -45,10 +49,12 @@ public class OrderController {
         Employee employee = employeeService.findEmployeeInfoByUsername(principal.getName());
         order.setEmployeeId(employee.getId());
         if (order.getPayment()==1){
-            if (employee.getAccount()-order.getPayment()>=0){
+            if (employee.getAccount()-order.getSumPrice()>=0){
                 order.setStatus(1);
+                double money=order.getSumPrice();
+                employeeService.modifyAccountByEmployeeId(employee.getId(),money);
                 orderService.addOrder(order);
-            }else if (employee.getAccount()-order.getPayment()<0){
+            }else if (employee.getAccount()-order.getSumPrice()<0){
                 return Msg.fail().add("errorPage","700");
             }
 
@@ -138,8 +144,39 @@ public class OrderController {
 
         List<OrderDetail> orderDetail = orderService.findOrderDetailByOrderId(orderId);
         return Msg.success().add("order",orderDetail);
+    }
 
+    /**
+     * 取消订单（用户）
+     * @return
+     */
+    @PutMapping("/user/userCancelOrder")
+    public Msg userCancelOrder(@RequestParam("orderId") Integer orderId,
+                               @AuthenticationPrincipal Principal principal){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        orderService.modifyOrderStatusByOrderId(orderId,2);
+        mealService.modifyMealStatusByOrderId(orderId,4);
+        return Msg.success();
     }
 
 
+    /**
+     * 确认收餐（用户）
+     * @return
+     */
+    @PutMapping("/user/userConfirmMeal")
+    public Msg userConfirmMeal(@RequestParam("orderId") Integer orderId,
+                               @AuthenticationPrincipal Principal principal){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        orderService.modifyOrderStatusByOrderId(orderId,3);
+        return Msg.success();
+    }
 }

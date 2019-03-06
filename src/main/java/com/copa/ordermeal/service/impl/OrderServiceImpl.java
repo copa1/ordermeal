@@ -48,4 +48,9 @@ public class OrderServiceImpl implements OrderService{
         return orderMapper.selectByOrderId(orderId);
     }
 
+    @Override
+    public void modifyOrderStatusByOrderId(Integer orderId, Integer num) {
+        orderMapper.updateOrderStatusByOrderId(orderId,num);
+    }
+
 }

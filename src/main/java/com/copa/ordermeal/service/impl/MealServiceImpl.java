@@ -42,4 +42,9 @@ public class MealServiceImpl implements MealService{
     public Meal findMealByOrderId(Integer orderId) {
         return mealMapper.selectMealByOrderId(orderId);
     }
+
+    @Override
+    public void modifyMealStatusByOrderId(Integer orderId, Integer num) {
+        mealMapper.updateMealStatusByOrderId(orderId,num);
+    }
 }

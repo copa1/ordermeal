@@ -33,8 +33,15 @@ public interface MealService {
 
     /**
      * 通过订单id来查meal表记录
-     * @param orderId
+     * @param orderId 订单id
      * @return
      */
     Meal findMealByOrderId(Integer orderId);
+
+    /**
+     * 通过订单id来修改meal表的状态
+     * @param orderId 订单id
+     * @param num 状态码
+     */
+    void modifyMealStatusByOrderId(Integer orderId, Integer num);
 }

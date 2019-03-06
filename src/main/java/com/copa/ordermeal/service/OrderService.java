@@ -45,4 +45,10 @@ public interface OrderService {
      * @return
      */
     Order findByOrderId(Integer orderId);
+
+    /**
+     * 通过订单id来修改订单状态
+     * @param orderId
+     */
+    void modifyOrderStatusByOrderId(Integer orderId,Integer num);
 }

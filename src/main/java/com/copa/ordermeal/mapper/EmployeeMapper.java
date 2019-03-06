@@ -55,4 +55,7 @@ public interface EmployeeMapper {
 
     @Update("UPDATE employee SET password=#{e.password} WHERE phone=#{p}")
     void updateEmployeePasswordByPhone(@Param("e") Employee employee,@Param("p") String phone);
+
+    @Update("UPDATE employee SET account=account-#{m} WHERE id=#{i}")
+    void updateAccountByEmployeeId(@Param("i") Integer id,@Param("m") double money);
 }

@@ -4,7 +4,7 @@ $(function () {
         url:"/user/getOrder",
         type:"get",
         success:function (result) {
-            console.log(result);
+            // console.log(result);
             if(true) {
                 var firstRow = $(' <div class="row">\n' +
                     '        <div class="col-md-2 col-md-offset-4">\n' +
