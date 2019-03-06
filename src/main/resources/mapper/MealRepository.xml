@@ -37,6 +37,7 @@
         FROM meal m
         JOIN `order` o ON  m.orderId=o.id
         WHERE o.employeeId=#{e}
+        ORDER BY o.id DESC
     </select>
 
     <select id="selectMealAndOrderAndEmployeeByOrderId" resultMap="mealMap">
@@ -47,5 +48,11 @@
         WHERE m.orderId=#{o}
     </select>
 
-
+    <select id="selectOrderNotSendList" resultMap="mealMap">
+        SELECT m.status "m_status",m.orderId,m.employeeId,m.id,o.*
+        FROM meal m
+        JOIN `order` o ON  m.orderId=o.id
+        WHERE m.status=0
+        ORDER BY o.id ASC 
+    </select>
 </mapper>

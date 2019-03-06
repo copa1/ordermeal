@@ -11,10 +11,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -102,5 +99,21 @@ public class MealController {
         }
     }
 
-
+    /**
+     * 查出未配送订单（送餐员）联合配送表
+     * @return
+     */
+    @GetMapping("/user/orderNotSendList")
+    public Msg orderNotSendList(@AuthenticationPrincipal Principal principal,
+                                @RequestParam(value = "pn",defaultValue = "1") Integer pn){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        PageHelper.startPage(pn,8);
+        List<Meal> orderList = mealService.findOrderNotSendList();
+        PageInfo pageInfo=new PageInfo(orderList,5);
+        return Msg.success().add("order",pageInfo);
+    }
 }

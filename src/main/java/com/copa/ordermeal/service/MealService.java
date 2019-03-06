@@ -44,4 +44,10 @@ public interface MealService {
      * @param num 状态码
      */
     void modifyMealStatusByOrderId(Integer orderId, Integer num);
+
+    /**
+     * 查出未配送的订单
+     * @return
+     */
+    List<Meal> findOrderNotSendList();
 }

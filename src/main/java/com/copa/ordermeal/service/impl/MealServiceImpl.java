@@ -47,4 +47,9 @@ public class MealServiceImpl implements MealService{
     public void modifyMealStatusByOrderId(Integer orderId, Integer num) {
         mealMapper.updateMealStatusByOrderId(orderId,num);
     }
+
+    @Override
+    public List<Meal> findOrderNotSendList() {
+        return mealRepository.selectOrderNotSendList();
+    }
 }

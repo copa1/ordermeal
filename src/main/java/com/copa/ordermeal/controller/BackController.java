@@ -126,4 +126,13 @@ public class BackController {
     public String userOrderPage(){
         return "users/order";
     }
+
+    /**
+     * 送餐员页面
+     * @return
+     */
+    @GetMapping("/user/meal")
+    public String userMealPage(){
+        return "users/mealSender";
+    }
 }

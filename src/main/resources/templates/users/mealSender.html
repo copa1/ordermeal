@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/css/userIndex.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/css/meal.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>送餐员页面</title>
+</head>
+<body>
+
+<!--头部-->
+<nav th:replace="publicPage/userIndex_bar::headerBar"></nav>
+
+<!--送餐列表-->
+<div class="container" style="min-height: 127px;margin-top:60px;" id="ListContainer">
+    <div class="row">
+            <div class="row">
+                <div class="col-md-12"><h2>未送餐订单</h2></div>
+            </div><br><br>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-2" id="orderTableDiv">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>总价</th>
+                            <th>支付方式</th>
+                            <th>订单状态</th>
+                            <th>接单</th>
+                        </tr>
+                        </thead>
+                        <tbody id="orderTbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center" id="order_setPage"></div>
+
+            </div>
+        </div>
+    </div>
+
+
+<!--送餐列表-->
+<!--<div class="container" style="min-height: 127px;margin-top:60px;" id="contentContainer">
+    <div class="row">
+        <div class="row">
+            <div class="col-md-12"><h2>送餐订单</h2></div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>订单信息</h4><hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-md-offset-1">
+                订单编号：123
+            </div>
+            <div class="col-md-5">
+                订单地址：广州市
+            </div><br>
+            <div class="col-md-5 col-md-offset-1">
+                订单人：梁哈哈
+            </div>
+            <div class="col-md-5">
+                订单人联系电话：13800138000
+            </div><br>
+            <div class="col-md-5 col-md-offset-1">
+                订单状态：未支付
+            </div>
+            <div class="col-md-5">
+                配送状态：配送中
+            </div><br>
+        </div><br>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4>订单菜单列表</h4><hr>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-11 col-md-offset-1" id="orderTableDiv">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>菜品名</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>金额</th>
+                    </tr>
+                    </thead>
+                    <tbody id="orderTbody">
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-right" id="order_setPage">
+                总价：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;" id="totalMoney">￥95</span>
+            </div>
+        </div><br><br>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                按钮
+            </div>
+        </div>
+
+    </div>
+</div>-->
+
+
+
+<!--尾部-->
+<footer th:replace="publicPage/userIndex_bar::footerBar"></footer>
+<script type="text/javascript" th:src="@{/js/userPublicBar.js}"></script>
+<script type="text/javascript" th:src="@{/js/meal.js}"></script>
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+</body>
+</html>
