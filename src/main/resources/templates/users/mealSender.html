@@ -19,7 +19,7 @@
 <nav th:replace="publicPage/userIndex_bar::headerBar"></nav>
 
 <!--送餐列表-->
-<div class="container" style="min-height: 127px;margin-top:60px;" id="ListContainer">
+<div class="container" style="min-height: 127px;margin-top:60px;" id="listContainer">
     <div class="row">
             <div class="row">
                 <div class="col-md-12"><h2>未送餐订单</h2></div>
@@ -51,7 +51,7 @@
 
 
 <!--送餐列表-->
-<!--<div class="container" style="min-height: 127px;margin-top:60px;" id="contentContainer">
+<div class="container" style="min-height: 127px;margin-top:60px;" id="contentContainer">
     <div class="row">
         <div class="row">
             <div class="col-md-12"><h2>送餐订单</h2></div>
@@ -64,22 +64,22 @@
         </div>
         <div class="row">
             <div class="col-md-5 col-md-offset-1">
-                订单编号：123
+                订单编号：<span id="orderDetailId"></span>
             </div>
             <div class="col-md-5">
-                订单地址：广州市
+                订单地址：<span id="orderDetailPlace"></span>
             </div><br>
             <div class="col-md-5 col-md-offset-1">
-                订单人：梁哈哈
+                订单人：<span id="orderDetailPeople"></span>
             </div>
             <div class="col-md-5">
-                订单人联系电话：13800138000
+                订单人联系电话：<span id="orderDetailPeoplePhone"></span>
             </div><br>
             <div class="col-md-5 col-md-offset-1">
-                订单状态：未支付
+                订单状态：<span id="orderDetailOrderStatus"></span>
             </div>
             <div class="col-md-5">
-                配送状态：配送中
+                配送状态：<span id="orderDetailMealStatus"></span>
             </div><br>
         </div><br>
 
@@ -89,7 +89,7 @@
             </div>
         </div><br>
         <div class="row">
-            <div class="col-md-11 col-md-offset-1" id="orderTableDiv">
+            <div class="col-md-11 col-md-offset-1" id="orderDetailTableDiv">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
@@ -99,32 +99,29 @@
                         <th>金额</th>
                     </tr>
                     </thead>
-                    <tbody id="orderTbody">
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
+                    <tbody id="orderDetailTbody">
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-12 text-right" id="order_setPage">
-                总价：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;" id="totalMoney">￥95</span>
+            <div class="col-md-2 text-right" id="payMethod" style="margin-top:10px">
+                支付方式：<span id="payDetailMethod"></span>
+            </div>
+            <div class="col-md-10 text-right" id="order_sumPrice">
+                总价：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;" id="totalMoney"></span>
             </div>
         </div><br><br>
 
         <div class="row">
-            <div class="col-md-12 text-center">
-                按钮
+            <div class="col-md-12 text-center" id="sendDetailButton">
+
             </div>
         </div>
 
     </div>
-</div>-->
+</div>
 
 
 

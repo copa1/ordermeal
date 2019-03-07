@@ -92,6 +92,15 @@ public class BackController {
     }
 
     /**
+     * 个人中心页面(送餐员)
+     * @return
+     */
+    @GetMapping("/user/userCenter1")
+    public String userCenterPage1(){
+        return "users/userCenter";
+    }
+
+    /**
      * 个人中心页面
      * @return
      */

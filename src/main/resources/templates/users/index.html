@@ -27,7 +27,7 @@
                 <img th:src="@{/img/welcomeIndex.png}" style="height: 500px;width: 100%">
                 <div style="background-color: #F2ECE4;height: 200px;width: 100%" class="text-center">
                     欢迎您使用本订餐系统，该订餐系统能方便您的时间<br>
-                    <div class="container">
+                    <div class="container" sec:authorize="hasRole('EMPLOYEE')">
                         <div class="row">
                             <a th:href="@{/user/rice}">
                             <div class="col-md-2 col-md-offset-2">
@@ -55,6 +55,42 @@
                             </a>
                         </div>
                     </div>
+                    <div class="container" sec:authorize="!isAuthenticated()">
+                        <div class="row">
+                            <a th:href="@{/user/rice}">
+                                <div class="col-md-2 col-md-offset-2">
+                                    <img th:src="@{/img/food/food001.jpg}" height="100" width="100"><br><br>
+                                    <b>饭食</b>
+                                </div>
+                            </a>
+                            <a th:href="@{/user/fenMian}">
+                                <div class="col-md-2">
+                                    <img th:src="@{/img/food/food002.jpg}" height="100" width="100"><br><br>
+                                    <b>粉面</b>
+                                </div>
+                            </a>
+                            <a th:href="@{/user/drink}">
+                                <div class="col-md-2">
+                                    <img th:src="@{/img/food/food003.jpg}" height="100" width="100"><br><br>
+                                    <b>饮料</b>
+                                </div>
+                            </a>
+                            <a th:href="@{/user/rice}">
+                                <div class="col-md-2">
+                                    <img th:src="@{/img/right.jpg}" height="100" width="100"><br><br>
+                                    <b>全部菜品</b>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="container" sec:authorize="hasRole('TAKER')">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <h2>欢迎您！送餐员！请前往<a href="/user/meal"> 送餐员页面！</a></h2>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -62,7 +98,7 @@
     </div>
     <!--提醒-->
     <div class="row">
-        <div class="col-md-12" style="text-align: center">
+        <div class="col-md-12" style="text-align: center" sec:authorize="hasRole('EMPLOYEE')">
             送餐时间可能会推迟哦，到时候送餐员会电话联系您~
         </div>
     </div>

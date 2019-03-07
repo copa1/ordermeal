@@ -52,7 +52,15 @@
         SELECT m.status "m_status",m.orderId,m.employeeId,m.id,o.*
         FROM meal m
         JOIN `order` o ON  m.orderId=o.id
-        WHERE m.status=0
+        WHERE m.status=0 AND m.employeeId=0 AND (o.status=0 OR o.status=1)
         ORDER BY o.id ASC 
+    </select>
+
+    <select id="selectOrderAndMealAndEmployeeByOrderId" resultMap="mealMap">
+        SELECT m.status "m_status",m.orderId,m.employeeId,m.id,o.*,e.*
+        FROM meal m
+        JOIN `order` o ON  m.orderId=o.id
+        JOIN employee e ON o.employeeId=e.id
+        WHERE m.orderId=#{o}
     </select>
 </mapper>

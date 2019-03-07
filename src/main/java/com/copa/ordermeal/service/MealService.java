@@ -50,4 +50,39 @@ public interface MealService {
      * @return
      */
     List<Meal> findOrderNotSendList();
+
+    /**
+     * 通过订单id来修改员工id和配送状态
+     * @param employeeId 员工id
+     * @param orderId 订单id
+     */
+    void modifyMealStatusAndEmployeeIdByOrderId(Integer employeeId, Integer orderId);
+
+    /**
+     * 通过配送员id来查询该配送单有没有送餐员配送
+     * @param employeeId 送餐员id
+     * @return
+     */
+    long findCheckMealingByEmployeeId(Integer employeeId,Integer status);
+
+    /**
+     * 通过配送员id来查询该配送单信息(此时配送单是配送中)
+     * @param employeeId 送餐员id
+     * @return
+     */
+    Meal findMealInfoByEmployeeId(Integer employeeId);
+
+    /**
+     * 通过订单id联合查询订单总表、送餐表和员工表（订单人id）
+     * @param orderId 订单id
+     * @return
+     */
+    Meal findOrderAndMealAndEmployeeByOrderId(Integer orderId);
+
+    /**
+     * 通过配送员id来查询该配送单信息(此时配送单是已送达)
+     * @param employeeId 送餐员id
+     * @return
+     */
+    Meal findMealInfoByEmployeeId2(Integer employeeId);
 }

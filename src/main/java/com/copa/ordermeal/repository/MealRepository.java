@@ -14,4 +14,6 @@ public interface MealRepository {
     Meal selectMealAndOrderAndEmployeeByOrderId(@Param("o") Integer orderId);
 
     List<Meal> selectOrderNotSendList();
+
+    Meal selectOrderAndMealAndEmployeeByOrderId(Integer orderId);
 }

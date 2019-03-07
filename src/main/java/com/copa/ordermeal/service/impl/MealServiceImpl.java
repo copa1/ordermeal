@@ -52,4 +52,29 @@ public class MealServiceImpl implements MealService{
     public List<Meal> findOrderNotSendList() {
         return mealRepository.selectOrderNotSendList();
     }
+
+    @Override
+    public void modifyMealStatusAndEmployeeIdByOrderId(Integer employeeId, Integer orderId) {
+        mealMapper.updateMealStatusAndEmployeeIdByOrderId(employeeId,orderId);
+    }
+
+    @Override
+    public long findCheckMealingByEmployeeId(Integer employeeId,Integer status) {
+        return mealMapper.countMealingByEmployeeId(employeeId,status);
+    }
+
+    @Override
+    public Meal findMealInfoByEmployeeId(Integer employeeId) {
+        return mealMapper.selectMealByEmployeeId(employeeId);
+    }
+
+    @Override
+    public Meal findOrderAndMealAndEmployeeByOrderId(Integer orderId) {
+        return mealRepository.selectOrderAndMealAndEmployeeByOrderId(orderId);
+    }
+
+    @Override
+    public Meal findMealInfoByEmployeeId2(Integer employeeId) {
+        return mealMapper.selectMealByEmployeeId2(employeeId);
+    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 <link type="text/css" th:href="@{/css/userIndex.css}" rel="stylesheet">
@@ -29,7 +29,7 @@
                         <ul class="nav nav-pills nav-stacked">
                             <li role="presentation" style="background-color: white" class="clickLi userInfo-page"><a href="#">个人资料</a></li>
                             <li role="presentation" style="background-color: white" class="clickLi userSecurity-page"><a href="#">安全设置</a></li>
-                            <li role="presentation" style="background-color: white" class="clickLi userOrder-page"><a href="#">订单查看</a></li>
+                            <li role="presentation" style="background-color: white" class="clickLi userOrder-page" sec:authorize="hasRole('EMPLOYEE')"><a href="#">订单查看</a></li>
                         </ul>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                 </div>
             </div>
             <!--右边：订单查看-->
-            <div id="userOrder-page">
+            <div id="userOrder-page" sec:authorize="hasRole('EMPLOYEE')">
                 <div class="row">
                     <div class="col-md-12"><h2>我的订单</h2></div>
                 </div><br><br>
@@ -177,7 +177,7 @@
 </div>
 
 <!--查看订单模态框-->
-<div class="modal fade" id="checkOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="checkOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" sec:authorize="hasRole('EMPLOYEE')">
     <div class="modal-dialog" role="document" style="width: 840px;height: 400px">
         <div class="modal-content">
             <div class="modal-header">

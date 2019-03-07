@@ -56,7 +56,7 @@ public class MealController {
     }
 
     /**
-     * 通过员工id联合查询订单总表和送餐表
+     * 通过员工id联合查询订单总表和送餐表（送餐员id）
      * @return
      */
     @GetMapping("/user/getOrderAndMeal")
@@ -115,5 +115,125 @@ public class MealController {
         List<Meal> orderList = mealService.findOrderNotSendList();
         PageInfo pageInfo=new PageInfo(orderList,5);
         return Msg.success().add("order",pageInfo);
+    }
+
+    /**
+     * 接单操作（送餐员）
+     */
+    @PutMapping("/user/acceptSendOrder")
+    public Msg acceptSendOrder(@AuthenticationPrincipal Principal principal,
+                               @RequestParam("orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Employee employee=employeeService.findEmployeeInfoByUsername(principal.getName());
+        mealService.modifyMealStatusAndEmployeeIdByOrderId(employee.getId(),orderId);
+        return Msg.success();
+    }
+
+    /**
+     * 检查送餐员是否正在送餐和订单是否支付，若送餐并且支付或者未支付，则显示订单详细页面，若没有送餐或者未支付，则显示未送餐列表
+     */
+    @GetMapping("/user/checkMealing")
+    public Msg checkMealing(@AuthenticationPrincipal Principal principal){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Employee employee=employeeService.findEmployeeInfoByUsername(principal.getName());
+        long mealingCount=mealService.findCheckMealingByEmployeeId(employee.getId(),1);
+        long mealingSendCount=mealService.findCheckMealingByEmployeeId(employee.getId(),2);
+        if (mealingCount==1){
+            Meal meal=mealService.findMealInfoByEmployeeId(employee.getId());
+            return Msg.success().add("mealCode","200").add("meal",meal);
+        }
+        else if (mealingSendCount==1){
+            //System.out.println(mealingSendCount);
+            Meal meal=mealService.findMealInfoByEmployeeId2(employee.getId());//这个改为2，待会来
+            Order order=orderService.findByOrderId(meal.getOrderId());
+            if (order.getStatus()==0){
+                return Msg.success().add("mealCode","200").add("meal",meal);
+            }
+            else {
+                return Msg.fail();
+            }
+        }
+        return Msg.fail();
+    }
+
+    /**
+     * 通过订单id联合查询订单总表、送餐表和员工表（订单人id）
+     */
+    @GetMapping("/user/getOrderAndMealAndEmployeeByOrderId")
+    public Msg getOrderAndMealAndEmployeeByOrderId(@RequestParam("orderId") Integer orderId){
+        Meal meal=mealService.findOrderAndMealAndEmployeeByOrderId(orderId);
+        return Msg.success().add("meal",meal);
+    }
+
+    /**
+     * （送餐员）已送餐未支付修改
+     */
+    @PutMapping("/user/modifyMealSendAndNotPay")
+    public Msg modifyMealSendAndNotPay(@AuthenticationPrincipal Principal principal,
+                                       @RequestParam("orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        mealService.modifyMealStatusByOrderId(orderId,2);
+        return Msg.success();
+    }
+
+
+    /**
+     * （送餐员）已送餐已支付修改
+     */
+    @PutMapping("/user/modifyMealSendAndPay")
+    public Msg modifyMealSendAndPay(@AuthenticationPrincipal Principal principal,
+                                    @RequestParam("orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        mealService.modifyMealStatusByOrderId(orderId,3);
+        orderService.modifyOrderStatusByOrderId(orderId,1);
+        return Msg.success();
+    }
+
+    /**
+     * （送餐员）取消订单修改
+     */
+    @PutMapping("/user/modifyPay")
+    public Msg modifyPay(@AuthenticationPrincipal Principal principal,
+                                    @RequestParam("orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        mealService.modifyMealStatusByOrderId(orderId,4);
+        orderService.modifyOrderStatusByOrderId(orderId,4);
+        return Msg.success();
+    }
+
+    /**
+     * （送餐员）取消订单修改
+     */
+    @PutMapping("/user/modifySend")
+    public Msg modifySend(@AuthenticationPrincipal Principal principal,
+                         @RequestParam("orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        System.out.println("aa");
+        mealService.modifyMealStatusByOrderId(orderId,3);
+        return Msg.success();
     }
 }

@@ -31,17 +31,19 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav" style="margin-left: 50px">
                 <li><a th:href="@{/user/index}">主页 <span class="sr-only">(current)</span></a></li>
-                <li><a th:href="@{/user/rice}">菜单</a></li>
+                <li><a th:href="@{/user/rice}" sec:authorize="hasRole('EMPLOYEE')">菜单</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
-                <li class="top-buttonLi" th:if="${#httpServletRequest.remoteUser}"><button type="button" class="btn btn-primary" id="cartPageButton" style="background-color: #f04e4e;border-color: #f04e4e;margin-top:3px;">我的购物车</button></li>
+                <li class="top-buttonLi" th:if="${#httpServletRequest.remoteUser}" sec:authorize="hasRole('EMPLOYEE')"><button type="button" class="btn btn-primary" id="cartPageButton" style="background-color: #f04e4e;border-color: #f04e4e;margin-top:3px;">我的购物车</button></li>
                 <li class="top-buttonLi"><button type="button" class="btn btn-primary" id="loginPageButton" th:unless="${#httpServletRequest.remoteUser}">登录</button></li>
                 <li class="top-buttonLi"><button type="button" class="btn btn-info" id="registerPageButton" th:unless="${#httpServletRequest.remoteUser}">注册</button></li>
                 <li class="dropdown" th:if="${#httpServletRequest.remoteUser}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span sec:authentication="name"></span><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a th:href="@{/user/userCenter}">个人中心</a></li>
+                        <li><a th:href="@{/user/userCenter}" sec:authorize="hasRole('EMPLOYEE')">个人中心</a></li>
+                        <li><a th:href="@{/user/userCenter1}" sec:authorize="hasRole('TAKER')">个人中心</a></li>
                         <li><a href="#">后台管理系统</a></li>
+                        <li sec:authorize="hasRole('TAKER')"><a th:href="@{/user/meal}">送餐员页面</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#" th:href="@{/user/logout}">注销</a></li>
                     </ul>
