@@ -32,6 +32,7 @@
             <ul class="nav navbar-nav" style="margin-left: 50px">
                 <li><a th:href="@{/user/index}">主页 <span class="sr-only">(current)</span></a></li>
                 <li><a th:href="@{/user/rice}" sec:authorize="hasRole('EMPLOYEE')">菜单</a></li>
+                <li><a th:href="@{/user/rice}" sec:authorize="!isAuthenticated()">菜单</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
                 <li class="top-buttonLi" th:if="${#httpServletRequest.remoteUser}" sec:authorize="hasRole('EMPLOYEE')"><button type="button" class="btn btn-primary" id="cartPageButton" style="background-color: #f04e4e;border-color: #f04e4e;margin-top:3px;">我的购物车</button></li>
