@@ -27,7 +27,7 @@ $(function () {
                         $("#orderDetailTbody").empty();
                         $("#orderDetailId").append(result.extend.meal.orderId);
                         $("#orderDetailPlace").append(result.extend.meal.order.address);
-                        $("#orderDetailPeople").append(result.extend.meal.employee.username);
+                        $("#orderDetailPeople").append(result.extend.meal.employee.realName);
                         $("#orderDetailPeoplePhone").append(result.extend.meal.employee.phone);
                         if (result.extend.meal.order.status===0){
                             $("#orderDetailOrderStatus").append("未支付");
@@ -255,7 +255,7 @@ $(document).on("click",".acceptOrderButton",function () {
                         $("#orderDetailTbody").empty();
                         $("#orderDetailId").append(result.extend.meal.orderId);
                         $("#orderDetailPlace").append(result.extend.meal.order.address);
-                        $("#orderDetailPeople").append(result.extend.meal.employee.username);
+                        $("#orderDetailPeople").append(result.extend.meal.employee.realName);
                         $("#orderDetailPeoplePhone").append(result.extend.meal.employee.phone);
                         if (result.extend.meal.order.status===0){
                             $("#orderDetailOrderStatus").append("未支付");
