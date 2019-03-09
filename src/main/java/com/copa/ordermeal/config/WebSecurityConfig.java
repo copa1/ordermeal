@@ -62,6 +62,7 @@ public class WebSecurityConfig{
                     .antMatcher("/user/**")//多HttpSecurity配置时必须设置这个，除最后一个外，因为不设置的话默认匹配所有，就不会执行到下面的HttpSecurity了
                     .authorizeRequests().antMatchers("/user/userCenter","/user/cart").hasAnyRole("EMPLOYEE")
                     .antMatchers("/user/userCenter1","/user/meal").hasAnyRole("TAKER")
+                    .antMatchers("/user/userCenter2","/user/menu").hasAnyRole("ADMIN")
                     .and()
                     .formLogin().loginPage("/user/login").failureUrl("/user/login?error").defaultSuccessUrl("/user/index")
                     .and()

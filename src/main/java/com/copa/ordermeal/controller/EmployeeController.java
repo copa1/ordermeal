@@ -170,6 +170,7 @@ public class EmployeeController {
         String dateTime=now.format(format);
         String filePath = "src/main/resources/static/img/avatar/"+dateTime+"/";
         File targetFile = new File(filePath);
+        String avatarUrl="";
         if(!targetFile.exists()){
             targetFile.mkdirs();
         }
@@ -182,14 +183,14 @@ public class EmployeeController {
             out.write(file.getBytes());
             out.flush();
             out.close();
-            String avatarUrl="/"+filePath.substring(26)+fileName;
+            avatarUrl="/"+filePath.substring(26)+fileName;
             //System.out.println(avatarUrl);
-            employeeService.modifyAvatarUrlByUsername(principal.getName(),avatarUrl);
+            //employeeService.modifyAvatarUrlByUsername(principal.getName(),avatarUrl);
         } catch (Exception e) {
             e.printStackTrace();
             return Msg.fail().add("error","亲~上传失败，请重新上传头像！").add("errorCode","300");
         }
-        return Msg.success();
+        return Msg.success().add("avatarUrl",avatarUrl);
     }
 
     /**

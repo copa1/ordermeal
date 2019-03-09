@@ -101,6 +101,15 @@ public class BackController {
     }
 
     /**
+     * 个人中心页面(菜单管理员)
+     * @return
+     */
+    @GetMapping("/user/userCenter2")
+    public String userCenterPage2(){
+        return "users/userCenter";
+    }
+
+    /**
      * 个人中心页面
      * @return
      */
@@ -137,11 +146,20 @@ public class BackController {
     }
 
     /**
-     * 送餐员页面
+     * 送餐员页面（送餐员专属）
      * @return
      */
     @GetMapping("/user/meal")
     public String userMealPage(){
         return "users/mealSender";
+    }
+
+    /**
+     * 菜单管理页面（菜单管理员专属）
+     * @return
+     */
+    @GetMapping("/user/menu")
+    public String userMenuPage(){
+        return "users/menu";
     }
 }

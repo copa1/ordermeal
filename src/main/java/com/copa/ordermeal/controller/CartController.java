@@ -99,6 +99,7 @@ public class CartController {
                 foodService.modifySurplusByFoodId(cart.getFoodId());
                 return Msg.success().add("surplus",foodSurplus-1).add("total",food.getTotal()).add("foodId",cart.getFoodId());
             }else {
+                foodService.modifyStatusByFoodId(food.getId(),0);
                 return Msg.fail();
             }
         }else {
@@ -107,6 +108,7 @@ public class CartController {
                 foodService.modifySurplusByFoodId(cart.getFoodId());
                 return Msg.success().add("surplus",foodSurplus-1).add("total",food.getTotal()).add("foodId",cart.getFoodId());
             }else {
+                foodService.modifyStatusByFoodId(food.getId(),0);
                 return Msg.fail();
             }
         }

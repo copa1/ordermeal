@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+<link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link type="text/css" th:href="@{/css/userIndex.css}" rel="stylesheet">
+<!--<link type="text/css" th:href="@{/css/meal.css}" rel="stylesheet">-->
+<link type="text/css" th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet">
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>菜单管理员页面</title>
+</head>
+<body>
+
+<!--头部-->
+<nav th:replace="publicPage/userIndex_bar::headerBar"></nav>
+
+<!--送餐列表-->
+<div class="container" style="min-height: 127px;margin-top:60px;" id="menuListContainer">
+    <div class="row">
+        <div class="row">
+            <div class="col-md-12"><h2>菜单管理</h2></div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-1"><button type="button" class="btn btn-success" id="insertMenuButton">添加菜单</button></div>
+            <div class="col-md-2 col-md-offset-1"><button type="button" class="btn btn-info" id="foodSurplusButton">按剩余份数排序</button></div>
+            <div class="col-md-2"><button type="button" class="btn btn-info" id="foodTypeButton">按修改时间排序</button></div>
+            <div class="col-md-2"><button type="button" class="btn btn-info" id="foodStatusButton">按上架状态排序</button></div>
+            <div class="col-md-4">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label>按菜名搜索：</label>
+                        <input type="text" class="form-control" id="searchFoodNameInput" placeholder="请输入菜品名">
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-primary" id="searchFoodNameButton">搜索</button>
+                </form>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-md-12" id="menuTableDiv">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>菜品名</th>
+                        <th>单价</th>
+                        <th>总份数</th>
+                        <th>剩余份数</th>
+                        <th>菜品类型</th>
+                        <th>菜品描述</th>
+                        <th>菜品图</th>
+                        <th>上架状态</th>
+                        <th>最后修改时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="menuTbody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center" id="menu_setPage"></div>
+        </div>
+    </div>
+</div>
+
+<!--添加菜品模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="insertMenuModal">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">添加菜品</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" id="insertMenuForm">
+                <input type="hidden" id="insertFoodImageUrlHidden">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">菜品名：</label>
+                    <div class="col-sm-6" id="nameDiv">
+                        <input type="text" class="form-control" id="name" placeholder="菜品名">
+                        <span id="helpBlockName" class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">单价：</label>
+                    <div class="col-sm-6" id="priceDiv">
+                        <input type="text" class="form-control" id="price" placeholder="菜品单价">
+                        <span id="helpBlockPrice" class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">总份数：</label>
+                    <div class="col-sm-6" id="totalDiv">
+                        <input type="text" class="form-control" id="total" placeholder="菜品总份数">
+                        <span id="helpBlockTotal" class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:-82px">
+                    <label class="col-md-3 control-label">剩余份数：</label>
+                    <div class="col-sm-5" id="surplusDiv">
+                        <input type="text" class="form-control" id="surplus" placeholder="菜品剩余份数">
+                        <span id="helpBlockSurplus" class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:-82px">
+                    <label class="col-sm-3 control-label">菜品类型：</label>
+                    <div class="col-sm-4" id="typeDiv">
+                        <select class="form-control" id="type">
+                            <option value="0">请选择菜品类型</option>
+                            <option value="1">饭食</option>
+                            <option value="2">粉面</option>
+                            <option value="3">面点</option>
+                            <option value="4">饮料小吃</option>
+                        </select>
+                        <span id="helpBlockType" class="help-block" style="color: red"></span>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:-82px">
+                    <label class="col-sm-3 control-label">菜品描述：</label>
+                    <div class="col-sm-6" id="descDiv">
+                        <input type="text" class="form-control" id="desc" placeholder="菜品描述">
+                        <span id="helpBlockDesc" class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:-82px">
+                    <label class="col-sm-3 control-label">菜品图片：</label>
+                    <div class="col-sm-9" style="margin-left: -15px">
+                        <div class="col-md-3" >
+                            <div class="file-container" style="display:inline-block;position:relative;overflow: hidden;vertical-align:middle;">
+                                <button class="btn btn-success fileInput-button" type="button">添加菜品图片</button>
+                                <input type="file" id="imgTest" style="position:absolute;top:0;left:0;font-size:34px; opacity:0" onchange="imgChange()" accept=".gif,.jpg,.jpeg,.png">
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="margin-left:10px;margin-top:7px">
+                            <div class="file-container">
+                              <span style="color: black" id="addImageSpan"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-left:-82px">
+                    <label class="col-sm-3 control-label">上架状态：</label>
+                    <div class="col-sm-6" id="statusDiv">
+                        <label class="radio-inline">
+                            <input type="radio" name="status" id="status1" value="1"> 上架
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="status" id="status2" value="0"> 下架
+                        </label>
+                        <span id="helpBlockStatus" class="help-block"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="insertFoodModalButton">添加菜品</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--修改菜品模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="updateMenuModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" >修改菜品</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="updateMenuForm">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">菜品名：</label>
+                        <div class="col-sm-6" style="margin-top:6px">
+                            <span id="updateName" style="color: black"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">单价：</label>
+                        <div class="col-sm-6" id="updatePriceDiv">
+                            <input type="text" class="form-control" id="updatePrice" placeholder="菜品单价">
+                            <span id="helpBlockUpdatePrice" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">总份数：</label>
+                        <div class="col-sm-6" id="updateTotalDiv">
+                            <input type="text" class="form-control" id="updateTotal" placeholder="菜品总份数">
+                            <span id="helpBlockUpdateTotal" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:-82px">
+                        <label class="col-md-3 control-label">剩余份数：</label>
+                        <div class="col-sm-5" id="updateSurplusDiv">
+                            <input type="text" class="form-control" id="upadateSurplus" placeholder="菜品剩余份数">
+                            <span id="helpBlockUpdateSurplus" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:-82px;margin-top:-15px">
+                        <label class="col-sm-3 control-label">菜品类型：</label>
+                        <div class="col-sm-4" style="margin-top:6px">
+                            <span id="updateType" style="color: black"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:-82px">
+                        <label class="col-sm-3 control-label">菜品描述：</label>
+                        <div class="col-sm-6" id="updateDescDiv">
+                            <input type="text" class="form-control" id="updateDesc" placeholder="菜品描述">
+                            <span id="helpBlockUpdateDesc" class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:-82px">
+                        <label class="col-sm-3 control-label">菜品图片：</label>
+                        <div class="col-sm-9" style="margin-left: -15px">
+                            <div class="col-md-3" >
+                                <div class="col-md-1">
+                                    <img class="img-rounded" width="100" height="100" id="avatarImg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-left:-82px">
+                        <label class="col-sm-3 control-label">上架状态：</label>
+                        <div class="col-sm-6" id="updateStatusDiv">
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="1" id="foodStatus1"> 上架
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="0" id="foodStatus2"> 下架
+                            </label>
+                            <span id="helpBlockUpdateStatus" class="help-block"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="updateFoodModalButton">修改菜品</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--尾部-->
+<footer th:replace="publicPage/userIndex_bar::footerBar"></footer>
+<script type="text/javascript" th:src="@{/js/userPublicBar.js}"></script>
+<script type="text/javascript" th:src="@{/js/menu.js}"></script>
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+</body>
+</html>

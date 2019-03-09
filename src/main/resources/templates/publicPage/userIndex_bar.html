@@ -43,8 +43,10 @@
                     <ul class="dropdown-menu">
                         <li><a th:href="@{/user/userCenter}" sec:authorize="hasRole('EMPLOYEE')">个人中心</a></li>
                         <li><a th:href="@{/user/userCenter1}" sec:authorize="hasRole('TAKER')">个人中心</a></li>
+                        <li><a th:href="@{/user/userCenter2}" sec:authorize="hasRole('ADMIN')">个人中心</a></li>
                         <li><a href="#">后台管理系统</a></li>
                         <li sec:authorize="hasRole('TAKER')"><a th:href="@{/user/meal}">送餐员页面</a></li>
+                        <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/user/menu}">菜单管理</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#" th:href="@{/user/logout}">注销</a></li>
                     </ul>

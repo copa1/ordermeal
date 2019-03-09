@@ -53,4 +53,59 @@ public interface FoodService {
      * @param foodId 菜品id
      */
     void modifySurplusByFoodNumAndFoodId(Integer foodNum,Integer foodId);
+
+    /**
+     * 列出所有食物（默认）
+     * @return
+     */
+    List<Food> findFoodList();
+
+    /**
+     * 根据菜品来修改菜品状态
+     * @param foodId 菜品id
+     */
+    void modifyStatusByFoodId(Integer foodId,Integer status);
+
+    /**
+     * 列出所有食物（剩余份数升序）
+     * @return
+     */
+    List<Food> findFoodList2();
+
+    /**
+     * 列出所有食物（按菜品类型升序）
+     * @return
+     */
+    List<Food> findFoodList3();
+
+    /**
+     * 列出所有食物（按上架状态降序）
+     * @return
+     */
+    List<Food> findFoodList4();
+
+    /**
+     * 按菜品名模糊查询
+     * @param key 菜品名关键字
+     * @return
+     */
+    List<Food> findFoodList5(String key);
+
+    /**
+     * 添加菜品
+     * @param food 菜品
+     */
+    void addFood(Food food);
+
+    /**
+     * 通过菜品id修改菜品信息
+     * @param food 菜品
+     */
+    void modifyFoodByFoodId(Food food);
+
+    /**
+     * 通过菜品id删除菜品信息
+     * @param foodId 菜品id
+     */
+    void removeFoodByFoodId(Integer foodId);
 }

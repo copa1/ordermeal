@@ -34,6 +34,7 @@ $(function () {
             var gender=result.extend.employee.gender;
             var email=result.extend.employee.email;
             var realName=result.extend.employee.realName;
+            $("#avatatUrlHidden").val(avatarUrl);
             $("#avatarImg").attr("src",avatarUrl);
             $("#username").val(username);
             $("#phoneP").append(phone+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✔已验证");
@@ -65,8 +66,11 @@ function imgChange() {
         success: function (data) {
             console.log(data);
             if(data.code=='100'){
+                /*alert($("#imgTest").val());
                 alert("头像更换成功！需要重新登录设置才能生效！");
-                window.location.href = "http://localhost/user/logout";
+                window.location.href = "http://localhost/user/logout";*/
+                layer.msg("上传头像成功！需要保存信息设置才能生效哦~",{icon:1});
+                $("#avatatUrlHidden").val(data.extend.avatarUrl);
             }
             else {
                 if (data.extend.errorCode=='300'){
@@ -143,6 +147,7 @@ $("#updateUserInfoButton").click(function () {
     var email=$("#email");
     var gender = $(":radio:checked");
     var len=gender.length;
+    var avatarUrl=$("#avatatUrlHidden");
     //空值判断
     if (username.val()==="" || username.val().length===0){
         layer.msg('亲~昵称不能为空哦~', {icon: 0});
@@ -188,16 +193,17 @@ $("#updateUserInfoButton").click(function () {
             url: "/user/updateEmployeeInfo",
             type: "put",
             data: {
-                "username": username.val(),
-                "gender": gender.val(),
-                "email": email.val()
+                username: username.val(),
+                gender: gender.val(),
+                email: email.val(),
+                avatar:avatarUrl.val(),
             },
             async: false,//同步加载（必须加）
             success: function (result) {
                 alert("修改信息成功！需要重新登录设置才能生效！");
                 window.location.href = "http://localhost/user/logout";
-            },error:function () {
-                layer.alert("系统错误，有问题尽快和小c联系！",{icon: 2});
+            }, error: function () {
+                layer.alert("系统错误，有问题尽快和小c联系！", {icon: 2});
             }
         });
     }

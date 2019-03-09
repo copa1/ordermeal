@@ -1,10 +1,7 @@
 package com.copa.ordermeal.mapper;
 
 import com.copa.ordermeal.model.Food;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,4 +34,31 @@ public interface FoodMapper {
 
     @Update("UPDATE food SET surplus=surplus+#{n} WHERE id=#{i}")
     void updateSurplusByFoodNumAndFoodId(@Param("n") Integer foodNum,@Param("i") Integer foodId);
+
+    @Select("SELECT * FROM food")
+    List<Food> selectFoodList();
+
+    @Update("UPDATE food SET status=#{s} WHERE id=#{f}")
+    void updateStatusByFoodId(@Param("f") Integer foodId,@Param("s") Integer status);
+
+    @Select("SELECT * FROM food ORDER BY surplus")
+    List<Food> selectFoodList2();
+
+    @Select("SELECT * FROM food ORDER BY lastModifyTime DESC")
+    List<Food> selectFoodList3();
+
+    @Select("SELECT * FROM food ORDER BY status DESC")
+    List<Food> selectFoodList4();
+
+    @Select("SELECT * FROM food WHERE name LIKE CONCAT(CONCAT('%', #{k}), '%') ")
+    List<Food> selectFoodList5(@Param("k") String key);
+
+    @Insert("INSERT INTO food(`name`,price,total,surplus,type,`desc`,image,`status`,lastModifyTime) VALUES(#{f.name},#{f.price},#{f.total},#{f.surplus},#{f.type},#{f.desc},#{f.image},#{f.status},#{f.lastModifyTime})")
+    void insertFood(@Param("f") Food food);
+
+    @Update("UPDATE food SET price=#{f.price},total=#{f.total},surplus=#{f.surplus},`desc`=#{f.desc},`status`=#{f.status},lastModifyTime=#{f.lastModifyTime} WHERE id=#{f.id}")
+    void updateFoodByFoodId(@Param("f") Food food);
+
+    @Delete("DELETE FROM food WHERE id=#{f}")
+    void deleteFoodByFoodId(@Param("f") Integer foodId);
 }

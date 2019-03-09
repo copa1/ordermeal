@@ -2,13 +2,21 @@ package com.copa.ordermeal.controller;
 
 import com.copa.ordermeal.model.Food;
 import com.copa.ordermeal.service.FoodService;
+import com.copa.ordermeal.util.TimeUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,5 +85,149 @@ public class FoodController {
     public Msg getFoodInfoById(@RequestParam("id") Integer id){
         Food food=foodService.findFoodInfoById(id);
         return Msg.success().add("food",food);
+    }
+
+    /**
+     * 根据菜品图片id显示菜品详细信息（模态框用）
+     * listNum:1-按id排序（默认） 2-按剩余份数升序 3-按菜品类型升序 4-按上架状态降序 5-按菜品名模糊查询
+     * @return
+     */
+    @GetMapping("/user/getFoodList")
+    public Msg getFoodList(@RequestParam(value = "pn",defaultValue = "1") Integer pn,
+                           @RequestParam(value = "listNum",defaultValue = "1") Integer listNum,
+                           @RequestParam(value = "key",required = false) String key){
+        List<Food> food=new ArrayList<Food>();
+        PageHelper.startPage(pn,6);
+        if (listNum==1) {
+            food = foodService.findFoodList();
+        }
+        else if (listNum==2){
+            food=foodService.findFoodList2();
+        }
+        else if (listNum==3){
+            food=foodService.findFoodList3();
+        }
+        else if (listNum==4){
+            food=foodService.findFoodList4();
+        }
+        else{
+            food=foodService.findFoodList5(key);
+        }
+        PageInfo info=new PageInfo(food,5);
+        return Msg.success().add("food",info);
+    }
+
+    /**
+     * 更换头像
+     * @param file 接收前端参数
+     * @return
+     */
+    @PostMapping("/user/uploadFood")
+    public Msg upload(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal Principal principal) {
+        try {
+           principal.getName();
+        } catch (NullPointerException e){
+            return Msg.fail().add("error","亲~请先登录再操作哦~").add("errorCode","403");
+        }
+
+        String fileName = file.getOriginalFilename();
+
+        if(fileName.indexOf("\\") != -1){
+            fileName = fileName.substring(fileName.lastIndexOf("\\"));
+        }
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String dateTime=now.format(format);
+        String filePath = "src/main/resources/static/img/food/";
+        File targetFile = new File(filePath);
+        String avatarUrl="";
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+        Date nowTime = new Date();
+        long l = nowTime.getTime() / 1000;
+        fileName=l+file.getOriginalFilename();
+        FileOutputStream out = null;
+        try {
+            avatarUrl="/"+filePath.substring(26)+fileName;
+            out = new FileOutputStream(filePath+fileName);
+            out.write(file.getBytes());
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("error","亲~上传失败，请重新上传头像！").add("errorCode","300");
+        }
+        return Msg.success().add("avatarUrl",avatarUrl);
+    }
+
+    /**
+     * 添加菜品
+     * @param principal
+     * @param food
+     * @return
+     */
+    @PostMapping("/user/addFood")
+    public Msg addFood(@AuthenticationPrincipal Principal principal,
+                       Food food){
+        try {
+            principal.getName();
+        } catch (NullPointerException e){
+            return Msg.fail().add("error","亲~请先登录再操作哦~").add("errorCode","403");
+        }
+        if (food.getSurplus()>food.getTotal()){
+            return Msg.fail().add("errorCode","600");
+        }
+        else {
+            TimeUtil timeUtil = new TimeUtil();
+            String date = timeUtil.getFormatDateForSix();
+            food.setLastModifyTime(date);
+            foodService.addFood(food);
+            return Msg.success();
+        }
+    }
+
+    /**
+     * 修改菜品信息
+     * @param principal
+     * @param food
+     * @return
+     */
+    @PutMapping("/user/updateFoodById")
+    public Msg updateFoodBuId(@AuthenticationPrincipal Principal principal,
+                       Food food){
+        try {
+            principal.getName();
+        } catch (NullPointerException e){
+            return Msg.fail().add("error","亲~请先登录再操作哦~").add("errorCode","403");
+        }
+        if (food.getSurplus()>food.getTotal()){
+            return Msg.fail().add("errorCode","600");
+        }
+        else {
+            TimeUtil timeUtil = new TimeUtil();
+            String date = timeUtil.getFormatDateForSix();
+            food.setLastModifyTime(date);
+            foodService.modifyFoodByFoodId(food);
+            return Msg.success();
+        }
+    }
+
+    /**
+     * 删除菜品信息
+     * @param principal
+     * @param id 菜品id
+     * @return
+     */
+    @DeleteMapping("/user/deleteFoodById/{id}")
+    public Msg deleteFoodById(@AuthenticationPrincipal Principal principal,
+                              @PathVariable("id") Integer id){
+        try {
+            principal.getName();
+        } catch (NullPointerException e){
+            return Msg.fail().add("error","亲~请先登录再操作哦~").add("errorCode","403");
+        }
+        foodService.removeFoodByFoodId(id);
+        return Msg.success();
     }
 }
