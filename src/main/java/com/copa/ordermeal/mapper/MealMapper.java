@@ -32,4 +32,7 @@ public interface MealMapper {
 
     @Select("SELECT * FROM meal WHERE employeeId=#{e} AND status=2")
     Meal selectMealByEmployeeId2(@Param("e") Integer employeeId);
+
+    @Select("SELECT COUNT(*) FROM meal WHERE status=2 OR status=3")
+    long countMealSend();
 }

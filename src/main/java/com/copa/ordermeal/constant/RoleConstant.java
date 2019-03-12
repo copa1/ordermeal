@@ -7,6 +7,11 @@ package com.copa.ordermeal.constant;
 public interface RoleConstant {
 
     /**
+     * 注销员工
+     */
+    int ROLE_NOTEMPLOYEE = 0;
+
+    /**
      * 普通员工
      */
     int ROLE_EMPLOYEE = 1;

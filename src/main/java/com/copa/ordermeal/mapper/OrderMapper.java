@@ -27,4 +27,10 @@ public interface OrderMapper {
 
     @Update("UPDATE `order` SET status=#{n} WHERE id=#{o}")
     void updateOrderStatusByOrderId(@Param("o") Integer orderId,@Param("n") Integer num);
+
+    @Select("SELECT COUNT(*) FROM `order`")
+    long countOrder();
+
+    @Select("SELECT SUM(foodNum) FROM order_detail")
+    long countFoodNumSale();
 }

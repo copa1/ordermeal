@@ -94,4 +94,24 @@ public interface EmployeeService {
      * @param money 支付的钱数
      */
     void modifyAccountByEmployeeId(Integer id, double money);
+
+    /**
+     * 查出除超级管理员的用户信息
+     * @return
+     */
+    List<Employee> findEmployeeAndRoleList();
+
+    /**
+     * 通过员工id查找员工相关信息
+     * @param employeeId
+     */
+    Employee findEmployeeInfoById(Integer employeeId);
+
+    /**
+     * 通过员工id修改员工权限
+     * @param employeeId 员工id
+     * @param roleId 权限id
+     * @return
+     */
+    void modifyEmployeeRole(Integer employeeId, Integer roleId);
 }

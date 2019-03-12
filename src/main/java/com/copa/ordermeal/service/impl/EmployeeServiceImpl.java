@@ -4,6 +4,7 @@ import com.copa.ordermeal.constant.RoleConstant;
 import com.copa.ordermeal.controller.Msg;
 import com.copa.ordermeal.mapper.EmployeeMapper;
 import com.copa.ordermeal.model.Employee;
+import com.copa.ordermeal.repository.EmployeeRepository;
 import com.copa.ordermeal.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Autowired
     private EmployeeMapper employeeMapper;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Override
     public List<Employee> findUserList() {
@@ -82,5 +86,20 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public void modifyAccountByEmployeeId(Integer id, double money) {
         employeeMapper.updateAccountByEmployeeId(id,money);
+    }
+
+    @Override
+    public List<Employee> findEmployeeAndRoleList() {
+        return employeeRepository.selectEmployeeAndRoleList();
+    }
+
+    @Override
+    public Employee findEmployeeInfoById(Integer employeeId) {
+        return employeeRepository.selectEmployeeInfoById(employeeId);
+    }
+
+    @Override
+    public void modifyEmployeeRole(Integer employeeId, Integer roleId) {
+        employeeMapper.updateEmployeeRole(employeeId,roleId);
     }
 }

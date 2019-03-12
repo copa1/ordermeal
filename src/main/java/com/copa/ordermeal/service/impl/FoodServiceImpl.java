@@ -97,4 +97,14 @@ public class FoodServiceImpl implements FoodService{
     public void removeFoodByFoodId(Integer foodId) {
         foodMapper.deleteFoodByFoodId(foodId);
     }
+
+    @Override
+    public long findFoodUpCount() {
+        return foodMapper.countFoodUp();
+    }
+
+    @Override
+    public long findFoodDownCount() {
+        return foodMapper.countFoodDown();
+    }
 }

@@ -32,3 +32,19 @@ body{
     color: #fff;
     background-color: #428bca;
 }
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    z-index: 2;
+    color: #fff;
+    background-color: #14b701;
+    border-color: #14b701;
+}
+
+/*
+.panel-success {
+    border-color: #14b701;
+}*/
+
+.panel-success {
+    border: 0;
+}

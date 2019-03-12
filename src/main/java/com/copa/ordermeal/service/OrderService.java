@@ -51,4 +51,16 @@ public interface OrderService {
      * @param orderId
      */
     void modifyOrderStatusByOrderId(Integer orderId,Integer num);
+
+    /**
+     * 查询总订单数
+     * @return
+     */
+    long findOrderCount();
+
+    /**
+     * 菜品出售总份数
+     * @return
+     */
+    long findFoodNumSale();
 }

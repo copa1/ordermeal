@@ -53,4 +53,14 @@ public class OrderServiceImpl implements OrderService{
         orderMapper.updateOrderStatusByOrderId(orderId,num);
     }
 
+    @Override
+    public long findOrderCount() {
+        return orderMapper.countOrder();
+    }
+
+    @Override
+    public long findFoodNumSale() {
+        return orderMapper.countFoodNumSale();
+    }
+
 }

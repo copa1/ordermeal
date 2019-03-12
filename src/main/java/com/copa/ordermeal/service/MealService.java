@@ -85,4 +85,10 @@ public interface MealService {
      * @return
      */
     Meal findMealInfoByEmployeeId2(Integer employeeId);
+
+    /**
+     * 查询送餐成功数
+     * @return
+     */
+    long findMealSendCount();
 }

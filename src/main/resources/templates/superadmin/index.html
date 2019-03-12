@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN"  xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 <link type="text/css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 <link type="text/css" th:href="@{/css/adminIndex.css}" rel="stylesheet">
@@ -12,6 +12,52 @@
     <title>员工订餐后台管理系统</title>
 </head>
 <body>
+<!--模态框-->
+<!--修改权限模态框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="employeeModifyRoleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改员工权限</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container" id="confirmModalContainer">
+                    <!--第一行-->
+                    <div class="row">
+                        <div class="col-md-3">
+                           <p>用户名：<span id="usernameRoleModal"></span></p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>姓名：<span id="realNameRoleModal"></span></p>
+                        </div>
+                    </div>
+                    <br>
+                    <!--第二行-->
+                    <div class="row" style="margin-left:-150px">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="font-weight: normal;">权限：</label>
+                                <div class="col-sm-2" style="margin-left:-17px">
+                                    <select class="form-control" id="roleId">
+                                        <option value="0">注销员工</option>
+                                        <option value="1">普通员工</option>
+                                        <option value="2">送餐员</option>
+                                        <option value="3">菜单管理员</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modifyRoleButton">修改权限</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--头部-->
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -27,7 +73,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse" style="margin-left: 15px">
             <ul class="nav navbar-nav navbar-right" style="margin-right:5px">
-                <li style="margin-top:15px"><span style="color: #9d9d9d;">欢迎您，root！来到员工订单后台系统！</span></li>
+                <li style="margin-top:15px"><span style="color: #9d9d9d;">欢迎您，<span sec:authentication="name"></span>！来到员工订单后台系统！</span></li>
                 <li><a href="#">注销</a></li>
             </ul>
         </div>
@@ -40,19 +86,19 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">首页</a></li>
+                <li class="clickLi welcome-pageLi"><a href="#">首页</a></li>
                 <li role="presentation" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="collapse" href="#userManage" role="button" aria-expanded="false" aria-controls="userManage">
                         用户管理 <span class="caret"></span>
                     </a>
                     <ul class="nav nav-sidebar dropdown collapse" id="userManage" style="margin-left:30px">
-                        <li><a href="#">员工权限/注销/恢复管理</a></li>
-                        <li><a href="#">员工余额充值</a></li>
+                        <li class="clickLi employeeStatus-pageLi"><a href="#">查看员工/权限/注销/恢复管理</a></li>
+                        <li class="clickLi employeeRecharge-pageLi"><a href="#">员工余额充值</a></li>
                     </ul>
                 </li>
-                <li><a href="#">菜品查看</a></li>
-                <li><a href="#">订单查看</a></li>
-                <li><a href="#">配送查看</a></li>
+                <li class="clickLi foodCheck-pageLi"><a href="#">菜品查看</a></li>
+                <li class="clickLi orderCheck-pageLi"><a href="#">订单查看</a></li>
+                <li class="clickLi mealCheck-pageLi"><a href="#">配送查看</a></li>
             </ul>
         </div>
         <!--右边-->
@@ -60,9 +106,100 @@
             <!--首页模块-->
             <div id="welcome-page">
                 <h2 class="page-header">首页</h2>
+                <!--第一行-->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="panel panel-success" style="width: 300px">
+                            <a href="#" rel="external nofollow" class="list-group-item active" >
+                                <h4 class="list-group-item-heading">总交易订单</h4><h1 id="orderCount">70</h1>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-offset-1">
+                        <div class="panel panel-success" style="width: 300px">
+                            <a href="#" rel="external nofollow" class="list-group-item active" >
+                                <h4 class="list-group-item-heading">配送成功送达数</h4><h1 id="mealCount"></h1>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-offset-1">
+                        <div class="panel panel-success" style="width: 300px">
+                            <a href="#" rel="external nofollow" class="list-group-item active" >
+                                <h4 class="list-group-item-heading">菜品出售总份数</h4><h1 id="foodSaleCount"></h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <!--第二行-->
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-2">
+                        <div class="panel panel-success" style="width: 300px">
+                            <a href="#" rel="external nofollow" class="list-group-item active" >
+                                <h4 class="list-group-item-heading">菜品上架数</h4><h1 id="foodUpCount"></h1>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-offset-1">
+                        <div class="panel panel-success" style="width: 300px">
+                            <a href="#" rel="external nofollow" class="list-group-item active" >
+                                <h4 class="list-group-item-heading">菜品下架数</h4><h1 id="foodDownCount"></h1>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--查看员工/权限/注销/恢复管理模块-->
+            <div id="employeeStatus-page">
+                <h2 class="page-header">查看员工/权限/注销/恢复管理</h2>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <td>用户id</td>
+                                <td>用户名</td>
+                                <td>联系电话</td>
+                                <td>性别</td>
+                                <td>电子邮箱</td>
+                                <td>真实姓名</td>
+                                <td>头像</td>
+                                <td>最近登录时间</td>
+                                <td>余额</td>
+                                <td>角色</td>
+                                <td>修改权限</td>
+                            </tr>
+                            </thead>
+                            <tbody id="employeeList1Tbody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center" id="employeeList1Tbody_setPage"></div>
+                </div>
+            </div>
+            <!--员工余额充值模块-->
+            <div id="employeeRecharge-page">
+                <h2 class="page-header">员工余额充值</h2>
+            </div>
+            <!--菜品查看模块-->
+            <div id="foodCheck-page">
+                <h2 class="page-header">菜品查看</h2>
+            </div>
+            <!--订单查看模块-->
+            <div id="orderCheck-page">
+                <h2 class="page-header">订单查看</h2>
+            </div>
+            <!--配送查看模块-->
+            <div id="mealCheck-page">
+                <h2 class="page-header">配送查看</h2>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript" th:src="@{/js/adminIndex.js}"></script>
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
 </body>
 </html>

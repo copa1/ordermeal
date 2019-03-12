@@ -77,4 +77,9 @@ public class MealServiceImpl implements MealService{
     public Meal findMealInfoByEmployeeId2(Integer employeeId) {
         return mealMapper.selectMealByEmployeeId2(employeeId);
     }
+
+    @Override
+    public long findMealSendCount() {
+        return mealMapper.countMealSend();
+    }
 }

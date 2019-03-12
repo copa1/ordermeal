@@ -61,4 +61,10 @@ public interface FoodMapper {
 
     @Delete("DELETE FROM food WHERE id=#{f}")
     void deleteFoodByFoodId(@Param("f") Integer foodId);
+
+    @Select("SELECT COUNT(*) FROM food WHERE status=1")
+    long countFoodUp();
+
+    @Select("SELECT COUNT(*) FROM food WHERE status=0")
+    long countFoodDown();
 }

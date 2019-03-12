@@ -108,4 +108,16 @@ public interface FoodService {
      * @param foodId 菜品id
      */
     void removeFoodByFoodId(Integer foodId);
+
+    /**
+     * 上架菜品数
+     * @return
+     */
+    long findFoodUpCount();
+
+    /**
+     * 下架菜品数
+     * @return
+     */
+    long findFoodDownCount();
 }
