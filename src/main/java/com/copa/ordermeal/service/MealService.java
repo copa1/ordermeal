@@ -91,4 +91,10 @@ public interface MealService {
      * @return
      */
     long findMealSendCount();
+
+    /**
+     * 查找所有的送餐-员工表
+     * @return
+     */
+    List<Meal> findMealAndEmployeeList();
 }

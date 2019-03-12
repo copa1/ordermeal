@@ -1,6 +1,6 @@
 package com.copa.ordermeal.controller;
 
-import com.copa.ordermeal.model.Employee;
+import com.copa.ordermeal.model.*;
 import com.copa.ordermeal.service.EmployeeService;
 import com.copa.ordermeal.service.FoodService;
 import com.copa.ordermeal.service.MealService;
@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,7 +59,7 @@ public class AdminController {
     }
 
     /**
-     * 查看员工/权限/注销/恢复管理模块
+     * 查看员工/权限/注销/恢复管理模块、充值模块
      * @param principal
      * @return
      */
@@ -104,4 +105,110 @@ public class AdminController {
         employeeService.modifyEmployeeRole(employeeId,roleId);
         return Msg.success();
     }
+
+    /**
+     * 充值界面模态框修改员工余额
+     * @param employeeId
+     * @return
+     */
+    @PutMapping("/admin/modifyEmployeeAccount/{employeeId}")
+    public Msg modifyEmployeeRole(@AuthenticationPrincipal Principal principal,
+                                  @PathVariable("employeeId") Integer employeeId,
+                                  @RequestParam("account") double account){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        employeeService.modifyEmployeeAccount(employeeId,account);
+        return Msg.success();
+    }
+
+    /**
+     * 查看菜品模块
+     * @return
+     */
+    @GetMapping("/admin/getFoodList")
+    public Msg getFoodList(@AuthenticationPrincipal Principal principal,
+                           @RequestParam(value = "pn",defaultValue = "1") Integer pn){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        PageHelper.startPage(pn,6);
+        List<Food> food = foodService.findFoodList();
+        PageInfo info=new PageInfo(food,5);
+        return Msg.success().add("food",info);
+    }
+
+    /**
+     * 查看订单模块
+     * @return
+     */
+    @GetMapping("/admin/getOrderList")
+    public Msg getOrderList(@AuthenticationPrincipal Principal principal,
+                           @RequestParam(value = "pn",defaultValue = "1") Integer pn){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        PageHelper.startPage(pn,6);
+        List<Order> orders=orderService.findOrderAndEmployeeList();
+        PageInfo info=new PageInfo(orders,5);
+
+        return Msg.success().add("order",info);
+    }
+
+    /**
+     * 查看订单模块模态框信息(配送者信息)
+     * @return
+     */
+    @GetMapping("/admin/getOrderListModal")
+    public Msg getOrderListModal(@AuthenticationPrincipal Principal principal,
+                                 @RequestParam("orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        Meal meal = mealService.findMealAndOrderAndEmployeeByOrderId(orderId);
+        return Msg.success().add("order",meal);
+    }
+
+    /**
+     * 查看订单模块模态框信息(详细订单信息)
+     * @return
+     */
+    @GetMapping("/admin/getOrderDetailByOrderId")
+    public Msg getOrderDetailByOrderId(@AuthenticationPrincipal Principal principal,
+                                 @RequestParam("orderId") Integer orderId){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        List<OrderDetail> order = orderService.findOrderDetailByOrderId(orderId);
+        return Msg.success().add("order",order);
+    }
+
+    /**
+     * 查看配送模块
+     * @return
+     */
+    @GetMapping("/admin/getMealList")
+    public Msg getMealList(@AuthenticationPrincipal Principal principal,
+                            @RequestParam(value = "pn",defaultValue = "1") Integer pn){
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        PageHelper.startPage(pn,6);
+        List<Meal> meals=mealService.findMealAndEmployeeList();
+        PageInfo info=new PageInfo(meals,5);
+        return Msg.success().add("meal",info);
+    }
+
 }

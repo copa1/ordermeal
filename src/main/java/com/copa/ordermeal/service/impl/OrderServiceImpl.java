@@ -63,4 +63,9 @@ public class OrderServiceImpl implements OrderService{
         return orderMapper.countFoodNumSale();
     }
 
+    @Override
+    public List<Order> findOrderAndEmployeeList() {
+        return orderRepository.selectOrderAndEmployeeList();
+    }
+
 }

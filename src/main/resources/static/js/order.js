@@ -43,7 +43,7 @@ $(function () {
                     '        <div class="col-md-12 text-center">交易成功，您可以在个人中心 → 我的订单查看订单详情</div>');
                 $("#orderTable").append(firstRow).append(secondRow1).append(secondRow2).append(thirdRow);
                 $.each(result.extend.order,function (index,item) {
-                    var tbody=$('<tr><td>'+item.food.name+'</td><td>'+item.food.price+'</td><td>'+item.foodNum+'</td><td>'+item.price+'</td></tr>');
+                    var tbody=$('<tr><td>'+item.food.name+'</td><td>'+item.food.price/item.foodNum+'</td><td>'+item.foodNum+'</td><td>'+item.price+'</td></tr>');
                     $("tbody").append(tbody);
                 })
 

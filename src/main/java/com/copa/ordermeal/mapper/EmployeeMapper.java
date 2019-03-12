@@ -61,4 +61,7 @@ public interface EmployeeMapper {
 
     @Update("UPDATE employee_role SET role_id=#{r} WHERE employee_id=#{e}")
     void updateEmployeeRole(@Param("e") Integer employeeId,@Param("r") Integer roleId);
+
+    @Update("UPDATE employee SET account=account+#{a} WHERE id=#{e}")
+    void updateEmployeeAccount(@Param("e") Integer employeeId,@Param("a") double account);
 }

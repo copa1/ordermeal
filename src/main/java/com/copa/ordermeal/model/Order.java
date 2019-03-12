@@ -44,4 +44,9 @@ public class Order {
      * 4-订单被取消（官方已取消）
      */
     private int status;
+
+    /**
+     * 员工
+     */
+    private Employee employee;
 }

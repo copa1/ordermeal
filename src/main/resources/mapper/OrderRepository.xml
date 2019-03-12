@@ -22,11 +22,39 @@
         </association>
     </resultMap>
 
+    <resultMap id="employeeMap" type="com.copa.ordermeal.model.Order">
+        <id property="id" column="id"/>
+        <result property="employeeId" column="employeeId"/>
+        <result property="sumPrice" column="sumPrice"/>
+        <result property="address" column="address"/>
+        <result property="payment" column="payment"/>
+        <result property="status" column="status"/>
+        <association property="employee" javaType="com.copa.ordermeal.model.Employee">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="phone" column="phone"/>
+            <result property="gender" column="gender"/>
+            <result property="email" column="email"/>
+            <result property="realName" column="realName"/>
+            <result property="avatar" column="avatar"/>
+            <result property="recentlyLanded" column="recentlyLanded"/>
+            <result property="account" column="account"/>
+        </association>
+    </resultMap>
+
+
     <select id="selectOrderDetailByOrderId" resultMap="orderDetailMap">
         SELECT od.*,f.*
         FROM order_detail od
         JOIN food f on od.foodId=f.id
         WHERE od.orderId=#{o}
+    </select>
+
+    <select id="selectOrderAndEmployeeList" resultMap="employeeMap">
+        SELECT o.*,e.*
+        FROM `order` o
+        JOIN employee e on o.employeeId=e.id
     </select>
 
 

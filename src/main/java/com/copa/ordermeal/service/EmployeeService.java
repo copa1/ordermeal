@@ -114,4 +114,11 @@ public interface EmployeeService {
      * @return
      */
     void modifyEmployeeRole(Integer employeeId, Integer roleId);
+
+    /**
+     * 员工充值
+     * @param employeeId
+     * @param account
+     */
+    void modifyEmployeeAccount(Integer employeeId, double account);
 }

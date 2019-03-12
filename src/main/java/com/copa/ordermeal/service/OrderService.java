@@ -63,4 +63,10 @@ public interface OrderService {
      * @return
      */
     long findFoodNumSale();
+
+    /**
+     * 查找订单-员工表
+     * @return
+     */
+    List<Order> findOrderAndEmployeeList();
 }

@@ -49,7 +49,6 @@ $("#loginButton").click(function () {
         return true;
     }*/
    if (username.val()!=="" && username.val().length!==0 && password.val()!=="" && password.val().length!==0){
-       layer.msg("登录成功",{icon:"1"});
        return true;
    }
    else {

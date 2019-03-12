@@ -102,4 +102,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void modifyEmployeeRole(Integer employeeId, Integer roleId) {
         employeeMapper.updateEmployeeRole(employeeId,roleId);
     }
+
+    @Override
+    public void modifyEmployeeAccount(Integer employeeId, double account) {
+        employeeMapper.updateEmployeeAccount(employeeId,account);
+    }
 }

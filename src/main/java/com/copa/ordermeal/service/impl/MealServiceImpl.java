@@ -82,4 +82,9 @@ public class MealServiceImpl implements MealService{
     public long findMealSendCount() {
         return mealMapper.countMealSend();
     }
+
+    @Override
+    public List<Meal> findMealAndEmployeeList() {
+        return mealRepository.selectMealAndEmployeeList();
+    }
 }

@@ -63,4 +63,12 @@
         JOIN employee e ON o.employeeId=e.id
         WHERE m.orderId=#{o}
     </select>
+
+    <select id="selectMealAndEmployeeList" resultMap="mealMap">
+        SELECT m.status "m_status",m.orderId,m.employeeId,m.id,e.*
+        FROM meal m
+        LEFT JOIN employee e ON m.employeeId=e.id
+    </select>
+
+
 </mapper>
