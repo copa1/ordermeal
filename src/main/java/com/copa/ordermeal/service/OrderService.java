@@ -59,7 +59,7 @@ public interface OrderService {
     long findOrderCount();
 
     /**
-     * 菜品出售总份数
+     * 菜品出售总份数（只算送餐成功的）
      * @return
      */
     long findFoodNumSale();

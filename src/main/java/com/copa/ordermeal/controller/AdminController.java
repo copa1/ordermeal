@@ -59,7 +59,7 @@ public class AdminController {
     }
 
     /**
-     * 查看员工/权限/注销/恢复管理模块、充值模块
+     * 查看员工/权限/注销/恢复管理模块、充值模块、员工信息修改模块
      * @param principal
      * @return
      */
@@ -211,4 +211,49 @@ public class AdminController {
         return Msg.success().add("meal",info);
     }
 
+    /**
+     * 检验手机号码是否可用
+     * @return
+     */
+    @GetMapping("/admin/checkPhone")
+    public Msg getPhoneCount(@RequestParam("phone") String phone,
+                             @RequestParam("employeeId") Integer employeeId){
+        long countPhone=employeeService.findPhoneCount(phone);
+        String thisPhone=employeeService.findPhone(employeeId);
+        if ((countPhone==1&&thisPhone.equals(phone))||countPhone==0){
+            return Msg.success();
+        }
+        return Msg.fail().add("error","亲~该手机号码不可用哦~请换一个手机号码吧~");
+    }
+
+    /**
+     * 检验电子邮箱是否可用
+     * @return
+     */
+    @GetMapping("/admin/checkEmail")
+    public Msg checkEmail(@RequestParam("email") String email,
+                             @RequestParam("employeeId") Integer employeeId){
+        long countPhone=employeeService.findEmailCount(email);
+        String thisEmail=employeeService.findEmail(employeeId);
+        if ((countPhone==1&&thisEmail.equals(email))||countPhone==0){
+            return Msg.success();
+        }
+        return Msg.fail().add("error","亲~该电子邮箱不可用哦~请换一个电子邮箱吧~");
+    }
+
+    /**
+     * 修改员工信息
+     * @return
+     */
+    @PutMapping("/admin/modifyEmployeeInfo")
+    public Msg modifyEmployeeInfo(@AuthenticationPrincipal Principal principal,
+                                  Employee employee) {
+        try {
+            principal.getName();
+        }catch (NullPointerException e){
+            return Msg.fail().add("errorCode","403");
+        }
+        employeeService.modifyEmployeePhoneAndEmailById(employee);
+        return Msg.success();
+    }
 }

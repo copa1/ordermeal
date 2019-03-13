@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -30,9 +30,10 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav" style="margin-left: 50px">
-                <li><a th:href="@{/user/index}">主页 <span class="sr-only">(current)</span></a></li>
+                <li><a th:href="@{/user/index}">主页</a></li>
                 <li><a th:href="@{/user/rice}" sec:authorize="hasRole('EMPLOYEE')">菜单</a></li>
                 <li><a th:href="@{/user/rice}" sec:authorize="!isAuthenticated()">菜单</a></li>
+                <li><a th:href="@{/user/foodSaleTop}">菜品售卖排行榜</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" style="margin-right: 10px">
                 <li class="top-buttonLi" th:if="${#httpServletRequest.remoteUser}" sec:authorize="hasRole('EMPLOYEE')"><button type="button" class="btn btn-primary" id="cartPageButton" style="background-color: #f04e4e;border-color: #f04e4e;margin-top:3px;">我的购物车</button></li>
@@ -44,7 +45,10 @@
                         <li><a th:href="@{/user/userCenter}" sec:authorize="hasRole('EMPLOYEE')">个人中心</a></li>
                         <li><a th:href="@{/user/userCenter1}" sec:authorize="hasRole('TAKER')">个人中心</a></li>
                         <li><a th:href="@{/user/userCenter2}" sec:authorize="hasRole('ADMIN')">个人中心</a></li>
-                        <li><a th:href="@{/admin/login}">后台管理系统</a></li>
+                        <li><a th:href="@{/admin/login}" sec:authorize="hasRole('EMPLOYEE')">后台管理系统登录</a></li>
+                        <li><a th:href="@{/admin/login}" sec:authorize="hasRole('TAKER')">后台管理系统登录</a></li>
+                        <li><a th:href="@{/admin/login}" sec:authorize="hasRole('ADMIN')">后台管理系统登录</a></li>
+                        <li><a th:href="@{/admin/index}" sec:authorize="hasRole('SUPERADMIN')">后台管理系统</a></li>
                         <li sec:authorize="hasRole('TAKER')"><a th:href="@{/user/meal}">送餐员页面</a></li>
                         <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/user/menu}">菜单管理</a></li>
                         <li role="separator" class="divider"></li>

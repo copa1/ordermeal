@@ -87,4 +87,9 @@ public class MealServiceImpl implements MealService{
     public List<Meal> findMealAndEmployeeList() {
         return mealRepository.selectMealAndEmployeeList();
     }
+
+    @Override
+    public List<Meal> findOrderSendList() {
+        return mealMapper.selectOrderSendList();
+    }
 }

@@ -237,6 +237,7 @@ $("#registerButton").click(function () {
     }
     //正则表达式及其细节判断
     var regPassword=new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$");
+    var regPhone=new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
     var regEmail=new RegExp("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
     var regRealName=new RegExp("^[\u4E00-\u9FA5]{2,}$");
     if (!regPassword.test(password.val())){
@@ -247,6 +248,11 @@ $("#registerButton").click(function () {
     if (confirmPassword.val()!==password.val()){
         layer.msg("亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~",{icon:"0"});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
+        return false;
+    }
+    if (!regPhone.test(phone.val())){
+        layer.msg("亲~手机号码格式不对哦~请重新输入手机号",{icon:"0"});
+        userInfoDeal("phoneDiv","has-success","has-error","亲~手机号码格式不对哦~请重新输入手机号");
         return false;
     }
     if (!regEmail.test(email.val())){

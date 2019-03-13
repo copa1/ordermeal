@@ -121,4 +121,24 @@ public interface EmployeeService {
      * @param account
      */
     void modifyEmployeeAccount(Integer employeeId, double account);
+
+    /**
+     * 通过员工id来查找该手机号是否匹配
+     * @param employeeId 员工id
+     * @return
+     */
+    String findPhone(Integer employeeId);
+
+    /**
+     * 通过员工id来查找该电子邮箱是否匹配
+     * @param employeeId 员工id
+     * @return
+     */
+    String findEmail(Integer employeeId);
+
+    /**
+     * 通过员工id来修改电子邮箱和手机号码
+     * @param employee
+     */
+    void modifyEmployeePhoneAndEmailById(Employee employee);
 }

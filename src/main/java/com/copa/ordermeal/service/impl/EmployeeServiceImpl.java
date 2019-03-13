@@ -107,4 +107,19 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void modifyEmployeeAccount(Integer employeeId, double account) {
         employeeMapper.updateEmployeeAccount(employeeId,account);
     }
+
+    @Override
+    public String findPhone(Integer employeeId) {
+        return employeeMapper.selectPhone(employeeId);
+    }
+
+    @Override
+    public String findEmail(Integer employeeId) {
+        return employeeMapper.selectEmail(employeeId);
+    }
+
+    @Override
+    public void modifyEmployeePhoneAndEmailById(Employee employee) {
+        employeeMapper.updateEmployeePhoneAndEmailById(employee);
+    }
 }

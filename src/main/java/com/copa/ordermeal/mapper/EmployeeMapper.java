@@ -64,4 +64,13 @@ public interface EmployeeMapper {
 
     @Update("UPDATE employee SET account=account+#{a} WHERE id=#{e}")
     void updateEmployeeAccount(@Param("e") Integer employeeId,@Param("a") double account);
+
+    @Select("SELECT phone FROM employee WHERE id=#{e}")
+    String selectPhone(@Param("e") Integer employeeId);
+
+    @Select("SELECT email FROM employee WHERE id=#{e}")
+    String selectEmail(@Param("e") Integer employeeId);
+
+    @Update("UPDATE employee SET phone=#{e.phone},email=#{e.email} WHERE id=#{e.id}")
+    void updateEmployeePhoneAndEmailById(@Param("e") Employee employee);
 }

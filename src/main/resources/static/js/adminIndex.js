@@ -61,14 +61,17 @@ $(".clickLi").click(function () {
         to_orderPage(1);
     }
     else if (name==="mealCheck-pageLi"){
-        to_mealPage(1)
+        to_mealPage(1);
+    }
+    else if (name==="employeeInfoModify-pageLi"){
+        to_employeeInfoPage(1);
     }
 });
 
 //div模块全清
 function clearDiv() {
     $(".clickLi").removeClass("active");
-    $("#welcome-page,#employeeStatus-page,#employeeRecharge-page,#foodCheck-page,#orderCheck-page,#mealCheck-page").css("display","none");
+    $("#welcome-page,#employeeStatus-page,#employeeRecharge-page,#foodCheck-page,#orderCheck-page,#mealCheck-page,#employeeInfoModify-page").css("display","none");
 }
 
 // 转员工权限修改页面
@@ -731,4 +734,236 @@ function build_mealPage_nav(result){
 
     var navEle=$("<nav></nav>").append(ul);
     navEle.appendTo("#mealTbody_setPage");
+}
+
+// 转员工信息修改页面
+function to_employeeInfoPage(pn) {
+    $.ajax({
+        url:"/admin/employeeStatusPage",
+        data:"pn="+pn,
+        type:"get",
+        success:function (result) {
+            build_employeeInfoPage_list(result);
+            build_employeeInfoPage_nav(result);
+        }
+    })
+}
+
+// 员工信息修改列表
+function build_employeeInfoPage_list(result){
+    $("#employeeList3Tbody").empty();
+    $.each(result.extend.employee.list,function (index,item) {
+        var id=$("<td></td>").append(item.id);
+        var username=$("<td></td>").append(item.username);
+        var phone=$("<td></td>").append(item.phone);
+        var email=$("<td></td>").append(item.email);
+        var realName=$("<td></td>").append(item.realName);
+
+        var button=$('<td><button type="button" class="btn btn-info openEmployeeInfoModalButton" data-id="'+item.id+'">修改信息</button></td>');
+        $('<tr></tr>').append(id)
+            .append(username)
+            .append(realName)
+            .append(phone)
+            .append(email)
+            .append(button).appendTo("#employeeList3Tbody");
+    })
+}
+
+// 员工信息修改设置页
+function build_employeeInfoPage_nav(result){
+    $("#employeeTbody3_setPage").empty();
+    var ul=$("<ul></ul>").addClass("pagination");
+
+    var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+    var prePageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+    if(result.extend.employee.hasPreviousPage==false){
+        firstPageLi.addClass("disabled");
+        prePageLi.addClass("disabled");
+    }else {
+        firstPageLi.click(function () {
+            to_employeeInfoPage(1);
+        });
+        prePageLi.click(function () {
+            to_employeeInfoPage(result.extend.employee.pageNum-1);
+        });
+    }
+    var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+    var lastPageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+    if(result.extend.employee.hasNextPage==false){
+        nextPageLi.addClass("disabled");
+        lastPageLi.addClass("disabled");
+    }else {
+        nextPageLi.click(function () {
+            to_employeeInfoPage(result.extend.employee.pageNum+1);
+        });
+        lastPageLi.click(function () {
+            to_employeeInfoPage(result.extend.employee.pages);
+        });
+    }
+    ul.append(firstPageLi).append(prePageLi);
+    $.each(result.extend.employee.navigatepageNums,function (index,item) {
+
+        var numLi=$("<li></li>").append($("<a></a>").append(item));
+        if(result.extend.employee.pageNum==item){
+            numLi.addClass("active");
+        }
+        numLi.click(function () {
+            to_employeeInfoPage(item);
+        });
+        ul.append(numLi);
+    });
+    ul.append(nextPageLi).append(lastPageLi);
+
+    var navEle=$("<nav></nav>").append(ul);
+    navEle.appendTo("#employeeTbody3_setPage");
+
+}
+
+$(document).on("click",".openEmployeeInfoModalButton",function () {
+    $("#usernameInfoModal1,#realNameInfoModal1,#employeePhoneSpan,#employeeEmailSpan").empty();
+    $("#employeePhone").val("");
+    $("#employeeEmail").val("");
+    // $("input[name='roleId']").attr("checked",false);
+    $.ajax({
+        url:"/admin/getEmployeeRoleStatus",
+        type:"get",
+        data:"employeeId="+$(this).attr("data-id"),
+        success:function (result) {
+            // console.log(result);
+            $("#modifyInfoButton").attr("data-id",result.extend.employee.id);
+            $("#usernameInfoModal1").append(result.extend.employee.username);
+            $("#realNameInfoModal1").append(result.extend.employee.realName);
+            $("#employeePhone").val(result.extend.employee.phone);
+            $("#employeeEmail").val(result.extend.employee.email);
+        }
+    });
+    $('#employeeModifyInfoModal').modal({
+        backdrop: "static"
+    })
+});
+
+//员工修改按钮处理
+$("#modifyInfoButton").click(function () {
+    // alert($(this).attr("data-id"));
+    //空值判断
+    if ($("#employeePhone").val() === "" || $("#employeePhone").val().length === 0) {
+        $("#employeePhoneSpan").empty();
+        layer.msg("亲~手机号码不能为空哦~", {icon: "0"});
+        $("#employeePhoneSpan").append("亲~手机号码不能为空哦~");
+        return false;
+    }
+    $("#employeePhoneSpan").empty();
+    if ($("#employeeEmail").val() === "" || $("#employeeEmail").val().length === 0) {
+        $("#employeeEmailSpan").empty();
+        layer.msg("亲~电子邮箱不能为空哦~", {icon: "0"});
+        $("#employeeEmailSpan").append("亲~电子邮箱不能为空哦~");
+        return false;
+    }
+    $("#employeeEmailSpan").empty();
+    //正则表达式判断
+    var regPhone = new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
+    var regEmail = new RegExp("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+    if (!regPhone.test($("#employeePhone").val())) {
+        $("#employeePhoneSpan").empty();
+        layer.msg("亲~手机号码格式不对哦~请重新输入手机号", {icon: "0"});
+        $("#employeePhoneSpan").append("亲~手机号码格式不对哦~请重新输入手机号");
+        return false;
+    }
+    $("#employeePhoneSpan").empty();
+    if (!regEmail.test($("#employeeEmail").val())) {
+        $("#employeeEmailSpan").empty();
+        layer.msg("亲~电子邮箱格式不对哦~请重新输入吧~", {icon: "0"});
+        $("#employeeEmailSpan").append("亲~电子邮箱格式不对哦~请重新输入吧~");
+        return false;
+    }
+    $("#employeeEmailSpan").empty();
+
+    //ajax判断
+    if (phoneRepeat($("#employeePhone").val(), $(this).attr("data-id")) == false) {
+        $("#employeePhoneSpan").empty();
+        layer.msg("亲~该手机号码不可用哦~请换一个手机号码吧~", {icon: "0"});
+        $("#employeePhoneSpan").append("亲~该手机号码不可用哦~请换一个手机号码吧~");
+        return false;
+    }
+    $("#employeePhoneSpan").empty();
+    if (emailRepeat($("#employeeEmail").val(), $(this).attr("data-id")) == false) {
+        $("#employeeEmailSpan").empty();
+        layer.msg("亲~该电子邮箱不可用哦~请换一个电子邮箱吧~", {icon: "0"});
+        $("#employeeEmailSpan").append("亲~该电子邮箱不可用哦~请换一个电子邮箱吧~");
+        return false;
+    }
+
+    else{
+        var id=0;
+        id=$(this).attr("data-id");
+        // alert($(this).attr("data-id"));
+        $("#employeeEmailSpan").empty();
+        layer.confirm("您是否要为员工姓名为【"+$("#realNameInfoModal1").text()+"】修改信息吗？", {
+            title:"修改员工信息提示",icon: 3,btn: ["确定修改","取消"] //按钮
+        }, function(index){
+            $.ajax({
+                url:"/admin/modifyEmployeeInfo",
+                type:"put",
+                data:{id:id,phone:$("#employeePhone").val(),email:$("#employeeEmail").val()},
+                success:function (result) {
+                    if (result.extend.errorPage === "403") {
+                        alert("您尚未登录！请先登录！");
+                        window.location.href = "http://localhost/admin/login";
+                    } else {
+                        layer.alert("修改员工信息成功！");
+                        $('#employeeModifyInfoModal').modal('hide');
+                        to_employeeInfoPage(1);
+                    }
+                }
+            })
+        }, function(){
+            layer.msg('修改操作取消', {icon: 2});
+        });
+
+    }
+
+
+});
+
+//联系电话有没有重复
+function phoneRepeat(val,empId) {
+    var phoneResult =false;
+    if ($("#employeePhone").val()!=="" && $("#employeePhone").val().length!==0){
+        $.ajax({
+            url:"/admin/checkPhone",
+            data:{phone:val,employeeId:empId},
+            type:"get",
+            async: false,//同步加载（必须加）
+            success:function (result) {
+                if (result.code=='100'){
+                    phoneResult=true;
+                }else {
+                    phoneResult=false;
+                }
+            }
+        });
+        return phoneResult;
+    }
+}
+
+
+//电子邮箱有没有重复
+function emailRepeat(val,empId) {
+    var emailResult =false;
+    if ($("#employeeEmail").val()!=="" && $("#employeeEmail").val().length!==0){
+        $.ajax({
+            url:"/admin/checkEmail",
+            data:{email:val,employeeId:empId},
+            type:"get",
+            async: false,//同步加载（必须加）
+            success:function (result) {
+                if (result.code=='100'){
+                    emailResult=true;
+                }else {
+                    emailResult=false;
+                }
+            }
+        });
+        return emailResult;
+    }
 }

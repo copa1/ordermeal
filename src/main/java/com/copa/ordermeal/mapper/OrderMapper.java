@@ -31,6 +31,6 @@ public interface OrderMapper {
     @Select("SELECT COUNT(*) FROM `order`")
     long countOrder();
 
-    @Select("SELECT SUM(foodNum) FROM order_detail")
+    @Select("SELECT SUM(foodTopNum) FROM foodSaleRank")
     long countFoodNumSale();
 }

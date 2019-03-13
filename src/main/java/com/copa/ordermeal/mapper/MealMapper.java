@@ -4,6 +4,8 @@ import com.copa.ordermeal.model.Meal;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 3.3
  * meal表注解版操作
@@ -35,4 +37,7 @@ public interface MealMapper {
 
     @Select("SELECT COUNT(*) FROM meal WHERE status=2 OR status=3")
     long countMealSend();
+
+    @Select("SELECT * FROM meal WHERE status=2 OR status=3")
+    List<Meal> selectOrderSendList();
 }

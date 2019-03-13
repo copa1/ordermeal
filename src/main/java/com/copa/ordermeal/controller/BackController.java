@@ -162,4 +162,13 @@ public class BackController {
     public String userMenuPage(){
         return "users/menu";
     }
+
+    /**
+     * 菜品售卖排行榜页面
+     * @return
+     */
+    @GetMapping("/user/foodSaleTop")
+    public String foodSaleTopPage(){
+        return "users/foodTop";
+    }
 }

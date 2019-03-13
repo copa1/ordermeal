@@ -97,4 +97,10 @@ public interface MealService {
      * @return
      */
     List<Meal> findMealAndEmployeeList();
+
+    /**
+     * 查出已送达的订单
+     * @return
+     */
+    List<Meal> findOrderSendList();
 }
