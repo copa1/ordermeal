@@ -8,11 +8,16 @@ import com.copa.ordermeal.service.CartService;
 import com.copa.ordermeal.service.EmployeeService;
 import com.copa.ordermeal.service.MealService;
 import com.copa.ordermeal.service.OrderService;
+import com.copa.ordermeal.util.TimeUtil;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -40,12 +45,20 @@ public class OrderController {
      */
     @PostMapping("/user/createOrder")
     public Msg createOrder(@AuthenticationPrincipal Principal principal,
-                           Order order){
+                           Order order,
+                           @RequestParam("sendTime") Integer sendTime){
         try {
             principal.getName();
         }catch (NullPointerException e){
             return Msg.fail().add("errorCode","403");
         }
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime plus = now.plusMinutes(sendTime);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String orderTime = now.format(format);
+        String edelTime = plus.format(format);
+        order.setOrderTime(orderTime);
+        order.setEdelTime(edelTime);
         Employee employee = employeeService.findEmployeeInfoByUsername(principal.getName());
         order.setEmployeeId(employee.getId());
         if (order.getPayment()==1){
@@ -180,4 +193,15 @@ public class OrderController {
         return Msg.success();
     }
 
+   /* @GetMapping("/user/aa")
+    public Msg aa(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime minus = now.plusMinutes(30);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String format1 = now.format(format);
+        String format2 = minus.format(format);
+        System.out.println(format1);
+        System.out.println(format2);
+        return Msg.success();
+    }*/
 }

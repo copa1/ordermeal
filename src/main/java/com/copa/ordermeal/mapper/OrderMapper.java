@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderMapper {
 
-    @Insert("INSERT INTO `order`(employeeId,sumPrice,address,payment,status) VALUES(#{o.employeeId},#{o.sumPrice},#{o.address},#{o.payment},#{o.status})")
+    @Insert("INSERT INTO `order`(employeeId,sumPrice,address,payment,status,orderTime,edelTime) VALUES(#{o.employeeId},#{o.sumPrice},#{o.address},#{o.payment},#{o.status},#{o.orderTime},#{o.edelTime})")
     void insertOrder(@Param("o") Order order);
 
     @Select("SELECT * FROM `order` WHERE employeeId=#{e} AND (status=0 OR status=1) ORDER BY id DESC LIMIT 1")

@@ -40,4 +40,13 @@ public interface MealMapper {
 
     @Select("SELECT * FROM meal WHERE status=2 OR status=3")
     List<Meal> selectOrderSendList();
+
+    @Update("UPDATE meal SET acceptOrderTime=#{a},esendTime=#{e} WHERE orderId=#{o}")
+    void updateMealAcceptOrderTimeAndEsendTimeByOrderId(@Param("a") String acceptOrderTime,@Param("e") String esendTime,@Param("o") Integer orderId);
+
+    @Update("UPDATE meal SET sendTime=#{s} WHERE orderId=#{o}")
+    void updateSendTimeByOrderId(@Param("s") String sendTime,@Param("o") Integer orderId);
+
+    @Select("SELECT COUNT(*) FROM meal WHERE sendTime IS NOT NULL AND orderId=#{o}")
+    long countSendTImeByOrderId(@Param("o") Integer orderId);
 }

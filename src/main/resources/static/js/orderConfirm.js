@@ -1,5 +1,5 @@
 var address=$("#address");
-
+var sendTime=0;
 //点击菜品图片可弹出菜品详情模态框
 $(document).on("click","#confirmOrderButton",function () {
 
@@ -16,7 +16,33 @@ $(document).on("click","#confirmOrderButton",function () {
         // userInfoDeal("helpBlockPayMethod","has-success","has-error","亲~就不能告诉我您的支付方式吗(┬＿┬)~");
         return false;
     }
+    if ($("#employeeTimeSelect").val()==="selectNone"){
+        layer.msg("亲~请选择配送时间~",{icon:"0"});
+        return false;
+    }
+    if ($("#employeeTimeSelect").val()==="employeeSelectTime"&&($("#sendTimeInput").val()===""|| $("#sendTimeInput").val().length===0)){
+        layer.msg("亲~请选择配送时间~",{icon:"0"});
+        return false;
+    }
+    var regTime=new RegExp("^\\d{2}$");
+    if ($("#employeeTimeSelect").val()==="employeeSelectTime"&&($("#sendTimeInput").val()<30|| $("#sendTimeInput").val()>90)&&!regTime.test($("#sendTimeInput").val())){
+        layer.msg("亲~请输入在30分钟到90分钟以内的时间~1",{icon:"0"});
+        return false;
+    }
+
+    /*if ($("#employeeTimeSelect").val()==="30"||$("#employeeTimeSelect").val()==="60"){
+        sendTime=$("#employeeTimeSelect").val();
+    }
+    else if ($("#employeeTimeSelect").val()==="employeeSelectTime"){
+        sendTime=$("#sendTimeInput").val();
+    }*/
     else {
+        if ($("#employeeTimeSelect").val()==="employeeSelectTime"){
+            sendTime=$("#sendTimeInput").val();
+        }
+        else {
+            sendTime = $("#employeeTimeSelect").val();
+        }
         $.ajax({
             url: "/user/getUserCartInfo",
             type: "get",
@@ -62,6 +88,8 @@ $(document).on("click","#confirmOrderButton",function () {
                     $("#totalMoneyModal").empty();
                     $("#totalMoneyModal").append(totalMoney);
                     // $("#totalMoney").append("￥"+totalMoney);
+                    $("#sendTime").empty();
+                    $("#sendTime").append(sendTime);
                 }
             }
         });
@@ -74,6 +102,7 @@ $(document).on("click","#confirmOrderButton",function () {
 var totalMoney=0;
 
 $(function () {
+    $("#employeeSelectTimeDiv").css("display","none");
     $.ajax({
         url:"/user/getUserCartInfo",
         type:"get",
@@ -159,7 +188,7 @@ $("#toOrderPage").click(function () {
     $.ajax({
         url:"/user/createOrder",
         type:"post",
-        data:{sumPrice:totalMoney,address:$("#address").val(),payment:$("input[name='payMethod']:checked").val()},
+        data:{sumPrice:totalMoney,address:$("#address").val(),payment:$("input[name='payMethod']:checked").val(),sendTime:sendTime},
         success:function (result) {
             if (result.extend.errorPage==="403"){
                 alert("您尚未登录！请先登录！");
@@ -207,4 +236,15 @@ $("#toOrderPage").click(function () {
         }
     })
 });
+
+$("#employeeTimeSelect").click(function () {
+    // alert($(this).val());
+    if ($(this).val()==="selectNone"||$(this).val()==="30"||$(this).val()==="60"){
+        $("#employeeSelectTimeDiv").css("display","none")
+    }
+    else if ($(this).val()==="employeeSelectTime"){
+        $("#employeeSelectTimeDiv").css("display","block");
+    }
+});
+
 

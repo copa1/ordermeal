@@ -46,6 +46,16 @@ public class Order {
     private int status;
 
     /**
+     * 下单时间
+     */
+    private String orderTime;
+
+    /**
+     * 预计配送时间
+     */
+    private String edelTime;
+
+    /**
      * 员工
      */
     private Employee employee;

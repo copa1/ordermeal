@@ -44,10 +44,10 @@
                             地址：<span id="addressModal"></span>
                         </div>
                     </div>
-                    <!--支付及结算信息-->
+                    <!--支付、结算信息及配送时间-->
                     <br>
                     <div class="row">
-                        <div class="col-md-7" style="background-color: #f2ffff;margin-top:9px">支付及结算信息</div>
+                        <div class="col-md-7" style="background-color: #f2ffff;margin-top:9px">支付、结算信息及配送时间</div>
                     </div>
                     <div class="row" style="margin-top:6px;font-size: 12px">
                         <div class="col-md-5">
@@ -55,6 +55,11 @@
                         </div>
                         <div class="col-md-5">
                             支付总额：<span id="totalMoneyModal" style="font-weight: bolder"></span>元
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:6px;font-size: 12px">
+                        <div class="col-md-5">
+                            配送时间：<span id="sendTime"></span>分钟后
                         </div>
                     </div>
                 </div>
@@ -110,10 +115,13 @@
             </table>
         </div>
     </div>
-<!--支付方式-->
+<!--支付方式与配送时间-->
     <div class="row">
         <div class="col-md-12">
-            <h4>选择支付方式</h4><hr>
+            <h4>选择支付方式与配送时间</h4><hr>
+            <!--支付方式-->
+            <div class="row">
+                <div class="col-md-2">
             <form class="form-horizontal">
                 <div class="form-group" style="margin-left:1px">
                     <label class="radio-inline">
@@ -125,24 +133,60 @@
                     <!--<span id="helpBlockPayMethod" class="help-block"></span>-->
                 </div>
             </form>
+                </div>
+                <!--配送时间-->
+                <div class="col-md-5">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" style="font-weight: normal">配送时间：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="employeeTimeSelect">
+                                    <option value="selectNone">请选择</option>
+                                    <option value="30">30分钟后</option>
+                                    <option value="60">60分钟后</option>
+                                    <option value="employeeSelectTime">自定义</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--自定义配送时间-->
+            <div class="row" id="employeeSelectTimeDiv">
+                <div class="col-md-8" style="margin-left:-55px">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label" style="font-weight: normal">自定义配送时间(30分钟后到90分钟后):</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" placeholder="配送时间" id="sendTimeInput">
+                            </div>
+                            <div class="col-sm-3" style="margin-left:-20px">
+                                <label class="control-label" style="font-weight: normal">分钟后</label>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
     <hr>
 <!--计算总价格-->
     <div class="row">
-        <div class="col-md-12 text-right">
+        <div class="col-md-11 text-right">
             <div class="col-md-12 text-right col-sm-3">价格总计：<span style="font-size: 22px;font-weight: bolder;color:#E5534E;" id="totalMoney"></span></div>
         </div>
     </div>
 
 <!--确认订单按钮及其总价-->
     <div class="row" style="margin-top:10px">
-        <div class="col-md-12 text-right">
+        <div class="col-md-11 text-right">
             <a href="#" id="toCartPage">返回购物车</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="btn btn-danger" type="button" id="confirmOrderButton">确认订单</button>
         </div>
     </div>
-</div>
+
 
 
 <!--尾部-->

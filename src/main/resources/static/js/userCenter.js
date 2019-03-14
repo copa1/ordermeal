@@ -520,6 +520,7 @@ $(document).on("click",".checkOrder",function () {
     $("#mealPeoplePhoneSpan").empty();
     $("#orderSpan").empty();
     $("#buttonModal").empty();
+    $("#orderTime,#edelTime,#acceptOrderTime,#sendTime").empty();
     $.ajax({
         url:"/user/getOrderAndOrderDetail",
         type:"get",
@@ -575,6 +576,10 @@ $(document).on("click",".checkOrder",function () {
                 window.location.href = "http://localhost/user/login";
             } else {
                 if (result.extend.employeeInfo === "404") {
+                    $("#orderTime").append(result.extend.orderTime);
+                    $("#edelTime").append(result.extend.edelTime);
+                    $("#acceptOrderTime").append("暂无");
+                    $("#sendTime").append("暂无");
                     $("#mealPeopleSpan").append("暂无");
                     $("#mealPeoplePhoneSpan").append("暂无");
                     if (result.extend.orderStatus === 0) {
@@ -620,7 +625,10 @@ $(document).on("click",".checkOrder",function () {
 
                     $("#mealPeopleSpan").append(result.extend.meal.employee.realName);
                     $("#mealPeoplePhoneSpan").append(result.extend.meal.employee.phone);
-
+                    $("#orderTime").append(result.extend.meal.order.orderTime);
+                    $("#edelTime").append(result.extend.meal.order.edelTime);
+                    $("#acceptOrderTime").append(result.extend.meal.acceptOrderTime);
+                    $("#sendTime").append(result.extend.meal.sendTime);
                     if (result.extend.meal.order.status === 0) {
                         $("#orderSpan").append("未支付");
                     }

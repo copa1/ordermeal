@@ -23,8 +23,11 @@ $(function () {
                         $("#orderDetailOrderStatus").empty();
                         $("#orderDetailMealStatus").empty();
                         $("#payDetailMethod").empty();
-                        $("#totalMoney").empty();
                         $("#orderDetailTbody").empty();
+                        $("#totalMoney,#orderTime,#acceptTime,#sendTime").empty();
+                        $("#orderTime").append(result.extend.meal.order.orderTime);
+                        $("#sendTime").append(result.extend.meal.sendTime);
+                        $("#acceptTime").append(result.extend.meal.esendTime);
                         $("#orderDetailId").append(result.extend.meal.orderId);
                         $("#orderDetailPlace").append(result.extend.meal.order.address);
                         $("#orderDetailPeople").append(result.extend.meal.employee.realName);
@@ -48,9 +51,13 @@ $(function () {
                             $("#orderDetailMealStatus").append("未配送");
                         }
                         else if (result.extend.meal.status===1){
+                            $("#acceptTimeDiv").css("display","block");
+                            $("#sendTimeDiv").css("display","none");
                             $("#orderDetailMealStatus").append("配送中");
                         }
                         else if (result.extend.meal.status===2||result.extend.meal.status===3){
+                            $("#acceptTimeDiv").css("display","none");
+                            $("#sendTimeDiv").css("display","block");
                             $("#orderDetailMealStatus").append("已送达");
                         }
                         else{
@@ -168,8 +175,9 @@ function build_order_list(result){
         else{
             var orderStatus=$('<td>系统已取消</td>');
         }
+        var sendTime=$('<td>'+item.order.edelTime+'</td>');
         var button=$('<td><button type="button" class="btn btn-primary acceptOrderButton" order-id="'+item.orderId+'">接单</button></td>');
-        $("<tr></tr>").append(orderId).append(sumPrice).append(payMethod).append(orderStatus).append(button).appendTo("#orderTbody");
+        $("<tr></tr>").append(orderId).append(sumPrice).append(payMethod).append(orderStatus).append(sendTime).append(button).appendTo("#orderTbody");
     })
 }
 
@@ -251,8 +259,11 @@ $(document).on("click",".acceptOrderButton",function () {
                         $("#orderDetailOrderStatus").empty();
                         $("#orderDetailMealStatus").empty();
                         $("#payDetailMethod").empty();
-                        $("#totalMoney").empty();
+                        $("#totalMoney,#orderTime,#acceptTime,#sendTime").empty();
                         $("#orderDetailTbody").empty();
+                        $("#orderTime").append(result.extend.meal.order.orderTime);
+                        $("#sendTime").append(result.extend.meal.sendTime);
+                        $("#acceptTime").append(result.extend.meal.esendTime);
                         $("#orderDetailId").append(result.extend.meal.orderId);
                         $("#orderDetailPlace").append(result.extend.meal.order.address);
                         $("#orderDetailPeople").append(result.extend.meal.employee.realName);
@@ -276,9 +287,13 @@ $(document).on("click",".acceptOrderButton",function () {
                             $("#orderDetailMealStatus").append("未配送");
                         }
                         else if (result.extend.meal.status===1){
+                            $("#acceptTimeDiv").css("display","block");
+                            $("#sendTimeDiv").css("display","none");
                             $("#orderDetailMealStatus").append("配送中");
                         }
                         else if (result.extend.meal.status===2||result.extend.meal.status===3){
+                            $("#acceptTimeDiv").css("display","none");
+                            $("#sendTimeDiv").css("display","block");
                             $("#orderDetailMealStatus").append("已送达");
                         }
                         else{
@@ -429,7 +444,7 @@ $(document).on("click","#cancelOrderSendButton",function () {
 
 });
 
-//已配送配送按钮（提前支付的情况下）
+//已配送按钮（提前支付的情况下）
 $(document).on("click","#sendButton",function () {
     // alert($(this).attr("order-id"));
     var orderId=$(this).attr("order-id");

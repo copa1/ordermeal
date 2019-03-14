@@ -37,6 +37,21 @@ public class Meal {
     private int status;
 
     /**
+     * 接单时间
+     */
+    private String acceptOrderTime;
+
+    /**
+     * 预计送达时间
+     */
+    private String esendTime;
+
+    /**
+     * 送达时间
+     */
+    private String sendTime;
+
+    /**
      * 订单
      */
     private Order order;

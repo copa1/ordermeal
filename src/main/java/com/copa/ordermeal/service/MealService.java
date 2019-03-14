@@ -103,4 +103,26 @@ public interface MealService {
      * @return
      */
     List<Meal> findOrderSendList();
+
+    /**
+     * 通过订单id修改接单时间和预计送达时间
+     * @param acceptOrderTime 接单时间
+     * @param esendTime 预计送达时间
+     * @param orderId 订单id
+     */
+    void modifyMealAcceptOrderTimeAndEsendTimeByOrderId(String acceptOrderTime, String esendTime, Integer orderId);
+
+    /**
+     * 通过订单id修改送达时间
+     * @param sendTime 送达时间
+     * @param orderId 订单id
+     */
+    void modifySendTimeByOrderId(String sendTime, Integer orderId);
+
+    /**
+     * 通过订单id查找是否存在送餐时间
+     * @param orderId 订单id
+     * @return
+     */
+    long findSendTimeCountByOrderId(Integer orderId);
 }

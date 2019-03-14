@@ -92,4 +92,19 @@ public class MealServiceImpl implements MealService{
     public List<Meal> findOrderSendList() {
         return mealMapper.selectOrderSendList();
     }
+
+    @Override
+    public void modifyMealAcceptOrderTimeAndEsendTimeByOrderId(String acceptOrderTime, String esendTime, Integer orderId) {
+        mealMapper.updateMealAcceptOrderTimeAndEsendTimeByOrderId(acceptOrderTime,esendTime,orderId);
+    }
+
+    @Override
+    public void modifySendTimeByOrderId(String sendTime, Integer orderId) {
+        mealMapper.updateSendTimeByOrderId(sendTime,orderId);
+    }
+
+    @Override
+    public long findSendTimeCountByOrderId(Integer orderId) {
+        return mealMapper.countSendTImeByOrderId(orderId);
+    }
 }

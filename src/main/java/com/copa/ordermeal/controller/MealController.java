@@ -14,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -91,7 +93,7 @@ public class MealController {
         Meal meal1 = mealService.findMealByOrderId(orderId);
         if (meal1.getEmployeeId()==0){
             Order order = orderService.findByOrderId(orderId);
-            return Msg.success().add("employeeInfo","404").add("orderStatus",order.getStatus());
+            return Msg.success().add("employeeInfo","404").add("orderStatus",order.getStatus()).add("orderTime",order.getOrderTime()).add("edelTime",order.getEdelTime());
         }
         else {
             Meal meal = mealService.findMealAndOrderAndEmployeeByOrderId(orderId);
@@ -128,8 +130,14 @@ public class MealController {
         }catch (NullPointerException e){
             return Msg.fail().add("errorCode","403");
         }
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime plus = now.plusMinutes(30);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String acceptOrderTime = now.format(format);
+        String esendTime = plus.format(format);
         Employee employee=employeeService.findEmployeeInfoByUsername(principal.getName());
         mealService.modifyMealStatusAndEmployeeIdByOrderId(employee.getId(),orderId);
+        mealService.modifyMealAcceptOrderTimeAndEsendTimeByOrderId(acceptOrderTime,esendTime,orderId);
         return Msg.success();
     }
 
@@ -184,7 +192,11 @@ public class MealController {
         }catch (NullPointerException e){
             return Msg.fail().add("errorCode","403");
         }
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String sendTime = now.format(format);
         mealService.modifyMealStatusByOrderId(orderId,2);
+        mealService.modifySendTimeByOrderId(sendTime,orderId);
         return Msg.success();
     }
 
@@ -199,6 +211,15 @@ public class MealController {
             principal.getName();
         }catch (NullPointerException e){
             return Msg.fail().add("errorCode","403");
+        }
+
+        long countSendTime=mealService.findSendTimeCountByOrderId(orderId);
+        //System.out.println(countSendTime);
+        if (countSendTime==0){
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String sendTime = now.format(format);
+            mealService.modifySendTimeByOrderId(sendTime,orderId);
         }
         mealService.modifyMealStatusByOrderId(orderId,3);
         orderService.modifyOrderStatusByOrderId(orderId,1);
@@ -222,7 +243,7 @@ public class MealController {
     }
 
     /**
-     * （送餐员）取消订单修改
+     * （送餐员）已配送按钮（提前支付）
      */
     @PutMapping("/user/modifySend")
     public Msg modifySend(@AuthenticationPrincipal Principal principal,
@@ -232,7 +253,7 @@ public class MealController {
         }catch (NullPointerException e){
             return Msg.fail().add("errorCode","403");
         }
-        System.out.println("aa");
+        //System.out.println("aa");
         mealService.modifyMealStatusByOrderId(orderId,3);
         return Msg.success();
     }
