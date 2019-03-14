@@ -421,6 +421,8 @@ function build_foodPage_list(result){
                 var status=$('<td>上架中</td>');
             }
             var lastModifyTime=$('<td>'+item.lastModifyTime+'</td>');
+
+
             $("<tr></tr>").append(foodId)
                 .append(foodName)
                 .append(foodPrice)
@@ -526,6 +528,8 @@ function build_orderPage_list(result){
         else {
             var orderStatus=$('<td>系统取消订单</td>');
         }
+        var orderTime=$('<td>'+item.orderTime+'</td>');
+        var edelTime=$('<td>'+item.edelTime+'</td>');
         var button=$('<td><button type="button" class="btn btn-info openOrderModal" data-id="'+item.id+'">查看详情</button></td>');
         $("<tr></tr>").append(orderId)
             .append(orderRealName)
@@ -533,6 +537,8 @@ function build_orderPage_list(result){
             .append(orderAddress)
             .append(orderPayment)
             .append(orderStatus)
+            .append(orderTime)
+            .append(edelTime)
             .append(button)
             .appendTo("#orderListTbody");
     })
@@ -677,12 +683,32 @@ function build_mealPage_list(result){
         if (item.status===4){
             var mealStatus=$('<td>配送失败</td>');
         }
-
+        if (item.acceptOrderTime===null){
+            var acceptOrderTime=$('<td>暂无</td>');
+        }
+        else {
+            var acceptOrderTime = $('<td>' + item.acceptOrderTime + '</td>');
+        }
+        if (item.esendTime===null){
+            var esendTime=$('<td>暂无</td>');
+        }
+        else {
+            var esendTime = $('<td>' + item.esendTime + '</td>');
+        }
+        if (item.sendTime===null){
+            var sendTime=$('<td>暂无</td>');
+        }
+        else {
+            var sendTime=$('<td>'+item.sendTime+'</td>');
+        }
         $("<tr></tr>").append(mealId)
             .append(mealId)
             .append(mealEmployeeName)
             .append(orderId)
             .append(mealStatus)
+            .append(acceptOrderTime)
+            .append(esendTime)
+            .append(sendTime)
             .appendTo("#mealListTbody");
     })
 }
