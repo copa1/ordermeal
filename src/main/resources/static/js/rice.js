@@ -9,8 +9,14 @@ function to_page(pn) {
         data:"pn="+pn,
         type:"get",
         success:function (result) {
-            build_food_list(result);
-            build_foodPage_nav(result);
+            if (result.extend.food.size===0){
+                $("#food_list").empty();
+                $("#food_list").append("<h3 class='text-center'>暂没有菜品上线哦~等待工作人员上线菜品吧~</h3>");
+            }
+            else {
+                build_food_list(result);
+                build_foodPage_nav(result);
+            }
         }
     })
 }

@@ -14,16 +14,16 @@ import java.util.List;
 @Repository
 public interface FoodMapper {
 
-    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=1")
+    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=1 ORDER BY id DESC")
     List<Food> selectRiceFoodInfo();
 
-    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=2")
+    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=2 ORDER BY id DESC")
     List<Food> selectFenmianFoodInfo();
 
-    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=3")
+    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=3 ORDER BY id DESC")
     List<Food> selectPastryFoodInfo();
 
-    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=4")
+    @Select("SELECT * FROM food WHERE surplus>0 and status=1 and type=4 ORDER BY id DESC")
     List<Food> selectDrinkFoodInfo();
 
     @Select("SELECT * FROM food WHERE id=#{i}")
@@ -35,7 +35,7 @@ public interface FoodMapper {
     @Update("UPDATE food SET surplus=surplus+#{n} WHERE id=#{i}")
     void updateSurplusByFoodNumAndFoodId(@Param("n") Integer foodNum,@Param("i") Integer foodId);
 
-    @Select("SELECT * FROM food")
+    @Select("SELECT * FROM food ORDER BY id DESC")
     List<Food> selectFoodList();
 
     @Update("UPDATE food SET status=#{s} WHERE id=#{f}")

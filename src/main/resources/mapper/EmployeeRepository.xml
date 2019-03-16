@@ -33,7 +33,7 @@
         JOIN employee_role er ON e.id= er.employee_id
         JOIN role r ON er.role_id=r.id
         WHERE r.name!="ROLE_SUPERADMIN"
-        ORDER BY id
+        ORDER BY id DESC
     </select>
 
     <select id="selectEmployeeInfoById" resultMap="employeeMap">

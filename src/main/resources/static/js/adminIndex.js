@@ -81,8 +81,14 @@ function to_employeeStatusPage(pn) {
         data:"pn="+pn,
         type:"get",
         success:function (result) {
-            build_employeeStatusPage_list(result);
-            build_employeeStatusPage_nav(result);
+            if (result.extend.employee.size===0){
+                $("#employeeList1Tbody").empty();
+                $("#employeeList1Tbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_employeeStatusPage_list(result);
+                build_employeeStatusPage_nav(result);
+            }
         }
     })
 }
@@ -254,8 +260,14 @@ function to_employeeRechargePage(pn) {
         data:"pn="+pn,
         type:"get",
         success:function (result) {
-            build_employeeRechargePage_list(result);
-            build_employeeRechargePage_nav(result);
+            if (result.extend.employee.size===0){
+                $("#employeeList2Tbody").empty();
+                $("#employeeList2Tbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_employeeRechargePage_list(result);
+                build_employeeRechargePage_nav(result);
+            }
         }
     })
 }
@@ -385,8 +397,14 @@ function to_foodPage(pn) {
         type:"get",
         data:"pn="+pn,
         success:function (result) {
-            build_foodPage_list(result);
-            build_foodPage_nav(result);
+            if (result.extend.food.size===0){
+                $("#foodListTbody").empty();
+                $("#foodListTbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_foodPage_list(result);
+                build_foodPage_nav(result);
+            }
         }
     })
 }
@@ -493,8 +511,14 @@ function to_orderPage(pn) {
         type:"get",
         data:"pn="+pn,
         success:function (result) {
-            build_orderPage_list(result);
-            build_orderPage_nav(result);
+            if (result.extend.order.size===0){
+                $("#orderListTbody").empty();
+                $("#orderListTbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_orderPage_list(result);
+                build_orderPage_nav(result);
+            }
         }
     })
 }
@@ -653,8 +677,14 @@ function to_mealPage(pn) {
         type:"get",
         data:"pn="+pn,
         success:function (result) {
-            build_mealPage_list(result);
-            build_mealPage_nav(result);
+            if (result.extend.meal.size===0){
+                $("#mealListTbody").empty();
+                $("#mealListTbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_mealPage_list(result);
+                build_mealPage_nav(result);
+            }
         }
     })
 }
@@ -769,8 +799,14 @@ function to_employeeInfoPage(pn) {
         data:"pn="+pn,
         type:"get",
         success:function (result) {
-            build_employeeInfoPage_list(result);
-            build_employeeInfoPage_nav(result);
+            if (result.extend.employee.size===0){
+                $("#employeeList3Tbody").empty();
+                $("#employeeList3Tbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_employeeInfoPage_list(result);
+                build_employeeInfoPage_nav(result);
+            }
         }
     })
 }

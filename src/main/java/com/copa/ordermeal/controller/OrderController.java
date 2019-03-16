@@ -143,8 +143,34 @@ public class OrderController {
         }
         Employee employee = employeeService.findEmployeeInfoByUsername(principal.getName());
         Order order = orderService.findByEmployId(employee.getId());
-        List<OrderDetail> orderDetail = orderService.findOrderDetailByOrderId(order.getId());
-        return Msg.success().add("order",orderDetail).add("orderId",order.getId());
+        String orderTime = order.getOrderTime();
+        String second=orderTime.substring(orderTime.length()-2);
+        //System.out.println(second);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String format1 = now.format(format);
+        String second1=format1.substring(format1.length()-2);
+        int timeOrder=Integer.parseInt(second);
+        int timeNow=Integer.parseInt(second1);
+        if (timeNow>=timeOrder){
+            if (timeNow-timeOrder>=2){
+                return Msg.fail();
+            }
+            else {
+                List<OrderDetail> orderDetail = orderService.findOrderDetailByOrderId(order.getId());
+                return Msg.success().add("order",orderDetail).add("orderId",order.getId());
+            }
+        }
+        else{
+            if ((timeNow+60)-timeOrder>=2){
+                return Msg.fail();
+            }
+            else {
+                List<OrderDetail> orderDetail = orderService.findOrderDetailByOrderId(order.getId());
+                return Msg.success().add("order", orderDetail).add("orderId", order.getId());
+            }
+        }
+
 
     }
 

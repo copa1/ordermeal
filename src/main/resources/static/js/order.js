@@ -5,7 +5,7 @@ $(function () {
         type:"get",
         success:function (result) {
             // console.log(result);
-            if(true) {
+            if(result.code===100) {
                 var firstRow = $(' <div class="row">\n' +
                     '        <div class="col-md-2 col-md-offset-4">\n' +
                     '            <img src="/img/tradeSuccess.jpg" width="100" height="100">\n' +

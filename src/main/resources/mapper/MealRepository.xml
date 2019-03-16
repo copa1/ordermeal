@@ -73,6 +73,7 @@
         SELECT m.status "m_status",m.orderId,m.employeeId,m.acceptOrderTime,m.esendTime,m.sendTime,m.id,e.*
         FROM meal m
         LEFT JOIN employee e ON m.employeeId=e.id
+        ORDER BY m.id DESC
     </select>
 
 

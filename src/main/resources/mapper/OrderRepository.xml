@@ -57,6 +57,7 @@
         SELECT o.*,e.*
         FROM `order` o
         JOIN employee e on o.employeeId=e.id
+        ORDER BY o.id DESC
     </select>
 
 

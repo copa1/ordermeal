@@ -359,7 +359,7 @@ $("#updateUserPasswordButton").click(function () {
             async: false,//同步加载（必须加）
             success: function (result) {
                 if (result.extend.errorCode=='400'){
-                    layer.msg('result.extend.error', {icon: 2});
+                    layer.msg(result.extend.error, {icon: 2});
                     userInfoDeal("phoneDiv","has-success","has-error",result.extend.error);
                 }else {
                     alert("修改密码成功！需要重新登录设置才能生效！");
