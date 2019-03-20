@@ -19,4 +19,6 @@ public interface EmployeeRepository {
 
     Employee selectEmployeeInfoById(@Param("e") Integer employeeId);
 
+    List<Employee> selectEmployeeRealName(@Param("r") String realName);
+
 }

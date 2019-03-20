@@ -125,4 +125,11 @@ public interface MealService {
      * @return
      */
     long findSendTimeCountByOrderId(Integer orderId);
+
+    /**
+     * 通过送餐人关键字查找送餐信息
+     * @param key
+     * @return
+     */
+    List<Meal> findMealNameKeyWord(String key);
 }

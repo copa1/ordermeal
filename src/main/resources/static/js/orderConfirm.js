@@ -6,7 +6,7 @@ $(document).on("click","#confirmOrderButton",function () {
     var payMethodNum = $("input[name='payMethod']:checked").val();
     var payMethodSelect=$(":radio:checked").length;
     //空值判断
-    if (address.val()==="" || address.val().length===0){
+    if (address.val().trim()==="" || address.val().trim().length===0){
         layer.msg("亲~地址不能为空哦~",{icon:"0"});
         userInfoDeal("addressDiv","has-success","has-error","亲~地址不能为空哦~");
         return false;
@@ -188,7 +188,7 @@ $("#toOrderPage").click(function () {
     $.ajax({
         url:"/user/createOrder",
         type:"post",
-        data:{sumPrice:totalMoney,address:$("#address").val(),payment:$("input[name='payMethod']:checked").val(),sendTime:sendTime},
+        data:{sumPrice:totalMoney,address:$("#address").val().trim(),payment:$("input[name='payMethod']:checked").val(),sendTime:sendTime},
         success:function (result) {
             if (result.extend.errorPage==="403"){
                 alert("您尚未登录！请先登录！");

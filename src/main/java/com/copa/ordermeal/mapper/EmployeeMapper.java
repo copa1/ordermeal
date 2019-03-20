@@ -73,4 +73,7 @@ public interface EmployeeMapper {
 
     @Update("UPDATE employee SET phone=#{e.phone},email=#{e.email} WHERE id=#{e.id}")
     void updateEmployeePhoneAndEmailById(@Param("e") Employee employee);
+
+    /*@Select("SELECT * FROM employee WHERE realName LIKE CONCAT(CONCAT('%', #{r}), '%') ")
+    List<Employee> selectEmployeeRealName(@Param("r") String realName);*/
 }

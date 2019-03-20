@@ -18,4 +18,6 @@ public interface MealRepository {
     Meal selectOrderAndMealAndEmployeeByOrderId(Integer orderId);
 
     List<Meal> selectMealAndEmployeeList();
+
+    List<Meal> selectMealNameKeyWord(@Param("k") String key);
 }

@@ -107,4 +107,9 @@ public class MealServiceImpl implements MealService{
     public long findSendTimeCountByOrderId(Integer orderId) {
         return mealMapper.countSendTImeByOrderId(orderId);
     }
+
+    @Override
+    public List<Meal> findMealNameKeyWord(String key) {
+        return mealRepository.selectMealNameKeyWord(key);
+    }
 }

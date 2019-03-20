@@ -68,4 +68,9 @@ public class OrderServiceImpl implements OrderService{
         return orderRepository.selectOrderAndEmployeeList();
     }
 
+    @Override
+    public List<Order> findOrderNameKeyWord(String key) {
+        return orderRepository.selectOrderNameKeyWord(key);
+    }
+
 }

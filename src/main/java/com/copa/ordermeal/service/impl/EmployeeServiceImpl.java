@@ -122,4 +122,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void modifyEmployeePhoneAndEmailById(Employee employee) {
         employeeMapper.updateEmployeePhoneAndEmailById(employee);
     }
+
+    @Override
+    public List<Employee> findEmployeeRealName(String realName) {
+        return employeeRepository.selectEmployeeRealName(realName);
+    }
 }

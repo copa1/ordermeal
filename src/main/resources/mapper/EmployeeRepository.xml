@@ -44,4 +44,11 @@
         WHERE e.id= #{e}
     </select>
 
+    <select id="selectEmployeeRealName" resultMap="employeeMap">
+        SELECT e.*,r.*
+        FROM employee e
+        LEFT JOIN employee_role er ON e.id= er.employee_id
+        LEFT JOIN role r ON er.role_id=r.id
+        WHERE e.realName LIKE CONCAT(CONCAT('%',#{r}),'%')
+    </select>
 </mapper>

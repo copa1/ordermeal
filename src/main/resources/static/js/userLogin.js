@@ -11,7 +11,7 @@ $("#passwordDiv").removeClass("has-success","has-error");
 
 //用户名输入框失去焦点
 username.blur(function () {
-    if (username.val()!=="" && username.val().length!==0){
+    if (username.val().trim()!=="" && username.val().trim().length!==0){
       userInfoDeal("usernameDiv","has-error","has-success","");
     }else {
         userInfoDeal("usernameDiv","has-success","has-error","亲~用户名不能为空哦~");
@@ -48,15 +48,15 @@ $("#loginButton").click(function () {
     } else {
         return true;
     }*/
-   if (username.val()!=="" && username.val().length!==0 && password.val()!=="" && password.val().length!==0){
+   if (username.val().trim()!=="" && username.val().trim().length!==0 && password.val().trim()!=="" && password.val().trim().length!==0){
        return true;
    }
    else {
-       if (username.val()==="" && username.val().length===0){
+       if (username.val().trim()==="" && username.val().trim().length===0){
            layer.msg("亲~用户名不能为空哦~",{icon:"0"});
            userInfoDeal("usernameDiv","has-success","has-error","亲~用户名不能为空哦~");
            return false;
-       } else if (password.val()==="" && password.val().length===0){
+       } else if (password.val().trim()==="" && password.val().trim().length===0){
            layer.msg("亲~密码不能为空哦~",{icon:"0"});
            userInfoDeal("passwordDiv","has-success","has-error","亲~密码不能为空哦~");
            return false;

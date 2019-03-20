@@ -60,5 +60,11 @@
         ORDER BY o.id DESC
     </select>
 
-
+    <select id="selectOrderNameKeyWord" resultMap="employeeMap">
+        SELECT o.*,e.*
+        FROM `order` o
+        JOIN employee e on o.employeeId=e.id
+        WHERE e.realName LIKE CONCAT(CONCAT('%',#{k}),'%')
+        ORDER BY o.id DESC
+    </select>
 </mapper>

@@ -113,7 +113,7 @@ username.focus(function () {
 //电子邮箱输入框失去焦点
 email.blur(function () {
     var regEmail=new RegExp("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
-    if (email.val()!=="" && email.val().length!==0){
+    if (email.val().trim()!=="" && email.val().trim().length!==0){
         $.ajax({
             url:"/user/checkEmailUpdate",
             data:"email="+email.val(),
@@ -149,12 +149,12 @@ $("#updateUserInfoButton").click(function () {
     var len=gender.length;
     var avatarUrl=$("#avatatUrlHidden");
     //空值判断
-    if (username.val()==="" || username.val().length===0){
+    if (username.val().trim()==="" || username.val().trim().length===0){
         layer.msg('亲~昵称不能为空哦~', {icon: 0});
         userInfoDeal("usernameDiv","has-success","has-error","亲~昵称不能为空哦~");
         return false;
     }
-    if (email.val()==="" || email.val().length===0){
+    if (email.val().trim()==="" || email.val().trim().length===0){
         layer.msg('亲~电子邮箱不能为空哦~', {icon: 0});
         userInfoDeal("emailDiv","has-success","has-error","亲~电子邮箱不能为空哦~");
         return false;
@@ -212,7 +212,7 @@ $("#updateUserInfoButton").click(function () {
 //检验信息重复
 function usernameRepeat(val) {
     var usernameResult =false;
-    if (username.val()!=="" && username.val().length!==0){
+    if (username.val().trim()!=="" && username.val().trim().length!==0){
         $.ajax({
             url:"/user/checkUsernameUpdate",
             data:"username="+username.val(),
@@ -235,7 +235,7 @@ function usernameRepeat(val) {
 // 邮箱重复
 function emailRepeat(val) {
     var emailResult =false;
-    if (email.val()!=="" && email.val().length!==0){
+    if (email.val().trim()!=="" && email.val().trim().length!==0){
         $.ajax({
             url:"/user/checkEmailUpdate",
             data:"email="+email.val(),
@@ -261,7 +261,7 @@ var confirmPassword=$("#confirmPassword");
 //手机号码输入框失去焦点
 phone.blur(function () {
     var regPhone=new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
-    if (phone.val()!=="" && phone.val().length!==0){
+    if (phone.val().trim()!=="" && phone.val().trim().length!==0){
         if (!regPhone.test(phone.val())) {
             userInfoDeal("phoneDiv", "has-success", "has-error", "亲~手机号码格式不对哦~请重新输入手机号");
         } else {
@@ -280,7 +280,7 @@ phone.focus(function () {
 //密码输入框失去焦点
 password.blur(function () {
     var regPassword=new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$");
-    if (password.val()!=="" && password.val().length!==0){
+    if (password.val().trim()!=="" && password.val().trim().length!==0){
         if (!regPassword.test(password.val())){
             userInfoDeal("passwordDiv","has-success","has-error","亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~");
         }
@@ -304,11 +304,11 @@ confirmPassword.focus(function () {
 
 //确认密码输入框失去焦点
 confirmPassword.blur(function () {
-    if (password.val()!=="" && password.val().length!==0 && confirmPassword.val()===password.val()){
+    if (password.val().trim()!=="" && password.val().trim().length!==0 && confirmPassword.val().trim()===password.val().trim()){
         userInfoDeal("confirmPasswordDiv","has-error","has-success","");
-    }else if(password.val()==="" && password.val().length===0){
+    }else if(password.val().trim()==="" && password.val().trim().length===0){
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~确认密码不能为空哦~");
-    }else if (confirmPassword.val()!==password.val()){
+    }else if (confirmPassword.val().trim()!==password.val().trim()){
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
     } else {
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您所输入的密码不一致哦~请重新输入~");
@@ -318,17 +318,17 @@ confirmPassword.blur(function () {
 //修改密码按钮
 $("#updateUserPasswordButton").click(function () {
     // 空值判断
-    if (phone.val()==="" || phone.val().length===0){
+    if (phone.val().trim()==="" || phone.val().trim().length===0){
         layer.msg('亲~手机号码不能为空哦~', {icon: 0});
         userInfoDeal("phoneDiv","has-success","has-error","亲~手机号码不能为空哦~");
         return false;
     }
-    if (password.val()==="" || password.val().length===0){
+    if (password.val().trim()==="" || password.val().trim().length===0){
         layer.msg('亲~密码不能为空哦~', {icon: 0});
         userInfoDeal("passwordDiv","has-success","has-error","亲~密码不能为空哦~");
         return false;
     }
-    if (confirmPassword.val()==="" || confirmPassword.val().length===0){
+    if (confirmPassword.val().trim()==="" || confirmPassword.val().trim().length===0){
         layer.msg('亲~确认密码不能为空哦~', {icon: 0});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~确认密码不能为空哦~");
         return false;
@@ -341,7 +341,7 @@ $("#updateUserPasswordButton").click(function () {
         userInfoDeal("passwordDiv","has-success","has-error","亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~");
         return false;
     }
-    if (confirmPassword.val()!==password.val()){
+    if (confirmPassword.val().trim()!==password.val().trim()){
         layer.msg('亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~', {icon: 0});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
         return false;

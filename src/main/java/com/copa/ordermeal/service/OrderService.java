@@ -69,4 +69,11 @@ public interface OrderService {
      * @return
      */
     List<Order> findOrderAndEmployeeList();
+
+    /**
+     * 通过姓名查询订单
+     * @param key 姓名关键字
+     * @return
+     */
+    List<Order> findOrderNameKeyWord(String key);
 }

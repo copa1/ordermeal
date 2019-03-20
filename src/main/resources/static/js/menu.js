@@ -289,7 +289,7 @@ $(document).on("click","#foodStatusButton",function () {
 //搜索模糊关键字
 $(document).on("click","#searchFoodNameButton",function () {
     var searchFoodName=$("#searchFoodNameInput");
-    if (searchFoodName.val()==="" || searchFoodName.val().length===0){
+    if (searchFoodName.val().trim()==="" || searchFoodName.val().trim().length===0){
         layer.msg("亲~菜品名不能为空哦~",{icon:"0"});
         return false;
     }
@@ -339,7 +339,7 @@ addFoodName.focus(function () {
 //菜品单价输入框失去焦点（添加）
 addFoodPrice.blur(function () {
     var regPrice=new RegExp("^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*|0)(?:\\.\\d{1,2})?$");
-    if (addFoodPrice.val()==="" || addFoodPrice.val().length===0){
+    if (addFoodPrice.val().trim()==="" || addFoodPrice.val().trim().length===0){
         userInfoDeal("priceDiv","has-success","has-error","亲~菜品单价不能为空哦~");
     }else if (!regPrice.test(addFoodPrice.val())){
         userInfoDeal("priceDiv","has-success","has-error","亲~请输入纯数字，以0开头只能跟1-2位小数~不以0为开头小数可有可无");
@@ -356,7 +356,7 @@ addFoodPrice.focus(function () {
 //菜品总数量输入框失去焦点（添加）
 addFoodTotal.blur(function () {
     var regTotal=new RegExp("^[1-9][0-9]{0,3}$");
-    if (addFoodTotal.val()==="" || addFoodTotal.val().length===0){
+    if (addFoodTotal.val().trim()==="" || addFoodTotal.val().trim().length===0){
         userInfoDeal("totalDiv","has-success","has-error","亲~菜品总数量不能为空哦~");
     }else if (!regTotal.test(addFoodTotal.val())){
         userInfoDeal("totalDiv","has-success","has-error","亲~请输入纯数字，不能以0开头~且只能是1-4位正整数");
@@ -374,7 +374,7 @@ addFoodTotal.focus(function () {
 addFoodSurplus.blur(function () {
     var regTotal=new RegExp("^[0]{1}$");
     var regSurplus=new RegExp("^[1-9][0-9]{0,3}$");
-    if (addFoodSurplus.val()==="" || addFoodSurplus.val().length===0){
+    if (addFoodSurplus.val().trim()==="" || addFoodSurplus.val().trim().length===0){
         userInfoDeal("surplusDiv","has-success","has-error","亲~菜品剩余数量不能为空哦~");
     }
     else if (regTotal.test(addFoodSurplus.val())||regSurplus.test(addFoodSurplus.val())){
@@ -432,22 +432,22 @@ $("#insertFoodModalButton").click(function () {
     var addFoodStatus= $('input:radio[name="status"]:checked').val();
 
   // 空值判断
-    if (addFoodName.val()==="" || addFoodName.val().length===0){
+    if (addFoodName.val().trim()==="" || addFoodName.val().trim().length===0){
         layer.msg("亲~菜品名不能为空哦~",{icon:"0"});
         userInfoDeal("nameDiv","has-success","has-error","亲~菜品名不能为空哦~");
         return false;
     }
-    if (addFoodPrice.val()==="" || addFoodPrice.val().length===0){
+    if (addFoodPrice.val().trim()==="" || addFoodPrice.val().trim().length===0){
         layer.msg("亲~菜品单价不能为空哦~",{icon:"0"});
         userInfoDeal("priceDiv","has-success","has-error","亲~菜品单价不能为空哦~");
         return false;
     }
-    if (addFoodTotal.val()==="" || addFoodTotal.val().length===0){
+    if (addFoodTotal.val().trim()==="" || addFoodTotal.val().trim().length===0){
         layer.msg("亲~菜品总数量不能为空哦~",{icon:"0"});
         userInfoDeal("totalDiv","has-success","has-error","亲~菜品总数量不能为空哦~");
         return false;
     }
-    if (addFoodSurplus.val()==="" || addFoodSurplus.val().length===0){
+    if (addFoodSurplus.val().trim()==="" || addFoodSurplus.val().trim().length===0){
         layer.msg("亲~菜品剩余数量不能为空哦~",{icon:"0"});
         userInfoDeal("surplusDiv","has-success","has-error","亲~菜品剩余数量不能为空哦~");
         return false;
@@ -496,9 +496,9 @@ $("#insertFoodModalButton").click(function () {
             url:"/user/addFood",
             type:"post",
             data:{
-                name:addFoodName.val(),
-                price:addFoodPrice.val(),
-                total:addFoodTotal.val(),
+                name:addFoodName.val().trim(),
+                price:addFoodPrice.val().trim(),
+                total:addFoodTotal.val().trim(),
                 surplus:addFoodSurplus.val(),
                 type:$("#type").val(),
                 desc:addFoodDesc.val(),

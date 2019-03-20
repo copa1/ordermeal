@@ -141,4 +141,11 @@ public interface EmployeeService {
      * @param employee
      */
     void modifyEmployeePhoneAndEmailById(Employee employee);
+
+    /**
+     * 通过员工姓名查找该员工
+     * @param realName
+     * @return
+     */
+    List<Employee> findEmployeeRealName(String realName);
 }

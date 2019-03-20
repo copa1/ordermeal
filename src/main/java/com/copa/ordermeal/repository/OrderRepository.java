@@ -13,4 +13,6 @@ public interface OrderRepository {
     List<OrderDetail> selectOrderDetailByOrderId(@Param("o") Integer orderId);
 
     List<Order> selectOrderAndEmployeeList();
+
+    List<Order> selectOrderNameKeyWord(@Param("k") String key);
 }

@@ -38,7 +38,7 @@ $("#genderLabel").text("");
 
 //用户名输入框失去焦点
 username.blur(function () {
-    if (username.val()!=="" && username.val().length!==0){
+    if (username.val().trim()!=="" && username.val().trim().length!==0){
         $.ajax({
             url:"/user/checkUsername",
             data:"username="+username.val(),
@@ -64,7 +64,7 @@ username.focus(function () {
 //密码输入框失去焦点
 password.blur(function () {
     var regPassword=new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$");
-    if (password.val()!=="" && password.val().length!==0){
+    if (password.val().trim()!=="" && password.val().trim().length!==0){
         if (!regPassword.test(password.val())){
             userInfoDeal("passwordDiv","has-success","has-error","亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~");
         }
@@ -88,11 +88,11 @@ confirmPassword.focus(function () {
 
 //确认密码输入框失去焦点
 confirmPassword.blur(function () {
-    if (password.val()!=="" && password.val().length!==0 && confirmPassword.val()===password.val()){
+    if (password.val().trim()!=="" && password.val().trim().length!==0 && confirmPassword.val().trim()===password.val().trim()){
         userInfoDeal("confirmPasswordDiv","has-error","has-success","");
-    }else if(password.val()==="" && password.val().length===0){
+    }else if(password.val().trim()==="" && password.val().trim().length===0){
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~确认密码不能为空哦~");
-    }else if (confirmPassword.val()!==password.val()){
+    }else if (confirmPassword.val().trim()!==password.val().trim()){
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
     } else {
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您所输入的密码不一致哦~请重新输入~");
@@ -102,7 +102,7 @@ confirmPassword.blur(function () {
 //手机号码输入框失去焦点
 phone.blur(function () {
     var regPhone=new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
-    if (phone.val()!=="" && phone.val().length!==0){
+    if (phone.val().trim()!=="" && phone.val().trim().length!==0){
         $.ajax({
             url:"/user/checkPhone",
             data:"phone="+phone.val(),
@@ -133,7 +133,7 @@ phone.focus(function () {
 //电子邮箱输入框失去焦点
 email.blur(function () {
     var regEmail=new RegExp("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
-    if (email.val()!=="" && email.val().length!==0){
+    if (email.val().trim()!=="" && email.val().trim().length!==0){
         $.ajax({
             url:"/user/checkEmail",
             data:"email="+email.val(),
@@ -164,7 +164,7 @@ email.focus(function () {
 //员工姓名输入框失去焦点
 realName.blur(function () {
     var regRealName=new RegExp("^[\u4E00-\u9FA5]{2,}$");
-    if (realName.val()!=="" && realName.val().length!==0){
+    if (realName.val().trim()!=="" && realName.val().trim().length!==0){
         $.ajax({
             url:"/user/checkRealName",
             data:"realName="+realName.val(),
@@ -199,22 +199,22 @@ $("#registerButton").click(function () {
     var len=gender.length;
 
     //空值判断
-    if (username.val()==="" || username.val().length===0){
+    if (username.val().trim()==="" || username.val().trim().length===0){
         layer.msg("亲~用户名不能为空哦~",{icon:"0"});
         userInfoDeal("usernameDiv","has-success","has-error","亲~用户名不能为空哦~");
         return false;
     }
-    if (password.val()==="" || password.val().length===0){
+    if (password.val().trim()==="" || password.val().trim().length===0){
         layer.msg("亲~密码不能为空哦~",{icon:"0"});
         userInfoDeal("passwordDiv","has-success","has-error","亲~密码不能为空哦~");
         return false;
     }
-    if (confirmPassword.val()==="" || confirmPassword.val().length===0){
+    if (confirmPassword.val().trim()==="" || confirmPassword.val().trim().length===0){
         layer.msg("亲~确认密码不能为空哦~",{icon:"0"});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~确认密码不能为空哦~");
         return false;
     }
-    if (phone.val()==="" || phone.val().length===0){
+    if (phone.val().trim()==="" || phone.val().trim().length===0){
         layer.msg("亲~手机号码不能为空哦~",{icon:"0"});
         userInfoDeal("phoneDiv","has-success","has-error","亲~手机号码不能为空哦~");
         return false;
@@ -225,12 +225,12 @@ $("#registerButton").click(function () {
         return false;
     }
     $("#genderLabel").text("");
-    if (email.val()==="" || email.val().length===0){
+    if (email.val().trim()==="" || email.val().trim().length===0){
         layer.msg("亲~电子邮箱不能为空哦~",{icon:"0"});
         userInfoDeal("emailDiv","has-success","has-error","亲~电子邮箱不能为空哦~");
         return false;
     }
-    if (realName.val()==="" || realName.val().length===0){
+    if (realName.val().trim()==="" || realName.val().trim().length===0){
         layer.msg("亲~员工姓名不能为空哦~",{icon:"0"});
         userInfoDeal("realNameDiv","has-success","has-error","亲~员工姓名不能为空哦~");
         return false;
@@ -245,7 +245,7 @@ $("#registerButton").click(function () {
         userInfoDeal("passwordDiv","has-success","has-error","亲~密码必须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间~");
         return false;
     }
-    if (confirmPassword.val()!==password.val()){
+    if (confirmPassword.val().trim()!==password.val().trim()){
         layer.msg("亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~",{icon:"0"});
         userInfoDeal("confirmPasswordDiv","has-success","has-error","亲~您输入的确认密码与上面的密码不一致哦~请重新输入吧~");
         return false;
@@ -268,22 +268,22 @@ $("#registerButton").click(function () {
 
     //注册信息重复检验
     //Ajax调用处理
-    if (usernameRepeat(username.val())==false){
+    if (usernameRepeat(username.val().trim())==false){
         layer.msg("亲~该用户名不可用哦~请换一个用户名吧~",{icon:"0"});
         userInfoDeal("usernameDiv","has-success","has-error","亲~该用户名不可用哦~请换一个用户名吧~");
         return false;
     }
-    if (phoneRepeat(phone.val())==false){
+    if (phoneRepeat(phone.val().trim())==false){
         layer.msg("亲~该手机号码不可用哦~请换一个手机号码吧~",{icon:"0"});
         userInfoDeal("phoneDiv","has-success","has-error","亲~该手机号码不可用哦~请换一个手机号码吧~");
         return false;
     }
-    if (emailRepeat(email.val())==false){
+    if (emailRepeat(email.val().trim())==false){
         layer.msg("亲~该电子邮箱不可用哦~请换一个电子邮箱吧~",{icon:"0"});
         userInfoDeal("emailDiv","has-success","has-error","亲~该电子邮箱不可用哦~请换一个电子邮箱吧~");
         return false;
     }
-    if (realNameRepeat(realName.val())==false){
+    if (realNameRepeat(realName.val().trim())==false){
         layer.msg("亲~该员工姓名不可用哦~",{icon:"0"});
         userInfoDeal("realNameDiv","has-success","has-error","亲~该员工姓名不可用哦~");
         return false;
@@ -296,12 +296,12 @@ $("#registerButton").click(function () {
             url: "/user/register",
             type: "post",
             data: {
-                "username":username.val(),
-                "password":password.val(),
-                "phone":phone.val(),
-                "gender":gender.val(),
-                "email":email.val(),
-                "realName":realName.val()},
+                "username":username.val().trim(),
+                "password":password.val().trim(),
+                "phone":phone.val().trim(),
+                "gender":gender.val().trim(),
+                "email":email.val().trim(),
+                "realName":realName.val().trim()},
             async: false,//同步加载（必须加），不然就直接加两条记录！这里坑了我很久！
             success: function (result) {
                 if (result=="1")
@@ -316,7 +316,7 @@ $("#registerButton").click(function () {
 //检验信息重复
 function usernameRepeat(val) {
     var usernameResult =false;
-    if (username.val()!=="" && username.val().length!==0){
+    if (username.val().trim()!=="" && username.val().trim().length!==0){
         $.ajax({
             url:"/user/checkUsername",
             data:"username="+username.val(),
@@ -337,7 +337,7 @@ function usernameRepeat(val) {
 }
 function phoneRepeat(val) {
     var phoneResult =false;
-    if (phone.val()!=="" && phone.val().length!==0){
+    if (phone.val().trim()!=="" && phone.val().trim().length!==0){
         $.ajax({
             url:"/user/checkPhone",
             data:"phone="+phone.val(),
@@ -358,7 +358,7 @@ function phoneRepeat(val) {
 }
 function emailRepeat(val) {
     var emailResult =false;
-    if (email.val()!=="" && email.val().length!==0){
+    if (email.val().trim()!=="" && email.val().trim().length!==0){
         $.ajax({
             url:"/user/checkEmail",
             data:"email="+email.val(),
@@ -379,7 +379,7 @@ function emailRepeat(val) {
 }
 function realNameRepeat(val) {
     var realNameResult =false;
-    if (realName.val()!=="" && realName.val().length!==0){
+    if (realName.val().trim()!=="" && realName.val().trim().length!==0){
         $.ajax({
             url:"/user/checkRealName",
             data:"realName="+realName.val(),

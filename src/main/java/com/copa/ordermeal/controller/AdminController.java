@@ -256,4 +256,48 @@ public class AdminController {
         employeeService.modifyEmployeePhoneAndEmailById(employee);
         return Msg.success();
     }
+
+    /**
+     * 查询员工姓名关键字
+     */
+    @GetMapping("/admin/getEmployeeNameKeyWord")
+    public Msg getEmployeeNameKeyWord(@RequestParam("pn") Integer pn,@RequestParam("realName") String realName){
+        PageHelper.startPage(pn,6);
+        List<Employee> employees=employeeService.findEmployeeRealName(realName);
+        PageInfo info=new PageInfo(employees,5);
+        return Msg.success().add("employee",info);
+    }
+
+    /**
+     * 查询菜品名关键字
+     */
+    @GetMapping("/admin/getFoodNameKeyWord")
+    public Msg getFoodNameKeyWord(@RequestParam("pn") Integer pn,@RequestParam("key") String key){
+        PageHelper.startPage(pn,6);
+        List<Food> food=foodService.findFoodList5(key);
+        PageInfo info=new PageInfo(food,5);
+        return Msg.success().add("food",info);
+    }
+
+    /**
+     * 查询订单人关键字
+     */
+    @GetMapping("/admin/getOrderNameKeyWord")
+    public Msg getOrderNameKeyWord(@RequestParam("pn") Integer pn,@RequestParam("key") String key){
+        PageHelper.startPage(pn,6);
+        List<Order> orders=orderService.findOrderNameKeyWord(key);
+        PageInfo info=new PageInfo(orders,5);
+        return Msg.success().add("order",info);
+    }
+
+    /**
+     * 查询送餐人关键字
+     */
+    @GetMapping("/admin/getMealNameKeyWord")
+    public Msg getMealNameKeyWord(@RequestParam("pn") Integer pn,@RequestParam("key") String key){
+        PageHelper.startPage(pn,6);
+        List<Meal> meals=mealService.findMealNameKeyWord(key);
+        PageInfo info=new PageInfo(meals,5);
+        return Msg.success().add("meal",info);
+    }
 }

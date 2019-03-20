@@ -83,7 +83,8 @@ function to_employeeStatusPage(pn) {
         success:function (result) {
             if (result.extend.employee.size===0){
                 $("#employeeList1Tbody").empty();
-                $("#employeeList1Tbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+                $("#employeeList1Tbody_setPage").empty();
+                $("#employeeList1Tbody").append('<tr><td colspan="11">没有找到匹配的记录</td></tr>');
             }
             else {
                 build_employeeStatusPage_list(result);
@@ -191,6 +192,88 @@ function build_employeeStatusPage_nav(result){
 
 }
 
+//搜索员工权限的员工姓名模糊关键字
+$(document).on("click","#searchEmployeeNameButton1",function () {
+    var searchEmployeeName=$("#searchEmployeeNameInput1");
+    if (searchEmployeeName.val().trim()==="" || searchEmployeeName.val().trim().length===0){
+        layer.msg("亲~员工姓名不能为空哦~",{icon:"0"});
+        return false;
+    }
+    else {
+        to_employeeStatusPage1(1,searchEmployeeName.val().trim());
+    }
+});
+
+//搜索姓名而列出的员工权限列表
+function to_employeeStatusPage1(pn,employeeName){
+    $.ajax({
+        url:"/admin/getEmployeeNameKeyWord",
+        type:"get",
+        data:{pn:pn,realName:employeeName},
+        success:function (result) {
+            if (result.extend.employee.size===0){
+                $("#employeeList1Tbody").empty();
+                $("#employeeList1Tbody_setPage").empty();
+                $("#employeeList1Tbody").append('<tr><td colspan="11">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_employeeStatusPage_list(result);
+                build_employeeStatusPage_nav1(result, employeeName);
+            }
+        }
+    })
+}
+
+// 员工权限设置页(搜索员工姓名)
+function build_employeeStatusPage_nav1(result,employeeName){
+    $("#employeeList1Tbody_setPage").empty();
+    var ul=$("<ul></ul>").addClass("pagination");
+
+    var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+    var prePageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+    if(result.extend.employee.hasPreviousPage==false){
+        firstPageLi.addClass("disabled");
+        prePageLi.addClass("disabled");
+    }else {
+        firstPageLi.click(function () {
+            to_employeeStatusPage1(1,employeeName);
+        });
+        prePageLi.click(function () {
+            to_employeeStatusPage1(result.extend.employee.pageNum-1,employeeName);
+        });
+    }
+    var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+    var lastPageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+    if(result.extend.employee.hasNextPage==false){
+        nextPageLi.addClass("disabled");
+        lastPageLi.addClass("disabled");
+    }else {
+        nextPageLi.click(function () {
+            to_employeeStatusPage1(result.extend.employee.pageNum+1,employeeName);
+        });
+        lastPageLi.click(function () {
+            to_employeeStatusPage1(result.extend.employee.pages,employeeName);
+        });
+    }
+    ul.append(firstPageLi).append(prePageLi);
+    $.each(result.extend.employee.navigatepageNums,function (index,item) {
+
+        var numLi=$("<li></li>").append($("<a></a>").append(item));
+        if(result.extend.employee.pageNum==item){
+            numLi.addClass("active");
+        }
+        numLi.click(function () {
+            to_employeeStatusPage1(item,employeeName);
+        });
+        ul.append(numLi);
+    });
+    ul.append(nextPageLi).append(lastPageLi);
+
+    var navEle=$("<nav></nav>").append(ul);
+    navEle.appendTo("#employeeList1Tbody_setPage");
+
+}
+
 //修改权限界面修改按钮
 $(document).on("click",".openEmployeeRoleModal",function () {
     $("#usernameRoleModal").empty();
@@ -262,7 +345,8 @@ function to_employeeRechargePage(pn) {
         success:function (result) {
             if (result.extend.employee.size===0){
                 $("#employeeList2Tbody").empty();
-                $("#employeeList2Tbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+                $("#employeeList2Tbody_setPage").empty();
+                $("#employeeList2Tbody").append('<tr><td colspan="5">没有找到匹配的记录</td></tr>');
             }
             else {
                 build_employeeRechargePage_list(result);
@@ -272,7 +356,7 @@ function to_employeeRechargePage(pn) {
     })
 }
 
-// 员工权限修改列表
+// 员工充值修改列表
 function build_employeeRechargePage_list(result){
     $("#employeeList2Tbody").empty();
     $.each(result.extend.employee.list,function (index,item) {
@@ -289,7 +373,7 @@ function build_employeeRechargePage_list(result){
     })
 }
 
-// 员工权限设置页
+// 员工充值设置页
 function build_employeeRechargePage_nav(result){
     $("#employeeList2Tbody_setPage").empty();
     var ul=$("<ul></ul>").addClass("pagination");
@@ -338,6 +422,87 @@ function build_employeeRechargePage_nav(result){
     navEle.appendTo("#employeeList2Tbody_setPage");
 }
 
+//搜索员工充值的员工姓名模糊关键字
+$(document).on("click","#searchEmployeeNameButton2",function () {
+    var searchEmployeeName=$("#searchEmployeeNameInput2");
+    if (searchEmployeeName.val().trim()==="" || searchEmployeeName.val().trim().length===0){
+        layer.msg("亲~员工姓名不能为空哦~",{icon:"0"});
+        return false;
+    }
+    else {
+        to_employeeRechargePage1(1,searchEmployeeName.val().trim());
+    }
+});
+
+// 员工充值设置页(搜索员工姓名)
+function build_employeeRechargePage_nav1(result,employeeName){
+    $("#employeeList2Tbody_setPage").empty();
+    var ul=$("<ul></ul>").addClass("pagination");
+
+    var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+    var prePageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+    if(result.extend.employee.hasPreviousPage==false){
+        firstPageLi.addClass("disabled");
+        prePageLi.addClass("disabled");
+    }else {
+        firstPageLi.click(function () {
+            to_employeeRechargePage1(1,employeeName);
+        });
+        prePageLi.click(function () {
+            to_employeeRechargePage1(result.extend.employee.pageNum-1,employeeName);
+        });
+    }
+    var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+    var lastPageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+    if(result.extend.employee.hasNextPage==false){
+        nextPageLi.addClass("disabled");
+        lastPageLi.addClass("disabled");
+    }else {
+        nextPageLi.click(function () {
+            to_employeeRechargePage1(result.extend.employee.pageNum+1,employeeName);
+        });
+        lastPageLi.click(function () {
+            to_employeeRechargePage1(result.extend.employee.pages,employeeName);
+        });
+    }
+    ul.append(firstPageLi).append(prePageLi);
+    $.each(result.extend.employee.navigatepageNums,function (index,item) {
+
+        var numLi=$("<li></li>").append($("<a></a>").append(item));
+        if(result.extend.employee.pageNum==item){
+            numLi.addClass("active");
+        }
+        numLi.click(function () {
+            to_employeeRechargePage1(item,employeeName);
+        });
+        ul.append(numLi);
+    });
+    ul.append(nextPageLi).append(lastPageLi);
+
+    var navEle=$("<nav></nav>").append(ul);
+    navEle.appendTo("#employeeList2Tbody_setPage");
+}
+
+//搜索姓名而列出的员工充值列表
+function to_employeeRechargePage1(pn,employeeName){
+    $.ajax({
+        url:"/admin/getEmployeeNameKeyWord",
+        type:"get",
+        data:{pn:pn,realName:employeeName},
+        success:function (result) {
+            if (result.extend.employee.size===0){
+                $("#employeeList2Tbody").empty();
+                $("#employeeList2Tbody_setPage").empty();
+                $("#employeeList2Tbody").append('<tr><td colspan="5">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_employeeRechargePage_list(result);
+                build_employeeRechargePage_nav1(result, employeeName);
+            }
+        }
+    })
+}
+
 //充值按钮，弹出模态框
 $(document).on("click",".openEmployeeRechargeModal",function () {
     $("#realNameRechargeModal").empty();
@@ -361,7 +526,7 @@ $(document).on("click",".openEmployeeRechargeModal",function () {
 $("#rechargeButton").click(function () {
     var employeeId=$(this).attr("data-id");
     var regPrice=new RegExp("^(?!0+(?:\\.0+)?$)(?:[1-9]\\d*|0)(?:\\.\\d{1,2})?$");
-    if (!regPrice.test($("#employeeRecharge").val())){
+    if (!regPrice.test($("#employeeRecharge").val().trim())){
         layer.msg("亲~请输入纯数字，以0开头只能跟1-2位小数~不以0为开头小数可有可无",{icon:"0"});
         return false;
     }
@@ -399,7 +564,8 @@ function to_foodPage(pn) {
         success:function (result) {
             if (result.extend.food.size===0){
                 $("#foodListTbody").empty();
-                $("#foodListTbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+                $("#foodTbody_setPage").empty();
+                $("#foodListTbody").append('<tr><td colspan="10">没有找到匹配的记录</td></tr>');
             }
             else {
                 build_foodPage_list(result);
@@ -470,7 +636,7 @@ function build_foodPage_nav(result){
             to_foodPage(1);
         });
         prePageLi.click(function () {
-            to_foodPage(result.extend.food.pageNum-1,1);
+            to_foodPage(result.extend.food.pageNum-1);
         });
     }
     var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
@@ -504,6 +670,87 @@ function build_foodPage_nav(result){
     navEle.appendTo("#foodTbody_setPage");
 }
 
+//搜索菜品名模糊关键字
+$(document).on("click","#searchFoodNameButton",function () {
+    var searchFoodName=$("#searchFoodNameInput");
+    if (searchFoodName.val().trim()==="" || searchFoodName.val().trim().length===0){
+        layer.msg("亲~菜品名不能为空哦~",{icon:"0"});
+        return false;
+    }
+    else {
+        to_foodPage1(1,searchFoodName.val().trim());
+    }
+});
+
+// 转菜品列表页面
+function to_foodPage1(pn,foodName) {
+    $.ajax({
+        url:"/admin/getFoodNameKeyWord",
+        type:"get",
+        data:{pn:pn,key:foodName},
+        success:function (result) {
+            if (result.extend.food.size===0){
+                $("#foodListTbody").empty();
+                $("#foodTbody_setPage").empty();
+                $("#foodListTbody").append('<tr><td colspan="10">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_foodPage_list(result);
+                build_foodPage_nav1(result,foodName);
+            }
+        }
+    })
+}
+
+// 菜品列表设置页（搜索菜品名）
+function build_foodPage_nav1(result,foodName){
+    $("#foodTbody_setPage").empty();
+    var ul=$("<ul></ul>").addClass("pagination");
+
+    var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+    var prePageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+    if(result.extend.food.hasPreviousPage==false){
+        firstPageLi.addClass("disabled");
+        prePageLi.addClass("disabled");
+    }else {
+        firstPageLi.click(function () {
+            to_foodPage1(1,foodName);
+        });
+        prePageLi.click(function () {
+            to_foodPage1(result.extend.food.pageNum-1,foodName);
+        });
+    }
+    var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+    var lastPageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+    if(result.extend.food.hasNextPage==false){
+        nextPageLi.addClass("disabled");
+        lastPageLi.addClass("disabled");
+    }else {
+        nextPageLi.click(function () {
+            to_foodPage1(result.extend.food.pageNum+1,foodName);
+        });
+        lastPageLi.click(function () {
+            to_foodPag1e(result.extend.food.pages,foodName);
+        });
+    }
+    ul.append(firstPageLi).append(prePageLi);
+    $.each(result.extend.food.navigatepageNums,function (index,item) {
+
+        var numLi=$("<li></li>").append($("<a></a>").append(item));
+        if(result.extend.food.pageNum==item){
+            numLi.addClass("active");
+        }
+        numLi.click(function () {
+            to_foodPage1(item,foodName);
+        });
+        ul.append(numLi);
+    });
+    ul.append(nextPageLi).append(lastPageLi);
+
+    var navEle=$("<nav></nav>").append(ul);
+    navEle.appendTo("#foodTbody_setPage");
+}
+
 // 转订单列表页面
 function to_orderPage(pn) {
     $.ajax({
@@ -513,6 +760,7 @@ function to_orderPage(pn) {
         success:function (result) {
             if (result.extend.order.size===0){
                 $("#orderListTbody").empty();
+                $("#orderTbody_setPage").empty();
                 $("#orderListTbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
             }
             else {
@@ -583,7 +831,7 @@ function build_orderPage_nav(result){
             to_orderPage(1);
         });
         prePageLi.click(function () {
-            to_orderPage(result.extend.order.pageNum-1,1);
+            to_orderPage(result.extend.order.pageNum-1);
         });
     }
     var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
@@ -608,6 +856,87 @@ function build_orderPage_nav(result){
         }
         numLi.click(function () {
             to_orderPage(item);
+        });
+        ul.append(numLi);
+    });
+    ul.append(nextPageLi).append(lastPageLi);
+
+    var navEle=$("<nav></nav>").append(ul);
+    navEle.appendTo("#orderTbody_setPage");
+}
+
+//搜索订单人模糊关键字
+$(document).on("click","#searchOrderNameButton",function () {
+    var searchOrderName=$("#searchOrderNameInput");
+    if (searchOrderName.val().trim()==="" || searchOrderName.val().trim().length===0){
+        layer.msg("亲~订单人不能为空哦~",{icon:"0"});
+        return false;
+    }
+    else {
+        to_orderPage1(1,searchOrderName.val().trim());
+    }
+});
+
+// 转菜品列表页面（搜索订单人）
+function to_orderPage1(pn,orderName) {
+    $.ajax({
+        url:"/admin/getOrderNameKeyWord",
+        type:"get",
+        data:{pn:pn,key:orderName},
+        success:function (result) {
+            if (result.extend.order.size===0){
+                $("#orderListTbody").empty();
+                $("#orderTbody_setPage").empty();
+                $("#orderListTbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_orderPage_list(result);
+                build_orderPage_nav1(result,orderName);
+            }
+        }
+    })
+}
+
+// 订单列表设置页(搜索订单人)
+function build_orderPage_nav1(result,orderName){
+    $("#orderTbody_setPage").empty();
+    var ul=$("<ul></ul>").addClass("pagination");
+
+    var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+    var prePageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+    if(result.extend.order.hasPreviousPage==false){
+        firstPageLi.addClass("disabled");
+        prePageLi.addClass("disabled");
+    }else {
+        firstPageLi.click(function () {
+            to_orderPage1(1,orderName);
+        });
+        prePageLi.click(function () {
+            to_orderPage1(result.extend.order.pageNum-1,orderName);
+        });
+    }
+    var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+    var lastPageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+    if(result.extend.order.hasNextPage==false){
+        nextPageLi.addClass("disabled");
+        lastPageLi.addClass("disabled");
+    }else {
+        nextPageLi.click(function () {
+            to_orderPage1(result.extend.order.pageNum+1,orderName);
+        });
+        lastPageLi.click(function () {
+            to_orderPage1(result.extend.order.pages,orderName);
+        });
+    }
+    ul.append(firstPageLi).append(prePageLi);
+    $.each(result.extend.order.navigatepageNums,function (index,item) {
+
+        var numLi=$("<li></li>").append($("<a></a>").append(item));
+        if(result.extend.order.pageNum==item){
+            numLi.addClass("active");
+        }
+        numLi.click(function () {
+            to_orderPage1(item,orderName);
         });
         ul.append(numLi);
     });
@@ -679,7 +1008,8 @@ function to_mealPage(pn) {
         success:function (result) {
             if (result.extend.meal.size===0){
                 $("#mealListTbody").empty();
-                $("#mealListTbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+                $("#mealTbody_setPage").empty();
+                $("#mealListTbody").append('<tr><td colspan="7">没有找到匹配的记录</td></tr>');
             }
             else {
                 build_mealPage_list(result);
@@ -758,7 +1088,7 @@ function build_mealPage_nav(result){
             to_mealPage(1);
         });
         prePageLi.click(function () {
-            to_mealPage(result.extend.meal.pageNum-1,1);
+            to_mealPage(result.extend.meal.pageNum-1);
         });
     }
     var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
@@ -792,6 +1122,87 @@ function build_mealPage_nav(result){
     navEle.appendTo("#mealTbody_setPage");
 }
 
+//搜索送餐人模糊关键字
+$(document).on("click","#searchMealNameButton",function () {
+    var searchMealName=$("#searchMealNameInput");
+    if (searchMealName.val().trim()==="" || searchMealName.val().trim().length===0){
+        layer.msg("亲~送餐人不能为空哦~",{icon:"0"});
+        return false;
+    }
+    else {
+        to_orderPage1(1,searchMealName.val().trim());
+    }
+});
+
+// 转送餐列表页面（搜索送餐人）
+function to_orderPage1(pn,searchMealName) {
+    $.ajax({
+        url:"/admin/getMealNameKeyWord",
+        type:"get",
+        data:{pn:pn,key:searchMealName},
+        success:function (result) {
+            if (result.extend.meal.size===0){
+                $("#mealListTbody").empty();
+                $("#mealTbody_setPage").empty();
+                $("#mealListTbody").append('<tr><td colspan="7">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_mealPage_list(result);
+                build_mealPage_nav1(result,searchMealName);
+            }
+        }
+    })
+}
+
+// 送餐列表设置页（搜索送餐人）
+function build_mealPage_nav1(result,searchMealName){
+    $("#mealTbody_setPage").empty();
+    var ul=$("<ul></ul>").addClass("pagination");
+
+    var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+    var prePageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+    if(result.extend.meal.hasPreviousPage==false){
+        firstPageLi.addClass("disabled");
+        prePageLi.addClass("disabled");
+    }else {
+        firstPageLi.click(function () {
+            to_mealPage1(1,searchMealName);
+        });
+        prePageLi.click(function () {
+            to_mealPage1(result.extend.meal.pageNum-1,searchMealName);
+        });
+    }
+    var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+    var lastPageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+    if(result.extend.meal.hasNextPage==false){
+        nextPageLi.addClass("disabled");
+        lastPageLi.addClass("disabled");
+    }else {
+        nextPageLi.click(function () {
+            to_mealPage1(result.extend.meal.pageNum+1,searchMealName);
+        });
+        lastPageLi.click(function () {
+            to_mealPage1(result.extend.meal.pages,searchMealName);
+        });
+    }
+    ul.append(firstPageLi).append(prePageLi);
+    $.each(result.extend.meal.navigatepageNums,function (index,item) {
+
+        var numLi=$("<li></li>").append($("<a></a>").append(item));
+        if(result.extend.meal.pageNum==item){
+            numLi.addClass("active");
+        }
+        numLi.click(function () {
+            to_mealPage1(item,searchMealName);
+        });
+        ul.append(numLi);
+    });
+    ul.append(nextPageLi).append(lastPageLi);
+
+    var navEle=$("<nav></nav>").append(ul);
+    navEle.appendTo("#mealTbody_setPage");
+}
+
 // 转员工信息修改页面
 function to_employeeInfoPage(pn) {
     $.ajax({
@@ -801,7 +1212,8 @@ function to_employeeInfoPage(pn) {
         success:function (result) {
             if (result.extend.employee.size===0){
                 $("#employeeList3Tbody").empty();
-                $("#employeeList3Tbody").append('<tr><td colspan="9">没有找到匹配的记录</td></tr>');
+                $("#employeeList3Tbody_setPage").empty();
+                $("#employeeList3Tbody").append('<tr><td colspan="6">没有找到匹配的记录</td></tr>');
             }
             else {
                 build_employeeInfoPage_list(result);
@@ -881,6 +1293,89 @@ function build_employeeInfoPage_nav(result){
 
 }
 
+//搜索员工修改的员工姓名模糊关键字
+$(document).on("click","#searchEmployeeNameButton3",function () {
+    var searchEmployeeName=$("#searchEmployeeNameInput3");
+    if (searchEmployeeName.val().trim()==="" || searchEmployeeName.val().trim().length===0){
+        layer.msg("亲~员工姓名不能为空哦~",{icon:"0"});
+        return false;
+    }
+    else {
+        to_employeeInfoPage1(1,searchEmployeeName.val().trim());
+    }
+});
+
+// 员工信息修改设置页（搜索员工姓名）
+function build_employeeInfoPage_nav1(result,employeeName){
+    $("#employeeTbody3_setPage").empty();
+    var ul=$("<ul></ul>").addClass("pagination");
+
+    var firstPageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+    var prePageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+    if(result.extend.employee.hasPreviousPage==false){
+        firstPageLi.addClass("disabled");
+        prePageLi.addClass("disabled");
+    }else {
+        firstPageLi.click(function () {
+            to_employeeInfoPage1(1,employeeName);
+        });
+        prePageLi.click(function () {
+            to_employeeInfoPage1(result.extend.employee.pageNum-1,employeeName);
+        });
+    }
+    var nextPageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+    var lastPageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+    if(result.extend.employee.hasNextPage==false){
+        nextPageLi.addClass("disabled");
+        lastPageLi.addClass("disabled");
+    }else {
+        nextPageLi.click(function () {
+            to_employeeInfoPage1(result.extend.employee.pageNum+1,employeeName);
+        });
+        lastPageLi.click(function () {
+            to_employeeInfoPage1(result.extend.employee.pages,employeeName);
+        });
+    }
+    ul.append(firstPageLi).append(prePageLi);
+    $.each(result.extend.employee.navigatepageNums,function (index,item) {
+
+        var numLi=$("<li></li>").append($("<a></a>").append(item));
+        if(result.extend.employee.pageNum==item){
+            numLi.addClass("active");
+        }
+        numLi.click(function () {
+            to_employeeInfoPage1(item,employeeName);
+        });
+        ul.append(numLi);
+    });
+    ul.append(nextPageLi).append(lastPageLi);
+
+    var navEle=$("<nav></nav>").append(ul);
+    navEle.appendTo("#employeeTbody3_setPage");
+
+}
+
+//搜索姓名而列出的员工信息修改列表
+function to_employeeInfoPage1(pn,employeeName){
+    $.ajax({
+        url:"/admin/getEmployeeNameKeyWord",
+        type:"get",
+        data:{pn:pn,realName:employeeName},
+        success:function (result) {
+            if (result.extend.employee.size===0){
+                $("#employeeList3Tbody").empty();
+                $("#employeeTbody3_setPage").empty();
+                $("#employeeList3Tbody").append('<tr><td colspan="6">没有找到匹配的记录</td></tr>');
+            }
+            else {
+                build_employeeInfoPage_list(result);
+                build_employeeInfoPage_nav1(result, employeeName);
+            }
+        }
+    })
+}
+
+//打开员工修改模态框
 $(document).on("click",".openEmployeeInfoModalButton",function () {
     $("#usernameInfoModal1,#realNameInfoModal1,#employeePhoneSpan,#employeeEmailSpan").empty();
     $("#employeePhone").val("");
@@ -908,14 +1403,14 @@ $(document).on("click",".openEmployeeInfoModalButton",function () {
 $("#modifyInfoButton").click(function () {
     // alert($(this).attr("data-id"));
     //空值判断
-    if ($("#employeePhone").val() === "" || $("#employeePhone").val().length === 0) {
+    if ($("#employeePhone").val().trim() === "" || $("#employeePhone").val().trim().length === 0) {
         $("#employeePhoneSpan").empty();
         layer.msg("亲~手机号码不能为空哦~", {icon: "0"});
         $("#employeePhoneSpan").append("亲~手机号码不能为空哦~");
         return false;
     }
     $("#employeePhoneSpan").empty();
-    if ($("#employeeEmail").val() === "" || $("#employeeEmail").val().length === 0) {
+    if ($("#employeeEmail").val().trim() === "" || $("#employeeEmail").val().trim().length === 0) {
         $("#employeeEmailSpan").empty();
         layer.msg("亲~电子邮箱不能为空哦~", {icon: "0"});
         $("#employeeEmailSpan").append("亲~电子邮箱不能为空哦~");
@@ -925,14 +1420,14 @@ $("#modifyInfoButton").click(function () {
     //正则表达式判断
     var regPhone = new RegExp("^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$");
     var regEmail = new RegExp("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
-    if (!regPhone.test($("#employeePhone").val())) {
+    if (!regPhone.test($("#employeePhone").val().trim())) {
         $("#employeePhoneSpan").empty();
         layer.msg("亲~手机号码格式不对哦~请重新输入手机号", {icon: "0"});
         $("#employeePhoneSpan").append("亲~手机号码格式不对哦~请重新输入手机号");
         return false;
     }
     $("#employeePhoneSpan").empty();
-    if (!regEmail.test($("#employeeEmail").val())) {
+    if (!regEmail.test($("#employeeEmail").val().trim())) {
         $("#employeeEmailSpan").empty();
         layer.msg("亲~电子邮箱格式不对哦~请重新输入吧~", {icon: "0"});
         $("#employeeEmailSpan").append("亲~电子邮箱格式不对哦~请重新输入吧~");
@@ -941,14 +1436,14 @@ $("#modifyInfoButton").click(function () {
     $("#employeeEmailSpan").empty();
 
     //ajax判断
-    if (phoneRepeat($("#employeePhone").val(), $(this).attr("data-id")) == false) {
+    if (phoneRepeat($("#employeePhone").val().trim(), $(this).attr("data-id")) == false) {
         $("#employeePhoneSpan").empty();
         layer.msg("亲~该手机号码不可用哦~请换一个手机号码吧~", {icon: "0"});
         $("#employeePhoneSpan").append("亲~该手机号码不可用哦~请换一个手机号码吧~");
         return false;
     }
     $("#employeePhoneSpan").empty();
-    if (emailRepeat($("#employeeEmail").val(), $(this).attr("data-id")) == false) {
+    if (emailRepeat($("#employeeEmail").val().trim(), $(this).attr("data-id")) == false) {
         $("#employeeEmailSpan").empty();
         layer.msg("亲~该电子邮箱不可用哦~请换一个电子邮箱吧~", {icon: "0"});
         $("#employeeEmailSpan").append("亲~该电子邮箱不可用哦~请换一个电子邮箱吧~");
@@ -966,7 +1461,7 @@ $("#modifyInfoButton").click(function () {
             $.ajax({
                 url:"/admin/modifyEmployeeInfo",
                 type:"put",
-                data:{id:id,phone:$("#employeePhone").val(),email:$("#employeeEmail").val()},
+                data:{id:id,phone:$("#employeePhone").val().trim(),email:$("#employeeEmail").val().trim()},
                 success:function (result) {
                     if (result.extend.errorPage === "403") {
                         alert("您尚未登录！请先登录！");
@@ -990,7 +1485,7 @@ $("#modifyInfoButton").click(function () {
 //联系电话有没有重复
 function phoneRepeat(val,empId) {
     var phoneResult =false;
-    if ($("#employeePhone").val()!=="" && $("#employeePhone").val().length!==0){
+    if ($("#employeePhone").val().trim()!=="" && $("#employeePhone").val().trim().length!==0){
         $.ajax({
             url:"/admin/checkPhone",
             data:{phone:val,employeeId:empId},
@@ -1012,7 +1507,7 @@ function phoneRepeat(val,empId) {
 //电子邮箱有没有重复
 function emailRepeat(val,empId) {
     var emailResult =false;
-    if ($("#employeeEmail").val()!=="" && $("#employeeEmail").val().length!==0){
+    if ($("#employeeEmail").val().trim()!=="" && $("#employeeEmail").val().trim().length!==0){
         $.ajax({
             url:"/admin/checkEmail",
             data:{email:val,employeeId:empId},
