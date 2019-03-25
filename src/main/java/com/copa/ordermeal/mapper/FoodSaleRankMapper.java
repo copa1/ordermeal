@@ -28,4 +28,7 @@ public interface FoodSaleRankMapper {
 
     @Delete("DELETE FROM foodSaleRank")
     void deleteAll();
+
+    @Select("SELECT COUNT(*) FROM foodSaleRank")
+    long selectFoodCount();
 }

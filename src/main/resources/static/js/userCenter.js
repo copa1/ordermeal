@@ -710,7 +710,7 @@ $(document).on("click",".confirmMealButton",function () {
     // alert($(this).attr("data-order"));
     var orderId=$(this).attr("data-order");
     layer.confirm("您确认收餐吗？", {
-        title:"取消订单警告",icon: 3,btn: ["确定","返回"] //按钮
+        title:"确认收餐",icon: 3,btn: ["确定","返回"] //按钮
     }, function(index){
         $.ajax({
             url:"/user/userConfirmMeal",

@@ -1,10 +1,7 @@
 package com.copa.ordermeal.controller;
 
 import com.copa.ordermeal.model.*;
-import com.copa.ordermeal.service.EmployeeService;
-import com.copa.ordermeal.service.FoodService;
-import com.copa.ordermeal.service.MealService;
-import com.copa.ordermeal.service.OrderService;
+import com.copa.ordermeal.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +31,9 @@ public class AdminController {
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    FoodSaleRankService foodSaleRankService;
+
     /**
      * 后台首页
      * @param principal
@@ -46,16 +46,29 @@ public class AdminController {
         }catch (NullPointerException e){
             return Msg.fail().add("errorCode","403");
         }
-        long orderCount=orderService.findOrderCount();
-        long mealCount=mealService.findMealSendCount();
-        long foodSaleCount=orderService.findFoodNumSale();
-        long foodUpCount=foodService.findFoodUpCount();
-        long foodDownCount=foodService.findFoodDownCount();
-        return Msg.success().add("orderCount",orderCount)
-                .add("mealCount",mealCount)
-                .add("foodSaleCount",foodSaleCount)
-                .add("foodUpCount",foodUpCount)
-                .add("foodDownCount",foodDownCount);
+        long foodSaleCount1=foodSaleRankService.findFoodCount();
+        if (foodSaleCount1>0) {
+            long orderCount = orderService.findOrderCount();
+            long mealCount = mealService.findMealSendCount();
+            long foodSaleCount = orderService.findFoodNumSale();
+            long foodUpCount = foodService.findFoodUpCount();
+            long foodDownCount = foodService.findFoodDownCount();
+            return Msg.success().add("orderCount", orderCount)
+                    .add("mealCount", mealCount)
+                    .add("foodSaleCount", foodSaleCount)
+                    .add("foodUpCount", foodUpCount)
+                    .add("foodDownCount", foodDownCount);
+        }else {
+            long orderCount = orderService.findOrderCount();
+            long mealCount = mealService.findMealSendCount();
+            long foodUpCount = foodService.findFoodUpCount();
+            long foodDownCount = foodService.findFoodDownCount();
+            return Msg.success().add("orderCount", orderCount)
+                    .add("mealCount", mealCount)
+                    .add("foodSaleCount", 0)
+                    .add("foodUpCount", foodUpCount)
+                    .add("foodDownCount", foodDownCount);
+        }
     }
 
     /**

@@ -47,4 +47,9 @@ public class FoodSaleRankServiceImpl implements FoodSaleRankService {
     public void removeAll() {
         foodSaleRankMapper.deleteAll();
     }
+
+    @Override
+    public long findFoodCount() {
+        return foodSaleRankMapper.selectFoodCount();
+    }
 }

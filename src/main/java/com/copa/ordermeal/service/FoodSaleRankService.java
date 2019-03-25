@@ -43,4 +43,10 @@ public interface FoodSaleRankService {
      * 清空以前的排行榜
      */
     void removeAll();
+
+    /**
+     * 查询菜品售卖排行榜记录数
+     * @return
+     */
+    long findFoodCount();
 }

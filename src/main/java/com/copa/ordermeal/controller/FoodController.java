@@ -118,7 +118,7 @@ public class FoodController {
     }
 
     /**
-     * 更换头像
+     * 上传菜品图片
      * @param file 接收前端参数
      * @return
      */
@@ -154,9 +154,13 @@ public class FoodController {
             out.write(file.getBytes());
             out.flush();
             out.close();
+            out = new FileOutputStream("target/classes/static/img/food/"+fileName);
+            out.write(file.getBytes());
+            out.flush();
+            out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            return Msg.fail().add("error","亲~上传失败，请重新上传头像！").add("errorCode","300");
+            return Msg.fail().add("error","亲~上传失败，请重新上传图片！").add("errorCode","300");
         }
         return Msg.success().add("avatarUrl",avatarUrl);
     }

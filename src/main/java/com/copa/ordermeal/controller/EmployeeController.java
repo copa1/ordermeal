@@ -184,8 +184,10 @@ public class EmployeeController {
             out.flush();
             out.close();
             avatarUrl="/"+filePath.substring(26)+fileName;
-            //System.out.println(avatarUrl);
-            //employeeService.modifyAvatarUrlByUsername(principal.getName(),avatarUrl);
+            out = new FileOutputStream("target/classes/static/img/avatar/"+dateTime+"/"+fileName);
+            out.write(file.getBytes());
+            out.flush();
+            out.close();
         } catch (Exception e) {
             e.printStackTrace();
             return Msg.fail().add("error","亲~上传失败，请重新上传头像！").add("errorCode","300");

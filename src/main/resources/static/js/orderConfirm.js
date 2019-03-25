@@ -26,7 +26,7 @@ $(document).on("click","#confirmOrderButton",function () {
     }
     var regTime=new RegExp("^\\d{2}$");
     if ($("#employeeTimeSelect").val()==="employeeSelectTime"&&($("#sendTimeInput").val()<30|| $("#sendTimeInput").val()>90)&&!regTime.test($("#sendTimeInput").val())){
-        layer.msg("亲~请输入在30分钟到90分钟以内的时间~1",{icon:"0"});
+        layer.msg("亲~请输入在30分钟到90分钟以内的时间~",{icon:"0"});
         return false;
     }
 
