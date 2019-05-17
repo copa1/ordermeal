@@ -46,7 +46,7 @@ public class CustomUserAdminService implements UserDetailsService {
         for (Role role : employee.getRoles()) {
 
             authorities.add(new SimpleGrantedAuthority(role.getName()));
-            if ((role.getName().equals("ROLE_EMPLOYEE") || role.getName().equals("ROLE_TAKER") || role.getName().equals("ROLE_ADMIN")) && countAuthorities==1){
+            if ((role.getName().equals("ROLE_NOTEMPLOYEE") || role.getName().equals("ROLE_EMPLOYEE") || role.getName().equals("ROLE_TAKER") || role.getName().equals("ROLE_ADMIN")) && countAuthorities==1){
                 return (UserDetails) new UsernameNotFoundException("该员工不存在！");
             }
         }
